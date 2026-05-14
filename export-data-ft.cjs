@@ -46,8 +46,8 @@ const stmtPeriods = db.prepare(`SELECT in_sample_start, in_sample_end, out_sampl
 
 const robots = []
 for (const r of robotRows) {
-  const ops     = stmtOps.all(r.id)
-  const realOps = (() => { try { return stmtRealOps.all(r.id) } catch { return [] } })()
+  const ops     = stmtOps.all(r.id).sort((a,b) => dateKey(a.abertura||'') - dateKey(b.abertura||''))
+  const realOps = (() => { try { return stmtRealOps.all(r.id).sort((a,b) => dateKey(a.abertura||'') - dateKey(b.abertura||'')) } catch { return [] } })()
   const p       = (() => { try { return stmtPeriods.get(r.id) || {} } catch { return {} } })()
   robots.push({
     id: r.id, name: r.name, ativo: r.ativo,
