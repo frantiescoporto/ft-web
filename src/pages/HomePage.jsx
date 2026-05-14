@@ -65,11 +65,11 @@ export default function HomePage() {
               Estratégias
             </div>
             <div style={{ fontSize: 13, color: s.muted, lineHeight: 1.6 }}>
-              Veja as estratégias algorítmicas com análise completa — métricas, gráficos, validação e conta real.
+              Veja as estratégias algorítmicas com análise completa — métricas, gráficos, validação e anos de dados.
             </div>
             {!loading && (
               <div style={{ marginTop: 16, fontSize: 12, color: s.accent, fontWeight: 700 }}>
-                {mentPortfolios.length} portfólios ativos →
+                {robots.filter(r => (r.platform||'profit') !== 'mt5').length} estratégias →
               </div>
             )}
           </button>
@@ -87,7 +87,7 @@ export default function HomePage() {
               Resultados
             </div>
             <div style={{ fontSize: 13, color: s.muted, lineHeight: 1.6 }}>
-              Explore as estratégias algorítmicas com métricas completas, backtests e conta real.
+              Veja os resultados dos portfólios recomendados em conta real — sem backtest, apenas resultados reais.
             </div>
             {!loading && (
               <div style={{ marginTop: 16, fontSize: 12, color: '#4f8ef7', fontWeight: 700 }}>

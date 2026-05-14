@@ -9,7 +9,6 @@ import {
   calcRecoveryStats,
   fmtR, fmtPct, fmtNum, calcMonteCarlo, calcRobotScore
 } from '../lib/analytics'
-// import { calcGoalsStatus } from '../lib/goalsLimits'
 import { calcStagnation } from '../lib/stagnation'
 
 import RealOpsTab from '../components/RealOpsTab'
@@ -24,7 +23,7 @@ export default function RobotDetailPage() {
   const { getRobot, portfolios, loading: dataLoading } = useData()
   const { id } = useParams()
   const navigate = useNavigate()
-
+  const can = () => true  // web: sem licença
   const [robot, setRobot] = useState(null)
   const [adjOps, setAdjOps] = useState([])
   const [metrics, setMetrics] = useState({})
@@ -55,7 +54,8 @@ export default function RobotDetailPage() {
   const adjOpsRef = React.useRef([])
   const charts = useRef({})
 
-  const load = () => {
+  const load = async () => {
+    if (dataLoading) return          // aguarda dados do JSON
     const r = getRobot(parseInt(id))
     if (!r) { navigate('/estrategias'); return }
     setRobot(r)
@@ -66,13 +66,23 @@ export default function RobotDetailPage() {
     setTimeframe(r.timeframe || '')
     setObservation(r.observation || '')
     setPlatform(r.platform || 'profit')
-    setConta([])
+    // conta: JSON array de {plataforma, conta} ou string legada
+    try {
+      const raw = r.conta || '[]'
+      const parsed = typeof raw === 'string' && raw.startsWith('[') ? JSON.parse(raw) : []
+      setConta(parsed.length ? parsed : (raw && !raw.startsWith('[') ? [{ plataforma: r.platform || 'profit', conta: raw }] : []))
+    } catch { setConta([]) }
     setPeriods(r.periods || {})
+    // Carrega MC salvo (se disponível)
+    if (r.mc_result) setMcResult(r.mc_result)
+    // Portfólios do context
     const robotIdNum = r.id
     const myPortfolios = (portfolios || []).filter(p => {
       try {
         const cfg = typeof p.robots_config === 'string' ? JSON.parse(p.robots_config) : (p.robots_config || {})
+        // robots_config = { robots: [{robotId, lots}, ...], multiplier, targetMonthly }
         const list = Array.isArray(cfg) ? cfg : (cfg.robots || [])
+        // eslint-disable-next-line eqeqeq
         return list.some(s => s.robotId == robotIdNum)
       } catch { return false }
     })
@@ -102,7 +112,7 @@ export default function RobotDetailPage() {
 
   useEffect(() => {
     if (!robot) return
-    const adj = buildAdjOps(robot.operations, desagio, tipo)
+    const adj = buildAdjOps(robot.operations, desagio, tipo, robot.corretagem || 0, robot.emolumentos || 0)
     setAdjOps(adj)
     const m = calcMetrics(adj, desagio, tipo)
     const { recoveredMaxDD, currentDD } = calcRecoveredDD(adj)
@@ -147,6 +157,9 @@ export default function RobotDetailPage() {
     const capital = metrics?.capital || metrics?.recoveredMaxDD * 2 || 1000
     const mc = calcMonteCarlo(adjOps, capital, 1000, 0.50)
     setMcResult(mc)
+    // Salva resultado MC no banco para uso estável no status
+    if (mc && id) {
+    }
     const sc = calcRobotScore(metrics, periods, adjOps, mc)
     // Look up rank position from global ranking (computed in App.jsx)
     const ranking = window.__ranking__ || []
@@ -436,7 +449,7 @@ export default function RobotDetailPage() {
     const data = opsBar.map(o => +o.resAdj.toFixed(2))
     saveChart('bar', new Chart(el, {
       type: 'bar',
-      data: { labels: adjOps.map(o => '#' + o.num), datasets: [{ data, backgroundColor: data.map(v => v >= 0 ? c.pos + 'cc' : c.neg + 'cc'), borderWidth: 0 }] },
+      data: { labels: adjOps.map((o, i) => '#' + (i + 1)), datasets: [{ data, backgroundColor: data.map(v => v >= 0 ? c.pos + 'cc' : c.neg + 'cc'), borderWidth: 0 }] },
       options: { ...chartOpts(), scales: { ...chartOpts().scales, x: { ticks: { maxTicksLimit: 20, color: getColors().text, font: { size: 9 } }, grid: { display: false } }, y: chartOpts().scales.y } }
     }))
   }
@@ -618,10 +631,7 @@ export default function RobotDetailPage() {
 
 
   const handleSaveSettings = async () => {
-    setSavingSettings(true)
-    // web: await window.api.robots.updateSettings({ id: parseInt(id), name, tipo, desagio: parseFloat(desagio) || 0, strategy_type: strategyType, ativo: robot.ativo, timeframe, platform, observation, conta: JSON.stringify(conta) })
-    // web: no-op
-    setSavingSettings(false)
+    // web: read-only
   }
 
   const renderRealEquity = () => {
@@ -665,9 +675,7 @@ export default function RobotDetailPage() {
   }
 
   const handleSavePeriods = async () => {
-    setSavingPeriods(true)
-    // web: await window.api.periods.save({ robotId: parseInt(id), periods })
-    setSavingPeriods(false)
+    // web: read-only
   }
 
   const periodOps = (start, end) => filterByPeriod(adjOps, start || null, end || null)
@@ -701,40 +709,45 @@ export default function RobotDetailPage() {
       return (d2 - d1) / (1000 * 60 * 60 * 24 * 30.44) >= 3
     })()
 
-    const pvalOk = metrics.pValue !== undefined ? metrics.pValue <= 0.02 : null
-    const m6015Ok = metrics.m6015 !== undefined ? metrics.m6015 > 3 : null
+    const pvalOk   = metrics.pValue !== undefined ? metrics.pValue <= 0.02 : null
+    const m6015Ok  = metrics.m6015 !== undefined ? metrics.m6015 > 3 : null
     const desvioOk = paperVsOos !== null ? paperVsOos >= -25 : null
-    const hasEnoughPaper = paperOps.length >= 3  // at least 3 months checked via hasMinReal
-    const fewPaperTrades = paperOps.length > 0 && paperOps.length < 60
+    // Desvio só é avaliado com ≥ 60 trades em PT; abaixo disso é inconclusivo
+    const desvioEval = paperOps.length >= 60 ? desvioOk : null  // null = aguardando trades
 
-    // Status logic:
-    // APROVADO: all OK + min 3 months real
-    // APROVADO SIMULADOR: all stats OK but < 3 months real
-    // EM ANÁLISE: desvio failed but < 60 paper trades
-    // REPROVADO: m6015 failed OR pval failed OR desvio failed with >= 60 trades
-    const m6015Val = metrics.m6015 || 0
-    const m6015Cautela = pvalOk && m6015Val > 2.5 && m6015Val <= 3
-    const m6015Strong = pvalOk && m6015Val > 3
+    // Novos critérios: mínimo 3 meses e 60 trades em Paper Trading
+    const min3months  = hasMinReal  // já calculado acima (≥ 3 meses)
+    const min60trades = paperOps.length >= 60
 
-    let status = 'REPROVADO'
-    if (pvalOk && (m6015Ok || m6015Cautela)) {
-      if (desvioOk === null || desvioOk) {
-        if (m6015Strong) {
-          status = hasMinReal ? 'APROVADO' : 'APROVADO_SIMULADOR'
-        } else {
-          // m6015 > 2.5 and <= 3
-          status = hasMinReal ? 'APROVADO_CAUTELA' : 'APROVADO_SIMULADOR'
-        }
-      } else if (!desvioOk && fewPaperTrades) {
-        status = 'EM_ANALISE'
-      }
-    } else if (!m6015Ok || !pvalOk) {
+    // Conta falhas nos critérios principais (pval, M.6015, desvio OOS×Paper)
+    let mainFails = 0
+    if (pvalOk     === false) mainFails++
+    if (m6015Ok    === false) mainFails++
+    if (desvioEval === false) mainFails++  // só conta quando ≥ 60 trades em PT
+    if (mcResult && mcResult.riskOfRuin > 10) mainFails++  // Risco de Ruína > 10% = falha
+
+    // Lógica de status:
+    // REPROVADO   → 2+ critérios principais falhos
+    // CAUTELA     → exatamente 1 critério principal falho
+    // SIMULADOR   → todos os critérios OK mas < 3 meses OU < 60 trades em PT
+    // APROVADO    → tudo OK + ≥ 3 meses + ≥ 60 trades
+    let status
+    if (mainFails >= 2) {
       status = 'REPROVADO'
+    } else if (!min3months || !min60trades) {
+      // Maturidade insuficiente → SIMULADOR (mesmo com 1 falha estatística)
+      status = 'SIMULADOR'
+    } else if (mainFails === 1) {
+      // Maturidade OK + 1 falha → CAUTELA
+      status = 'CAUTELA'
+    } else {
+      status = 'APROVADO'
     }
 
     return {
-      oosOps: allOosOps, outSamples, paperOps, oosMet, paperMet, paperVsOos, hasMinReal,
-      pvalOk, m6015Ok, desvioOk, fewPaperTrades, status,
+      oosOps: allOosOps, outSamples, paperOps, oosMet, paperMet, paperVsOos,
+      hasMinReal, min3months, min60trades,
+      pvalOk, m6015Ok, desvioOk, desvioEval, status,
     }
   }
 
@@ -758,19 +771,17 @@ export default function RobotDetailPage() {
         <PlatformBadge platform={platform} size={20} />
         {strategyType && <span className="badge purple">{strategyType}</span>}
         {timeframe && <span className="badge gray" style={{ fontSize: 10 }}>{timeframe}</span>}
-        {hasValidation && (
-          <span className={`badge ${
-            vr.status === 'APROVADO' ? 'green' :
-            vr.status === 'APROVADO_CAUTELA' ? 'warn' :
-            vr.status === 'APROVADO_SIMULADOR' ? 'purple' :
-            vr.status === 'EM_ANALISE' ? 'warn' : 'red'
-          }`}>
-            {vr.status === 'APROVADO' ? '✓ Aprovada' :
-             vr.status === 'APROVADO_CAUTELA' ? '⚠ Aprovada c/ Cautela' :
-             vr.status === 'APROVADO_SIMULADOR' ? '~ Aprovada (Simulador)' :
-             vr.status === 'EM_ANALISE' ? '⏳ Em análise' : '✗ Não aprovada'}
-          </span>
-        )}
+        {hasValidation && (() => {
+          const _imgMap = { APROVADO:'icon2_aprovada.png', CAUTELA:'icon2_cautela.png', SIMULADOR:'icon2_simulador.png', REPROVADO:'icon2_reprovada.png' }
+          const _lblMap = { APROVADO:'Aprovada', CAUTELA:'Cautela', SIMULADOR:'Simulador', REPROVADO:'Reprovada' }
+          return (
+            <span className={`badge ${vr.status==='APROVADO'?'green':vr.status==='CAUTELA'?'warn':vr.status==='SIMULADOR'?'purple':'red'}`}
+              style={{ display:'inline-flex', alignItems:'center', gap:5, padding:'3px 8px' }}>
+              <img src={`./${_imgMap[vr.status]||'icon2_simulador.png'}`} width={16} height={16} style={{ borderRadius:'50%', objectFit:'cover' }}/>
+              {_lblMap[vr.status] || vr.status}
+            </span>
+          )
+        })()}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
           <select value={tipo} onChange={e => setTipo(e.target.value)} style={{ fontSize: 13, padding: '5px 8px', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', color: 'var(--text)' }}>
             <option value="backtest">Backtest</option>
@@ -788,6 +799,7 @@ export default function RobotDetailPage() {
             style={{ fontSize: 13, padding: '5px 8px', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', color: 'var(--text)' }}>
             <option value="profit">Profit</option>
             <option value="mt5">MetaTrader 5</option>
+            <option value="blackarrow">Black Arrow</option>
           </select>
           <select value={['','1m','2m','3m','5m','6m','10m','15m','30m','60m','diario','semanal','21r','31r','40r'].includes(timeframe) ? timeframe : 'custom'}
             onChange={e => { if (e.target.value !== 'custom') setTimeframe(e.target.value) }}
@@ -883,7 +895,7 @@ export default function RobotDetailPage() {
       <div className="tabs">
         {['overview', 'charts', 'testes', 'operations', 'real', 'diario', 'validation', 'periods', 'situacao'].map(t => {
           const proTabs = ['charts','testes','real','validation']
-          const locked = false
+          const locked = proTabs.includes(t) && !can('monte_carlo')
           const labels = { overview:'Visão geral', charts:'Gráficos', testes:'Testes', operations:'Operações', real:'Conta Real', diario:'Diário', validation:'Validação', periods:'Períodos', situacao:'Situação' }
           return (
             <div key={t} className={`tab ${tab === t ? 'active' : ''}`}
@@ -903,7 +915,18 @@ export default function RobotDetailPage() {
             Indicadores de Desempenho
           </div>
           <div className="metrics-grid">
-            <MetricCard label="Resultado total" value={fmtR(metrics.totalBruto || 0)} cls={(metrics.totalBruto || 0) >= 0 ? 'pos' : 'neg'} sub={`${metrics.nOps || 0} operações`} />
+            <MetricCard
+              label="Resultado total"
+              value={fmtR(metrics.totalBruto || 0)}
+              cls={(metrics.totalBruto || 0) >= 0 ? 'pos' : 'neg'}
+              sub={(() => {
+                const first = adjOps[0]?.abertura
+                if (!first) return `${metrics.nOps || 0} operações`
+                const parts = first.split(' ')[0].split('/')
+                const dataInicio = parts.length === 3 ? `${parts[0]}/${parts[1]}/${parts[2]}` : first.slice(0,10)
+                return `desde ${dataInicio} · ${metrics.nOps || 0} operações`
+              })()}
+            />
             <MetricCard label="Capital necessário" value={fmtR(metrics.capital || 0)} sub="2× maior drawdown" />
             <MetricCard label="Rentabilidade" value={fmtPct(metrics.rentPct || 0)} cls={(metrics.rentPct || 0) >= 0 ? 'pos' : 'neg'} sub={`sobre capital · ${fmtPct(metrics.rentMensal || (metrics.rentPct || 0) / Math.max((metrics.anos || 1) * 12, 1))}/mês`} />
             <MetricCard label="Taxa de acerto" value={fmtNum(metrics.winRate || 0, 1) + '%'} cls={(metrics.winRate || 0) >= 50 ? 'pos' : 'neg'} sub={`${metrics.nWins || 0}W / ${metrics.nLosses || 0}L`} />
@@ -1059,7 +1082,7 @@ export default function RobotDetailPage() {
           )}
 
           {/* ── Monte Carlo + Overfitting Score ── */}
-          { mcResult && (
+          {mcResult && (
             <div className="card" style={{ marginBottom: 16 }}>
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom: 12 }}>
                 <div style={{ fontWeight:600, fontSize:14 }}>Monte Carlo — {mcResult.simulations.toLocaleString()} simulações</div>
@@ -1281,7 +1304,7 @@ export default function RobotDetailPage() {
 
       {/* ── CHARTS ── */}
       {tab === 'charts' && (
-         (
+        (
         <>
           {/* Side filter */}
           <div style={{ display:'flex', gap:6, marginBottom:14, alignItems:'center' }}>
@@ -1374,13 +1397,11 @@ export default function RobotDetailPage() {
 
       {/* ── TESTES ── */}
       {tab === 'testes' && (
-        
         <TestesTab adjOps={adjOps} periods={periods} metrics={metrics} />
       )}
 
       {/* ── CONTA REAL ── */}
       {tab === 'real' && (
-        
         <RealOpsTab robotId={parseInt(id)} adjOps={adjOps} timeframe={timeframe} />
       )}
 
@@ -1400,7 +1421,6 @@ export default function RobotDetailPage() {
       )}
 
       {tab === 'validation' && (
-        
         <ValidationTab vr={vr} metrics={metrics} periods={periods} adjOps={adjOps} mcResult={mcResult} observation={observation} setObservation={setObservation} onSave={handleSaveSettings} />
       )}
 
@@ -1454,6 +1474,7 @@ export default function RobotDetailPage() {
                     style={{ width:'100%', padding:'7px 10px', border:'1px solid var(--border)', borderRadius:'var(--radius)', background:'var(--surface)', color:'var(--text)', fontSize:13 }}>
                     <option value="profit">Profit (Nelogica)</option>
                     <option value="mt5">MetaTrader 5</option>
+                    <option value="blackarrow">Black Arrow</option>
                     <option value="tryd">Tryd</option>
                     <option value="other">Outra</option>
                   </select>
@@ -1880,12 +1901,12 @@ function OpsTable({ adjOps, tipo }) {
             </tr>
           </thead>
           <tbody>
-            {sorted.map(o => {
+            {sorted.map((o, idx) => {
               acc += o.resAdj
               const changed = isbt && Math.abs(o.resAdj - o.res_op) > 0.01
               return (
                 <tr key={o.id || o.num}>
-                  <td>{o.num}</td>
+                  <td style={{color:'var(--text-muted)'}}>{sortDir === 'desc' ? filtered.length - idx : idx + 1}</td>
                   <td style={{ fontSize: 11 }}>{o.abertura}</td>
                   <td style={{ fontSize: 11 }}>{o.fechamento}</td>
                   <td><span className={`badge ${o.lado === 'C' ? 'blue' : 'green'}`}>{o.lado === 'C' ? 'Compra' : 'Venda'}</span></td>
@@ -1971,54 +1992,84 @@ function PeriodsTab({ periods, setPeriods, onSave, saving }) {
 
   const PeriodInput = React.memo(({ label, initialValue, onCommit }) => {
     const [val, setVal] = React.useState(initialValue || '')
+    const ref = React.useRef()
+
     const inputStyle = {
       fontFamily: 'monospace', letterSpacing: 1, width: '100%',
       padding: '8px 10px', border: '1px solid var(--border)',
       borderRadius: 'var(--radius)', background: 'var(--surface)',
       color: 'var(--text)', fontSize: 14, outline: 'none',
     }
-    // Auto-format: user types digits only, slashes inserted automatically
+
+    const tryCommit = (formatted) => {
+      const parts = formatted.split('/')
+      if (parts.length === 3 && parts[2].length === 4) {
+        const iso = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`
+        onCommit(iso)
+        return true
+      }
+      return false
+    }
+
+    // Avança para o próximo input[data-period] no DOM
+    const advanceToNext = () => {
+      const all = [...document.querySelectorAll('input[data-period]')]
+      const i = all.indexOf(ref.current)
+      if (i >= 0 && i < all.length - 1) {
+        all[i + 1].focus()
+        all[i + 1].select()
+      }
+    }
+
     const handleChange = (e) => {
       let raw = e.target.value.replace(/\D/g, '').slice(0, 8)
       let formatted = raw
       if (raw.length > 2) formatted = raw.slice(0,2) + '/' + raw.slice(2)
       if (raw.length > 4) formatted = raw.slice(0,2) + '/' + raw.slice(2,4) + '/' + raw.slice(4)
       setVal(formatted)
-    }
-    // On blur/Tab: convert DD/MM/AAAA → AAAA-MM-DD for storage
-    const handleCommit = () => {
-      const parts = val.split('/')
-      if (parts.length === 3 && parts[2].length === 4) {
-        const iso = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`
-        onCommit(iso)
-      } else if (val.match(/^\d{4}-\d{2}-\d{2}$/)) {
-        // Already ISO format
-        const [y,m,d] = val.split('-')
-        setVal(`${d}/${m}/${y}`)
-        onCommit(val)
+      // Auto-avanço ao completar 8 dígitos
+      if (raw.length === 8) {
+        const ok = tryCommit(formatted)
+        if (ok) setTimeout(advanceToNext, 20)
       }
     }
-    // Display: convert ISO to DD/MM/AAAA for display
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Tab') {
+        const ok = tryCommit(val)
+        if (ok) {
+          e.preventDefault()
+          advanceToNext()
+        }
+        // Se não ok, deixa o Tab nativo funcionar normalmente
+      }
+      if (e.key === 'Enter') {
+        tryCommit(val)
+        ref.current?.blur()
+      }
+    }
+
     React.useEffect(() => {
-      if (initialValue && initialValue.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      if (initialValue?.match(/^\d{4}-\d{2}-\d{2}$/)) {
         const [y,m,d] = initialValue.split('-')
         setVal(`${d}/${m}/${y}`)
       }
     }, [initialValue])
+
     return (
       <div style={{ flex: 1, minWidth: 140 }}>
         <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>{label}</div>
         <input
+          ref={ref}
+          data-period="true"
           type="text"
           value={val}
           maxLength={10}
           placeholder="DD/MM/AAAA"
           style={inputStyle}
           onChange={handleChange}
-          onBlur={handleCommit}
-          onKeyDown={e => {
-            if (e.key === 'Enter') { handleCommit(); e.target.blur() }
-          }}
+          onBlur={() => tryCommit(val)}
+          onKeyDown={handleKeyDown}
           onFocus={e => e.target.select()}
         />
       </div>
@@ -2031,16 +2082,14 @@ function PeriodsTab({ periods, setPeriods, onSave, saving }) {
       <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end', flexWrap: 'wrap' }}>
         <PeriodInput
           key={'s-' + (item.start || 'empty')}
-          label="Início (AAAA-MM-DD)"
+          label="Início (DD/MM/AAAA)"
           initialValue={item.start || ''}
-          placeholder="2022-01-01"
           onCommit={v => onChange('start', v)}
         />
         <PeriodInput
           key={'e-' + (item.end || 'empty')}
-          label="Fim (AAAA-MM-DD)"
+          label="Fim (DD/MM/AAAA)"
           initialValue={item.end || ''}
-          placeholder="2024-12-31"
           onCommit={v => onChange('end', v)}
         />
         {showRemove && (
@@ -2132,7 +2181,7 @@ function ValidationTab({ vr, metrics, periods, adjOps = [], mcResult, observatio
     </div>
   )
 
-  const approved = vr.pvalOk && vr.m6015Ok && vr.desvioOk && vr.hasMinReal
+  const approved = vr.status === 'APROVADO'
 
   return (
     <div style={{ maxWidth: 680 }}>
@@ -2142,27 +2191,27 @@ function ValidationTab({ vr, metrics, periods, adjOps = [], mcResult, observatio
             ✓ ESTRATÉGIA APROVADA PARA CONTA REAL
           </div>
         )}
-        {vr.status === 'APROVADO_CAUTELA' && (
+        {vr.status === 'CAUTELA' && (
           <div style={{ display:'flex', flexDirection:'column', gap:4, padding:'12px 18px', background:'var(--warning-bg)', border:'1px solid var(--warning)', borderRadius:'var(--radius-lg)' }}>
-            <span style={{ color:'var(--warning)', fontWeight:600, fontSize:15 }}>⚠ APROVADA COM CAUTELA</span>
-            <span style={{ fontSize:13, color:'var(--text-muted)' }}>Todos os critérios aprovados, mas M.6015 entre 2,5 e 3,0. Opere com lote reduzido e monitore de perto.</span>
+            <span style={{ color:'var(--warning)', fontWeight:600, fontSize:15 }}>⚠ CAUTELA — 1 critério não passou</span>
+            <span style={{ fontSize:13, color:'var(--text-muted)' }}>Quase aprovada. Opera com lote reduzido e monitore de perto.</span>
           </div>
         )}
-        {vr.status === 'APROVADO_SIMULADOR' && (
-          <div style={{ display:'flex', flexDirection:'column', gap:4, padding:'12px 18px', background:'var(--accent-bg)', border:'1px solid var(--accent)', borderRadius:'var(--radius-lg)' }}>
-            <span style={{ color:'var(--accent)', fontWeight:600, fontSize:15 }}>~ APROVADA PARA SIMULADOR</span>
-            <span style={{ fontSize:13, color:'var(--text-muted)' }}>Todos os critérios estatísticos aprovados, mas ainda não atingiu 3 meses em conta real.</span>
-          </div>
-        )}
-        {vr.status === 'EM_ANALISE' && (
-          <div style={{ display:'flex', flexDirection:'column', gap:4, padding:'12px 18px', background:'var(--warning-bg)', border:'1px solid var(--warning)', borderRadius:'var(--radius-lg)' }}>
-            <span style={{ color:'var(--warning)', fontWeight:600, fontSize:15 }}>⏳ EM ANÁLISE</span>
-            <span style={{ fontSize:13, color:'var(--text-muted)' }}>Desvio Paper vs OOS fora do critério, mas com menos de 60 operações em paper — aguardar mais dados ({vr.paperOps.length} trades até agora).</span>
+        {vr.status === 'SIMULADOR' && (
+          <div style={{ display:'flex', flexDirection:'column', gap:4, padding:'12px 18px', background:'rgba(124,58,237,0.08)', border:'1px solid #7c3aed', borderRadius:'var(--radius-lg)' }}>
+            <span style={{ color:'#7c3aed', fontWeight:600, fontSize:15 }}>~ SIMULADOR — critérios estatísticos OK</span>
+            <span style={{ fontSize:13, color:'var(--text-muted)' }}>
+              {!vr.min3months && !vr.min60trades
+                ? 'Precisa de pelo menos 3 meses e 60 trades em Paper Trading.'
+                : !vr.min3months
+                ? `Precisa de pelo menos 3 meses em Paper Trading. (${vr.paperOps.length} trades registrados)`
+                : `Precisa de pelo menos 60 trades em Paper Trading. (${vr.paperOps.length} de 60)`}
+            </span>
           </div>
         )}
         {vr.status === 'REPROVADO' && (
           <div style={{ display:'flex', alignItems:'center', gap:10, padding:'12px 18px', background:'var(--danger-bg)', border:'1px solid var(--danger)', borderRadius:'var(--radius-lg)', color:'var(--danger)', fontWeight:600, fontSize:15 }}>
-            ✗ NÃO APROVADA PARA CONTA REAL
+            ✗ NÃO APROVADA — 2 ou mais critérios falharam
           </div>
         )}
       </div>
@@ -2197,14 +2246,22 @@ function ValidationTab({ vr, metrics, periods, adjOps = [], mcResult, observatio
         <Item
           label="Desvio Paper vs OOS"
           value={vr.paperVsOos !== null ? fmtPct(vr.paperVsOos) : 'N/D'}
-          ok={vr.desvioOk}
-          detail="Critério: desvio máximo de -25% em relação ao OOS"
+          ok={vr.desvioEval}
+          detail={vr.paperOps.length < 60
+            ? `Aguardando ${vr.paperOps.length}/60 trades em Paper Trading para avaliar. Critério: desvio máximo de -25% em relação ao OOS.`
+            : 'Critério: desvio máximo de -25% em relação ao OOS'}
         />
         <Item
-          label="Mínimo 3 meses em conta real"
-          value={vr.hasMinReal ? 'Sim' : 'Não'}
-          ok={vr.hasMinReal}
-          detail="Critério: ao menos 3 meses no período Paper/Real"
+          label="Mínimo 3 meses em Paper Trading"
+          value={vr.min3months ? 'Sim' : 'Não'}
+          ok={vr.min3months}
+          detail="Critério obrigatório para APROVADO: ao menos 3 meses no período Paper/Real"
+        />
+        <Item
+          label="Mínimo 60 trades em Paper Trading"
+          value={`${vr.paperOps.length} / 60`}
+          ok={vr.min60trades}
+          detail="Critério obrigatório para APROVADO: ao menos 60 operações no período Paper/Real"
         />
       </div>
 
