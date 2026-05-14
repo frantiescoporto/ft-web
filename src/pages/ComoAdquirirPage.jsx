@@ -7,7 +7,7 @@ const s = {
   text: '#e8edf5', muted: '#6b7a99', warning: '#f5a623',
 }
 
-const WA = 'https://wa.me/5553999793260'
+const WA = 'https://wa.me/5553999010262'
 
 export default function ComoAdquirirPage() {
   const navigate = useNavigate()

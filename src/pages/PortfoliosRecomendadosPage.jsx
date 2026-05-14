@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useData } from '../context/DataContext.jsx'
 import { fmtNum } from '../lib/analytics.js'
 
@@ -17,7 +17,7 @@ function fmtR(v) {
 export default function PortfoliosRecomendadosPage() {
   const navigate = useNavigate()
   const { robots, mentPortfolios, mentOps, loading } = useData()
-  const LOGOS_NELOGICA = ['nelogica', 'smartlab']
+  const LOGOS_NELOGICA = ['6015', 'nelogica', 'smartlab', 'mentoria', '']
   const portfolios = (mentPortfolios || []).filter(p => LOGOS_NELOGICA.includes(p.logo || ''))
   const [portfolioMetrics, setPortfolioMetrics] = useState({})
 
@@ -89,7 +89,7 @@ export default function PortfoliosRecomendadosPage() {
 
         <div style={{ marginBottom: 32 }}>
           <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', color: s.muted, cursor: 'pointer', fontSize: 13, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-            ← Voltar
+            ← Início
           </button>
           <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 6 }}>🎯 Portfólios Recomendados</h1>
           <p style={{ color: s.muted, fontSize: 14 }}>
@@ -101,9 +101,8 @@ export default function PortfoliosRecomendadosPage() {
           {portfolios.map(p => {
             const m = portfolioMetrics[p.id]
             return (
-              <div key={p.id}
-                onClick={() => navigate(`/portfolios-recomendados/${p.id}`)}
-                style={{ background: s.card, border: `1px solid ${s.border}`, borderRadius: 14, padding: '24px', cursor: 'pointer', transition: 'all .2s' }}
+              <Link key={p.id} to={`/portfolios-recomendados/${p.id}`}
+                style={{ background: s.card, border: `1px solid ${s.border}`, borderRadius: 14, padding: '24px', cursor: 'pointer', transition: 'all .2s', display: 'block', textDecoration: 'none', color: s.text }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = s.accent + '88'; e.currentTarget.style.transform = 'translateY(-2px)' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = s.border; e.currentTarget.style.transform = 'translateY(0)' }}>
 
@@ -147,7 +146,7 @@ export default function PortfoliosRecomendadosPage() {
                 <div style={{ marginTop: 14, fontSize: 12, color: s.accent, fontWeight: 600, textAlign: 'right' }}>
                   Ver análise completa →
                 </div>
-              </div>
+              </Link>
             )
           })}
         </div>
@@ -155,7 +154,7 @@ export default function PortfoliosRecomendadosPage() {
         <div style={{ marginTop: 40, background: `linear-gradient(135deg, ${s.accent}12, ${s.card})`, border: `1px solid ${s.accent}33`, borderRadius: 16, padding: '32px', textAlign: 'center' }}>
           <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>Quer operar com um portfólio validado?</h2>
           <p style={{ color: s.muted, fontSize: 14, marginBottom: 20 }}>Entre em contato para saber qual portfólio faz sentido para o seu capital.</p>
-          <a href={`https://wa.me/5553999793260?text=${encodeURIComponent('Olá! Tenho interesse nos portfólios recomendados do Método 6015.')}`}
+          <a href={`https://wa.me/5553999010262?text=${encodeURIComponent('Olá! Tenho interesse nos portfólios recomendados do Método 6015.')}`}
             target="_blank" rel="noopener noreferrer"
             style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: s.accent, color: '#000', padding: '13px 28px', borderRadius: 10, fontWeight: 800, fontSize: 15, textDecoration: 'none' }}>
             💬 Falar no WhatsApp →

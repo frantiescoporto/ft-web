@@ -239,18 +239,20 @@ export default function PortfolioDetailPage() {
   const [error,setError] = useState(null)
 
   useEffect(()=>{
-    if(!mentPortfolios?.length||!mentOps?.length) return
+    if(!mentPortfolios?.length) return
+    // mentOps pode ser vazio — tratar abaixo
     try {
       const p = mentPortfolios.find(p=>p.id===parseInt(id))
       if(!p){setError('Portfólio não encontrado');return}
       const robots = typeof p.robots_json==='string'?JSON.parse(p.robots_json):(p.robots_json||[])
       if(!robots.length){setError('Sem estratégias configuradas');return}
       const names = new Set(robots.map(r=>r.name))
-      const ops = mentOps.filter(op=>names.has(op.ativo)).map(op=>{
+      const ops = (mentOps||[]).filter(op=>names.has(op.ativo)).map(op=>{
         const r=robots.find(r=>r.name===op.ativo)
         return {...op, res_op:(op.res_op||0)*(r?.lotes||1)}
       })
       // Métricas
+      if(!ops.length){ setData({portfolio:p,robots,ops:[],metrics:{totalBruto:0,profitFactor:0,winRate:0,avgMonthly:0,nMonths:0,nRobots:robots.length,maxDD:0}}); return }
       const wins=ops.filter(o=>o.res_op>0).length
       const totalBruto=ops.reduce((a,o)=>a+(o.res_op||0),0)
       const gainSum=ops.filter(o=>o.res_op>0).reduce((a,o)=>a+o.res_op,0)
@@ -308,7 +310,7 @@ export default function PortfolioDetailPage() {
             <div style={{fontWeight:700,marginBottom:4}}>Quer operar o {portfolio.name}?</div>
             <div style={{fontSize:13,color:s.muted}}>Entre em contato para saber como começar.</div>
           </div>
-          <a href={`https://wa.me/5553999793260?text=${encodeURIComponent(`Olá! Tenho interesse no portfólio ${portfolio.name}.`)}`}
+          <a href={`https://wa.me/5553999010262?text=${encodeURIComponent(`Olá! Tenho interesse no portfólio ${portfolio.name}.`)}`}
             target="_blank" rel="noopener noreferrer"
             style={{display:'inline-flex',alignItems:'center',gap:8,background:s.accent,color:'#000',padding:'12px 24px',borderRadius:8,fontWeight:800,fontSize:14,textDecoration:'none'}}>
             💬 Falar no WhatsApp →

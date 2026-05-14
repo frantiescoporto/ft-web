@@ -207,7 +207,7 @@ export default function HistoricoPage() {
           <p style={{ color: s.muted, fontSize: 14, marginBottom: 20 }}>
             Quer fazer parte dessa jornada? Entre em contato.
           </p>
-          <a href={`https://wa.me/5553999793260?text=${encodeURIComponent('Olá! Vi seu histórico e quero saber mais sobre o Método 6015.')}`}
+          <a href={`https://wa.me/5553999010262?text=${encodeURIComponent('Olá! Vi seu histórico e quero saber mais sobre o Método 6015.')}`}
             target="_blank" rel="noopener noreferrer"
             style={{ display: 'inline-flex', alignItems: 'center', gap: 8,
               background: s.accent, color: '#000', padding: '12px 28px',
