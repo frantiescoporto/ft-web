@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useData } from '../context/DataContext.jsx'
-import { buildAdjOps, fmtNum } from '../lib/analytics.js'
-import { buildPortfolioTimeline, calcPortfolioMetrics } from '../lib/portfolio.js'
+import { fmtNum } from '../lib/analytics.js'
 
 const s = {
   accent: '#00d4aa', dark: '#080c12', surface: '#0f1520',
@@ -17,44 +16,66 @@ function fmtR(v) {
 
 export default function PortfoliosRecomendadosPage() {
   const navigate = useNavigate()
-  const { robots, portfolios, loading } = useData()
+  const { robots, mentPortfolios, mentOps, loading } = useData()
+  const LOGOS_NELOGICA = ['nelogica', 'smartlab']
+  const portfolios = (mentPortfolios || []).filter(p => LOGOS_NELOGICA.includes(p.logo || ''))
   const [portfolioMetrics, setPortfolioMetrics] = useState({})
 
   useEffect(() => {
-    if (!robots.length || !portfolios.length) return
+    if (!mentOps?.length || !portfolios.length) return
+    // Indexa ops por nome da estratégia
+    const opsByName = {}
+    mentOps.forEach(op => {
+      const k = op.ativo
+      if (!opsByName[k]) opsByName[k] = []
+      opsByName[k].push(op)
+    })
     const pm = {}
     for (const p of portfolios) {
       try {
-        const cfg = typeof p.robots_config === 'string' ? JSON.parse(p.robots_config) : (p.robots_config || {})
-        const list = Array.isArray(cfg) ? cfg : (cfg.robots || [])
-        const multiplier = cfg.multiplier || 1
-        const entries = list.map(({ robotId, lots }) => {
-          const r = robots.find(rb => rb.id === robotId)
-          if (!r || !r.operations?.length) return null
-          const adj = buildAdjOps(r.operations, r.desagio || 0, r.tipo || 'backtest')
-          return { robot: r, lots, adjOps: adj }
-        }).filter(Boolean)
-        if (!entries.length) continue
-        const timeline = buildPortfolioTimeline(entries)
-        const m = calcPortfolioMetrics(timeline, multiplier)
+        const robotsList = typeof p.robots_json === 'string' ? JSON.parse(p.robots_json) : (p.robots_json || [])
+        if (!robotsList.length) continue
+        // Montar ops do portfólio
+        const ops = robotsList.flatMap(r => (opsByName[r.name] || []).map(op => ({
+          ...op, res_op: (op.res_op || 0) * (r.lotes || 1)
+        })))
+        if (!ops.length) { pm[p.id] = { noOps: true, robotsList }; continue }
+        // Métricas básicas
+        const wins = ops.filter(o => o.res_op > 0).length
+        const losses = ops.filter(o => o.res_op < 0).length
+        const totalBruto = ops.reduce((a, o) => a + o.res_op, 0)
+        const gainSum = ops.filter(o => o.res_op > 0).reduce((a, o) => a + o.res_op, 0)
+        const lossSum = Math.abs(ops.filter(o => o.res_op < 0).reduce((a, o) => a + o.res_op, 0))
+        const profitFactor = lossSum > 0 ? gainSum / lossSum : gainSum > 0 ? 99 : 0
+        const winRate = ops.length ? (wins / ops.length) * 100 : 0
+        // Média mensal
         const monthly = {}
-        timeline.forEach(op => {
+        ops.forEach(op => {
           const pts = (op.abertura || '').split(' ')[0].split('/')
           if (pts.length === 3) {
             const key = `${pts[2]}-${pts[1]}`
-            monthly[key] = (monthly[key] || 0) + (op.res_op || 0)
+            monthly[key] = (monthly[key] || 0) + op.res_op
           }
         })
         const vals = Object.values(monthly)
-        m.avgMonthly = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0
-        m.nMonths = vals.length
-        m.nRobots = entries.length
-        m.robotsList = entries.map(e => ({ name: e.robot.name, lots: e.lots, ativo: e.robot.ativo }))
-        pm[p.id] = m
+        const avgMonthly = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0
+        // Max DD
+        let peak = 0, maxDD = 0, acc = 0
+        ops.sort((a,b) => (a.abertura||'').localeCompare(b.abertura||'')).forEach(op => {
+          acc += op.res_op
+          if (acc > peak) peak = acc
+          const dd = peak - acc
+          if (dd > maxDD) maxDD = dd
+        })
+        pm[p.id] = {
+          totalBruto, profitFactor, winRate, avgMonthly,
+          nMonths: vals.length, nRobots: robotsList.length,
+          maxDD, robotsList, ops
+        }
       } catch (e) { console.error('Portfolio error:', e) }
     }
     setPortfolioMetrics(pm)
-  }, [robots, portfolios])
+  }, [mentOps, portfolios])
 
   if (loading) return (
     <div style={{ background: s.dark, minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: s.muted }}>

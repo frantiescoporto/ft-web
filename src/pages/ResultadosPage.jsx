@@ -10,11 +10,11 @@ import { useNavigate } from 'react-router-dom'
 
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import {
-  Chart, CategoryScale, LinearScale, BarElement,
-  LineElement, PointElement, Tooltip, Legend, Filler,
+  Chart, CategoryScale, LinearScale, BarElement, BarController,
+  LineElement, LineController, PointElement, Tooltip, Legend, Filler,
 } from 'chart.js'
 
-try { Chart.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Tooltip, Legend, Filler) } catch (_) {}
+try { Chart.register(CategoryScale, LinearScale, BarElement, BarController, LineElement, LineController, PointElement, Tooltip, Legend, Filler) } catch (_) {}
 
 // ─── Logos ─────────────────────────────────────────────────────────────────────
 // Resolve o caminho base correto para funcionar tanto no servidor Vite (dev)
@@ -2534,7 +2534,9 @@ export default function ResultadosPage() {
       const opsByName = {}
       allOpsList.forEach(op => { const k=op.ativo; if(!opsByName[k])opsByName[k]=[]; opsByName[k].push(op) })
       const strats = [...new Set(allOpsList.map(o=>o.ativo))].sort()
-      setPortfolios(pList||[]); setStrategies(strats); setLabPortfolios([])
+      const LOGOS_WEB = ['6015', 'nelogica', 'smartlab', 'frantiesco']
+      const filteredPList = (pList||[]).filter(p => LOGOS_WEB.includes(p.logo || 'none') || !p.logo)
+      setPortfolios(filteredPList); setStrategies(strats); setLabPortfolios([])
       const opsMap={}
       for(const p of (pList||[])){
         const names=getAllStrategyNames(p)
@@ -2560,7 +2562,11 @@ export default function ResultadosPage() {
             fontSize:13,marginBottom:10,display:'flex',alignItems:'center',gap:6,padding:0}}>
           ← Voltar
         </button>
-        <h1 style={{margin:0,fontSize:22,fontWeight:700}}>Resultados<span style={{fontSize:13,fontWeight:400,color:'var(--text-muted)',marginLeft:12}}>Portfólios Recomendados · Método 6015</span></h1>
+        <div style={{display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
+          <h1 style={{margin:0,fontSize:22,fontWeight:700}}>Resultados</h1>
+          <span style={{fontSize:11,fontWeight:700,background:'rgba(52,212,126,0.15)',border:'1px solid rgba(52,212,126,0.4)',color:'#34d47e',padding:'3px 12px',borderRadius:99,letterSpacing:'.06em'}}>🔴 CONTA REAL</span>
+        </div>
+        <div style={{fontSize:13,color:'var(--text-muted)',marginTop:4}}>Portfólios Recomendados · Método 6015</div>
         {!loading&&!apiError&&portfolios.length>0&&<div style={{color:'var(--text-muted)',fontSize:13,marginTop:4}}>{portfolios.length} portfólio{portfolios.length!==1?'s':''} · {Object.values(allOps).reduce((s,o)=>s+o.length,0)} ops mapeadas</div>}
       </div>
 
