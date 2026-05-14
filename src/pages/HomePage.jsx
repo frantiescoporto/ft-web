@@ -53,7 +53,7 @@ export default function HomePage() {
           gap: 16, maxWidth: 680, margin: '0 auto 48px' }}>
 
           {/* Portfólios Recomendados */}
-          <button onClick={() => navigate('/portfolios-recomendados')}
+          <button onClick={() => navigate('/estrategias')}
             style={{ background: `linear-gradient(135deg, ${s.accent}22, ${s.accent}08)`,
               border: `1px solid ${s.accent}55`, borderRadius: 16,
               padding: '32px 24px', cursor: 'pointer', textAlign: 'left',
@@ -62,10 +62,10 @@ export default function HomePage() {
             onMouseLeave={e => { e.currentTarget.style.borderColor = `${s.accent}55`; e.currentTarget.style.transform = 'translateY(0)' }}>
             <div style={{ fontSize: 36, marginBottom: 12 }}>🎯</div>
             <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 8, color: s.accent }}>
-              Portfólios Recomendados
+              Estratégias
             </div>
             <div style={{ fontSize: 13, color: s.muted, lineHeight: 1.6 }}>
-              Acompanhe os portfólios curados pelo Método 6015 — resultados reais, mês a mês.
+              Veja as estratégias algorítmicas com análise completa — métricas, gráficos, validação e conta real.
             </div>
             {!loading && (
               <div style={{ marginTop: 16, fontSize: 12, color: s.accent, fontWeight: 700 }}>

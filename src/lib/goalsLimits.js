@@ -1,0 +1,1 @@
+export function calcGoalsStatus() { return {} }

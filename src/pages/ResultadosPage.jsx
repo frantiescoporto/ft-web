@@ -2564,7 +2564,7 @@ export default function ResultadosPage() {
         </button>
         <div style={{display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
           <h1 style={{margin:0,fontSize:22,fontWeight:700}}>Resultados</h1>
-          <span style={{fontSize:11,fontWeight:700,background:'rgba(52,212,126,0.15)',border:'1px solid rgba(52,212,126,0.4)',color:'#34d47e',padding:'3px 12px',borderRadius:99,letterSpacing:'.06em'}}>🔴 CONTA REAL</span>
+          <span style={{fontSize:11,fontWeight:700,background:'rgba(52,212,126,0.15)',border:'1px solid rgba(52,212,126,0.4)',color:'#34d47e',padding:'3px 12px',borderRadius:99,letterSpacing:'.06em'}}>🟢 CONTA REAL</span>
         </div>
         <div style={{fontSize:13,color:'var(--text-muted)',marginTop:4}}>Portfólios Recomendados · Método 6015</div>
         {!loading&&!apiError&&portfolios.length>0&&<div style={{color:'var(--text-muted)',fontSize:13,marginTop:4}}>{portfolios.length} portfólio{portfolios.length!==1?'s':''} · {Object.values(allOps).reduce((s,o)=>s+o.length,0)} ops mapeadas</div>}
