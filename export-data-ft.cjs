@@ -22,6 +22,34 @@ const DRY_RUN = hasFlag('--dry-run')
 
 function log(msg) { console.log(`[ft-export] ${msg}`) }
 
+// ── Helper: converte data BR ou ISO em número ordenável ───────────────────
+// Aceita: "DD/MM/YYYY HH:MM:SS" (Profit), "YYYY-MM-DD HH:MM:SS" (MT5),
+//         "DD/MM/YYYY", "YYYY-MM-DD", ou vazio
+function dateKey(s) {
+  if (!s) return 0
+  s = String(s).trim()
+  if (!s) return 0
+
+  // Formato BR: DD/MM/YYYY [HH:MM[:SS]]
+  let m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/)
+  if (m) {
+    let [, d, mo, y, h, mi, se] = m
+    if (y.length === 2) y = (parseInt(y) > 50 ? '19' : '20') + y
+    return new Date(+y, +mo - 1, +d, +(h||0), +(mi||0), +(se||0)).getTime()
+  }
+
+  // Formato ISO: YYYY-MM-DD [HH:MM[:SS]]
+  m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?/)
+  if (m) {
+    const [, y, mo, d, h, mi, se] = m
+    return new Date(+y, +mo - 1, +d, +(h||0), +(mi||0), +(se||0)).getTime()
+  }
+
+  // Fallback: tenta Date nativo
+  const t = Date.parse(s)
+  return isNaN(t) ? 0 : t
+}
+
 let Database
 try { Database = require('better-sqlite3') } catch {
   console.error('\n❌ better-sqlite3 não instalado. Execute: npm install better-sqlite3\n')
