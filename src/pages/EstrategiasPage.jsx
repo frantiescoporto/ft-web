@@ -63,8 +63,9 @@ export default function EstrategiasPage() {
 
   const filtered = [...robots]
     .filter(r => {
+      // Apenas Profit/Nelogica — MT5 não aparece no site público
+      if ((r.platform || 'profit') === 'mt5') return false
       if (filterAtivo !== 'all' && r.ativo !== filterAtivo) return false
-      if (filterPlatform !== 'all' && (r.platform || 'profit') !== filterPlatform) return false
       if (filterType !== 'all' && r.strategy_type !== filterType) return false
       return true
     })
@@ -104,12 +105,7 @@ export default function EstrategiasPage() {
             <option value="all">Todos os ativos</option>
             {ativoOptions.map(a => <option key={a} value={a}>{a}</option>)}
           </select>
-          <select value={filterPlatform} onChange={e => setFilterPlatform(e.target.value)}
-            style={{ fontSize: 12, padding: '6px 10px', border: `1px solid ${s.border}`, borderRadius: 8, background: s.surface, color: s.text, cursor: 'pointer' }}>
-            <option value="all">Todas as plataformas</option>
-            <option value="profit">Profit</option>
-            <option value="mt5">MetaTrader 5</option>
-          </select>
+
           {typeOptions.length > 0 && (
             <select value={filterType} onChange={e => setFilterType(e.target.value)}
               style={{ fontSize: 12, padding: '6px 10px', border: `1px solid ${s.border}`, borderRadius: 8, background: s.surface, color: s.text, cursor: 'pointer' }}>
