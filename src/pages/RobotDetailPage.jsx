@@ -23,7 +23,7 @@ export default function RobotDetailPage() {
   const { getRobot, portfolios, loading: dataLoading } = useData()
   const { id } = useParams()
   const navigate = useNavigate()
-  const can = () => true  // web: sem licença
+  const can = () => true
   const [robot, setRobot] = useState(null)
   const [adjOps, setAdjOps] = useState([])
   const [metrics, setMetrics] = useState({})
@@ -55,7 +55,7 @@ export default function RobotDetailPage() {
   const charts = useRef({})
 
   const load = async () => {
-    if (dataLoading) return          // aguarda dados do JSON
+    if (dataLoading) return
     const r = getRobot(parseInt(id))
     if (!r) { navigate('/estrategias'); return }
     setRobot(r)
@@ -75,9 +75,9 @@ export default function RobotDetailPage() {
     setPeriods(r.periods || {})
     // Carrega MC salvo (se disponível)
     if (r.mc_result) setMcResult(r.mc_result)
-    // Portfólios do context
+    // Carregar portfólios que contêm este robô
     const robotIdNum = r.id
-    const myPortfolios = (portfolios || []).filter(p => {
+    const myPortfolios = (allPortfolios || []).filter(p => {
       try {
         const cfg = typeof p.robots_config === 'string' ? JSON.parse(p.robots_config) : (p.robots_config || {})
         // robots_config = { robots: [{robotId, lots}, ...], multiplier, targetMonthly }
@@ -632,6 +632,8 @@ export default function RobotDetailPage() {
 
   const handleSaveSettings = async () => {
     // web: read-only
+    // web: no-op
+    setSavingSettings(false)
   }
 
   const renderRealEquity = () => {
@@ -676,6 +678,7 @@ export default function RobotDetailPage() {
 
   const handleSavePeriods = async () => {
     // web: read-only
+    setSavingPeriods(false)
   }
 
   const periodOps = (start, end) => filterByPeriod(adjOps, start || null, end || null)
@@ -760,7 +763,13 @@ export default function RobotDetailPage() {
   const hasValidation = periods.out_sample_start && periods.paper_start
 
   return (
-    <div>
+    <div style={{background:'var(--bg)',minHeight:'100vh',color:'var(--text)',fontFamily:'-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'}}>
+      <div style={{maxWidth:1400,margin:'0 auto',padding:'12px 24px 40px'}}>
+        <button onClick={()=>navigate('/estrategias')}
+          style={{background:'none',border:'none',color:'var(--text-muted)',cursor:'pointer',fontSize:13,marginBottom:8,display:'flex',alignItems:'center',gap:6,padding:0}}>
+          ← Estratégias
+        </button>
+      <div>
       <div className="page-header">
         <input
           value={name} onChange={e => setName(e.target.value)}
@@ -1082,7 +1091,9 @@ export default function RobotDetailPage() {
           )}
 
           {/* ── Monte Carlo + Overfitting Score ── */}
-          {mcResult && (
+          {!can('monte_carlo')
+            ? <UpgradePrompt feature="Monte Carlo" minTier="pro" inline />
+            : mcResult && (
             <div className="card" style={{ marginBottom: 16 }}>
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom: 12 }}>
                 <div style={{ fontWeight:600, fontSize:14 }}>Monte Carlo — {mcResult.simulations.toLocaleString()} simulações</div>
@@ -1304,7 +1315,7 @@ export default function RobotDetailPage() {
 
       {/* ── CHARTS ── */}
       {tab === 'charts' && (
-        (
+        !can('monte_carlo') ? <UpgradePrompt feature="Gráficos e análise técnica" minTier="pro"/> : (
         <>
           {/* Side filter */}
           <div style={{ display:'flex', gap:6, marginBottom:14, alignItems:'center' }}>
@@ -1397,11 +1408,13 @@ export default function RobotDetailPage() {
 
       {/* ── TESTES ── */}
       {tab === 'testes' && (
+        !can('validation') ? <UpgradePrompt feature="Testes estatísticos" minTier="pro"/> :
         <TestesTab adjOps={adjOps} periods={periods} metrics={metrics} />
       )}
 
       {/* ── CONTA REAL ── */}
       {tab === 'real' && (
+        !can('real_account') ? <UpgradePrompt feature="Conta Real" minTier="pro"/> :
         <RealOpsTab robotId={parseInt(id)} adjOps={adjOps} timeframe={timeframe} />
       )}
 
@@ -1421,6 +1434,7 @@ export default function RobotDetailPage() {
       )}
 
       {tab === 'validation' && (
+        !can('validation') ? <UpgradePrompt feature="Validação por especialistas" minTier="pro"/> :
         <ValidationTab vr={vr} metrics={metrics} periods={periods} adjOps={adjOps} mcResult={mcResult} observation={observation} setObservation={setObservation} onSave={handleSaveSettings} />
       )}
 
@@ -1507,7 +1521,7 @@ export default function RobotDetailPage() {
           </button>
         </div>
       )}
-    </div>
+    </div></div></div>
   )
 }
 
