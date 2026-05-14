@@ -21,7 +21,7 @@ import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables)
 
 export default function RobotDetailPage() {
-  const { getRobot, portfolios } = useData()
+  const { getRobot, portfolios, loading: dataLoading } = useData()
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -98,7 +98,7 @@ export default function RobotDetailPage() {
     })
   }
 
-  useEffect(() => { load() }, [id])
+  useEffect(() => { if (!dataLoading) load() }, [id, dataLoading])
 
   useEffect(() => {
     if (!robot) return

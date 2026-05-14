@@ -158,12 +158,12 @@ export default function EstrategiasPage() {
                 {m ? (
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 10 }}>
                     {[
-                      { l: 'M.6015', v: fmtNum(m.m6015 || 0), c: (m.m6015||0)>3?'#34d47e':(m.m6015||0)>1?'#f5a623':'#f06060' },
+                      { l: 'M.6015', v: (m.m6015||0) > 20 ? `${fmtNum(m.m6015||0)} ✦` : fmtNum(m.m6015 || 0), c: (m.m6015||0)>6?'#00d4aa':(m.m6015||0)>3?'#34d47e':(m.m6015||0)>1?'#f5a623':'#f06060' },
                       { l: 'Win Rate', v: (m.winRate||0).toFixed(0)+'%', c: (m.winRate||0)>=55?'#34d47e':'#f5a623' },
                       { l: 'Méd. BT/mês', v: fmtR(m.avgMonthly||0), c: (m.avgMonthly||0)>=0?'#34d47e':'#f06060' },
                       m.avgMonthlyReal != null
-                        ? { l: `Real (${m.nMonthsReal}m)`, v: fmtR(m.avgMonthlyReal), c: m.avgMonthlyReal>=0?'#34d47e':'#f06060' }
-                        : { l: 'Conta real', v: '—', c: s.muted },
+                        ? { l: `Média real (${m.nMonthsReal}m)`, v: fmtR(m.avgMonthlyReal), c: m.avgMonthlyReal>=0?'#34d47e':'#f06060' }
+                        : { l: 'Sem dados reais', v: '—', c: s.muted },
                     ].map((st, i) => (
                       <div key={i} style={{ background: s.surface, borderRadius: 8, padding: '6px 8px', textAlign: 'center' }}>
                         <div style={{ fontSize: 10, color: s.muted, marginBottom: 2 }}>{st.l}</div>
