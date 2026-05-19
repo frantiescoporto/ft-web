@@ -163,5 +163,10 @@
     "id": 17,
     "name": "ON_6K_VALHALLA",
     "robots_config": "{\"robots\":[{\"robotId\":49,\"lots\":1},{\"robotId\":59,\"lots\":1},{\"robotId\":51,\"lots\":1},{\"robotId\":50,\"lots\":1},{\"robotId\":48,\"lots\":1},{\"robotId\":88,\"lots\":1},{\"robotId\":95,\"lots\":1},{\"robotId\":94,\"lots\":1},{\"robotId\":72,\"lots\":1},{\"robotId\":99,\"lots\":1},{\"robotId\":82,\"lots\":1},{\"robotId\":62,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\"}"
+  },
+  {
+    "id": 57,
+    "name": "SMARTLAB",
+    "robots_config": "{\"robots\":[{\"robotId\":11,\"lots\":2},{\"robotId\":8,\"lots\":1},{\"robotId\":7,\"lots\":10},{\"robotId\":25,\"lots\":2},{\"robotId\":30,\"lots\":2},{\"robotId\":17,\"lots\":2},{\"robotId\":12,\"lots\":1},{\"robotId\":31,\"lots\":5}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
   }
 ]
