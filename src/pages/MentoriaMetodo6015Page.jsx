@@ -127,14 +127,23 @@ function Faq({ q, a }) {
 export default function MentoriaMetodo6015Page() {
   const [form, setForm]         = useState({ name: '', email: '', whatsapp: '' })
   const [status, setStatus]     = useState('idle')
+  const [photoSrc, setPhotoSrc]     = useState('/frantiesco-mentoria.jpg')
   const [photoError, setPhotoError] = useState(false)
+
+  function handlePhotoError() {
+    if (photoSrc === '/frantiesco-mentoria.jpg') {
+      setPhotoSrc('/frantiesco-mentoria.jpeg')
+    } else {
+      setPhotoError(true)
+    }
+  }
 
   useEffect(() => {
     const id = 'm6-fonts'
     if (document.getElementById(id)) return
     const l = document.createElement('link')
     l.id = id; l.rel = 'stylesheet'
-    l.href = 'https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@300;400;500;600&display=swap'
+    l.href = 'https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800;900&display=swap'
     document.head.appendChild(l)
   }, [])
 
@@ -186,9 +195,9 @@ export default function MentoriaMetodo6015Page() {
           <div className="m6-hero-photo m6-fade visible" style={{ transitionDelay: '300ms' }}>
             {!photoError ? (
               <img
-                src="/frantiesco-mentoria.jpg"
+                src={photoSrc}
                 alt="Frantiesco Trader"
-                onError={() => setPhotoError(true)}
+                onError={handlePhotoError}
               />
             ) : (
               <div className="m6-photo-err">
