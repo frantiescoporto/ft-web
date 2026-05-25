@@ -209509,9 +209509,79 @@
         "res_op": -43,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 453,
+        "abertura": "20/05/2026 10:24",
+        "fechamento": "20/05/2026 12:16",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 302,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 454,
+        "abertura": "21/05/2026 10:15",
+        "fechamento": "21/05/2026 14:11",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -184,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
-    "realOps": []
+    "realOps": [
+      {
+        "abertura": "26/03/2026 09:47:01",
+        "fechamento": "26/03/2026 10:46:39",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -354
+      },
+      {
+        "abertura": "30/03/2026 10:30:02",
+        "fechamento": "30/03/2026 16:10:10",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -265
+      },
+      {
+        "abertura": "02/04/2026 10:51:42",
+        "fechamento": "02/04/2026 11:37:27",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 512
+      },
+      {
+        "abertura": "15/04/2026 11:18:23",
+        "fechamento": "15/04/2026 17:00:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 18
+      },
+      {
+        "abertura": "16/04/2026 10:31:55",
+        "fechamento": "16/04/2026 11:27:44",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 256
+      },
+      {
+        "abertura": "17/04/2026 09:30:14",
+        "fechamento": "17/04/2026 09:48:39",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -178
+      },
+      {
+        "abertura": "17/04/2026 10:53:46",
+        "fechamento": "17/04/2026 11:35:26",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -280
+      }
+    ]
   },
   {
     "id": 99,
@@ -222676,7 +222746,43 @@
         "tempo": null
       }
     ],
-    "realOps": []
+    "realOps": [
+      {
+        "abertura": "02/04/2026 11:36:41",
+        "fechamento": "02/04/2026 11:49:08",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -146
+      },
+      {
+        "abertura": "06/04/2026 10:23:51",
+        "fechamento": "06/04/2026 14:00:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -112
+      },
+      {
+        "abertura": "17/04/2026 11:50:55",
+        "fechamento": "17/04/2026 14:00:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -64
+      },
+      {
+        "abertura": "27/04/2026 09:35:14",
+        "fechamento": "27/04/2026 11:50:42",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -210
+      },
+      {
+        "abertura": "27/04/2026 10:35:19",
+        "fechamento": "27/04/2026 14:00:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 137
+      }
+    ]
   },
   {
     "id": 55,
@@ -238448,6 +238554,16 @@
         "tempo": null
       },
       {
+        "num": 278,
+        "abertura": "04/05/2026 11:45:00",
+        "fechamento": "04/05/2026 12:21",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -228,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
         "num": 277,
         "abertura": "05/05/2026 15:00",
         "fechamento": "05/05/2026 16:15",
@@ -238456,79 +238572,44 @@
         "res_op": 54,
         "res_op_pct": 0,
         "tempo": null
-      }
-    ],
-    "realOps": []
-  },
-  {
-    "id": 121,
-    "name": "MT_262",
-    "ativo": "WINFUT",
-    "platform": "mt5",
-    "strategy_type": "PULLBACK",
-    "timeframe": "15m",
-    "tipo": "backtest",
-    "desagio": 0,
-    "observation": "",
-    "periods": {},
-    "operations": [
+      },
       {
-        "num": 1,
-        "abertura": "09/04/2026 10:00",
-        "fechamento": "09/04/2026 10:15",
+        "num": 279,
+        "abertura": "05/05/2026 15:00:00",
+        "fechamento": "05/05/2026 16:15",
         "lado": "V",
         "qtd": 1,
-        "res_op": 79,
+        "res_op": 54,
         "res_op_pct": 0,
         "tempo": null
       },
       {
-        "num": 2,
-        "abertura": "16/04/2026 09:45",
-        "fechamento": "16/04/2026 10:00",
+        "num": 280,
+        "abertura": "13/05/2026 12:45:00",
+        "fechamento": "13/05/2026 14:00",
         "lado": "V",
         "qtd": 1,
-        "res_op": -19,
+        "res_op": -59,
         "res_op_pct": 0,
         "tempo": null
       },
       {
-        "num": 3,
-        "abertura": "04/05/2026 13:37",
-        "fechamento": "04/05/2026 13:45",
-        "lado": "C",
-        "qtd": 1,
-        "res_op": -15,
-        "res_op_pct": 0,
-        "tempo": null
-      },
-      {
-        "num": 4,
-        "abertura": "05/05/2026 11:02",
-        "fechamento": "05/05/2026 11:15",
+        "num": 281,
+        "abertura": "14/05/2026 15:15:00",
+        "fechamento": "14/05/2026 16:30",
         "lado": "V",
         "qtd": 1,
-        "res_op": 81,
+        "res_op": -108,
         "res_op_pct": 0,
         "tempo": null
       },
       {
-        "num": 5,
-        "abertura": "11/05/2026 09:30",
-        "fechamento": "11/05/2026 09:45",
-        "lado": "C",
+        "num": 282,
+        "abertura": "21/05/2026 13:15:00",
+        "fechamento": "21/05/2026 14:16",
+        "lado": "V",
         "qtd": 1,
-        "res_op": -36,
-        "res_op_pct": 0,
-        "tempo": null
-      },
-      {
-        "num": 6,
-        "abertura": "11/05/2026 10:45",
-        "fechamento": "11/05/2026 11:00",
-        "lado": "C",
-        "qtd": 1,
-        "res_op": -113,
+        "res_op": 221,
         "res_op_pct": 0,
         "tempo": null
       }
@@ -526124,6 +526205,26 @@
         "abertura": "15/05/2026 10:50:00",
         "fechamento": "15/05/2026 10:50:00",
         "lado": "V",
+        "qtd": 1,
+        "res_op": -98,
+        "res_op_pct": -490,
+        "tempo": null
+      },
+      {
+        "num": 753,
+        "abertura": "20/05/2026 10:45:00",
+        "fechamento": "20/05/2026 10:50:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 28,
+        "res_op_pct": 140,
+        "tempo": null
+      },
+      {
+        "num": 754,
+        "abertura": "20/05/2026 10:55:00",
+        "fechamento": "20/05/2026 11:05:00",
+        "lado": "C",
         "qtd": 1,
         "res_op": -98,
         "res_op_pct": -490,
