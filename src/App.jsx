@@ -8,6 +8,7 @@ import ResultadosPage from './pages/ResultadosPage.jsx'
 import ComoAdquirirPage from './pages/ComoAdquirirPage.jsx'
 import HistoricoPage from './pages/HistoricoPage.jsx'
 import AvelPortfoliosPage from './pages/AvelPortfoliosPage.jsx'
+import MentoriaMetodo6015Page from './pages/MentoriaMetodo6015Page.jsx'
 
 export default function App() {
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/historico" element={<HistoricoPage />} />
         <Route path="/avel" element={<AvelPortfoliosPage />} />
         <Route path="/avel/portfolios/:id" element={<AvelPortfoliosPage />} />
+        <Route path="/mentoria_metodo6015" element={<MentoriaMetodo6015Page />} />
       </Routes>
     </DataProvider>
   )
