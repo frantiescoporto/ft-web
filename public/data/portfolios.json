@@ -65,6 +65,11 @@
     "robots_config": "{\"robots\":[{\"robotId\":7,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":1,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\"}"
   },
   {
+    "id": 58,
+    "name": "BIRA",
+    "robots_config": "{\"robots\":[{\"robotId\":114,\"lots\":1},{\"robotId\":103,\"lots\":3},{\"robotId\":104,\"lots\":3},{\"robotId\":101,\"lots\":1},{\"robotId\":54,\"lots\":0},{\"robotId\":52,\"lots\":0},{\"robotId\":51,\"lots\":1},{\"robotId\":50,\"lots\":1},{\"robotId\":84,\"lots\":1},{\"robotId\":83,\"lots\":0},{\"robotId\":81,\"lots\":0},{\"robotId\":59,\"lots\":1},{\"robotId\":48,\"lots\":1},{\"robotId\":63,\"lots\":2},{\"robotId\":79,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
+  },
+  {
     "id": 51,
     "name": "COMBO 1 - NELO",
     "robots_config": "{\"robots\":[{\"robotId\":25,\"lots\":1},{\"robotId\":30,\"lots\":1},{\"robotId\":17,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
