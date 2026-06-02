@@ -77,7 +77,7 @@ export default function RobotDetailPage() {
     if (r.mc_result) setMcResult(r.mc_result)
     // Carregar portfólios que contêm este robô
     const robotIdNum = r.id
-    const myPortfolios = (allPortfolios || []).filter(p => {
+    const myPortfolios = (portfolios || []).filter(p => {
       try {
         const cfg = typeof p.robots_config === 'string' ? JSON.parse(p.robots_config) : (p.robots_config || {})
         // robots_config = { robots: [{robotId, lots}, ...], multiplier, targetMonthly }
