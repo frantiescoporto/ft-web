@@ -170,7 +170,9 @@ export default function Balanse03Page() {
                         { l: 'M.6015', v: fmtNum(m.m6015 || 0) },
                         { l: 'Taxa de acerto', v: `${(m.winRate || 0).toFixed(0)}%` },
                         { l: 'Fator de lucro', v: fmtNum(m.profitFactor || 0) },
-                        { l: 'Méd. backtest/mês', v: fmtR(avgMonthly) },
+                        avgMonthlyReal != null
+                          ? { l: `Méd. real/mês (${nMonthsReal}m)`, v: fmtR(avgMonthlyReal) }
+                          : { l: 'Méd. backtest/mês', v: fmtR(avgMonthly) },
                       ].map((st, i) => (
                         <div key={i} style={{ background: s.surface, borderRadius: 8, padding: '8px 10px', textAlign: 'center' }}>
                           <div style={{ fontSize: 10, color: s.muted, marginBottom: 2 }}>{st.l}</div>
@@ -180,7 +182,7 @@ export default function Balanse03Page() {
                     </div>
                     {avgMonthlyReal != null && (
                       <div style={{ marginTop: 8, fontSize: 12, color: s.muted, textAlign: 'center' }}>
-                        Média real ({nMonthsReal}m): <strong style={{ color: avgMonthlyReal >= 0 ? s.accent2 : '#f06060' }}>{fmtR(avgMonthlyReal)}</strong>
+                        Em backtest: <strong style={{ color: s.text }}>{fmtR(avgMonthly)}/mês</strong>
                       </div>
                     )}
                     <div style={{ marginTop: 12, fontSize: 12, color: s.accent, fontWeight: 700 }}>Ver análise completa →</div>
