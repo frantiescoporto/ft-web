@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useData } from '../context/DataContext.jsx'
+import { supabase } from '../lib/supabaseClient'
 
 const s = {
   accent: '#00d4aa',
@@ -17,6 +18,29 @@ const s = {
 export default function HomePage() {
   const navigate = useNavigate()
   const { robots, mentPortfolios, loading } = useData()
+
+  // ── Avaliações (prova social) — puxa as aprovadas ao vivo do Supabase ──
+  const [avalStats, setAvalStats] = useState(null)
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('avaliacoes')
+          .select('suporte, aulas, estrategias, didatica, compraria')
+        if (error || !data || data.length === 0) { setAvalStats({ n: 0 }); return }
+        const media = (key) => {
+          const vals = data.map(r => r[key]).filter(v => v != null && v > 0)
+          return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : 0
+        }
+        const eixos = ['suporte', 'aulas', 'estrategias', 'didatica'].map(media).filter(v => v > 0)
+        const geral = eixos.length ? eixos.reduce((a, b) => a + b, 0) / eixos.length : 0
+        const comprariaPct = Math.round((data.filter(r => r.compraria).length / data.length) * 100)
+        setAvalStats({ n: data.length, geral, comprariaPct })
+      } catch {
+        setAvalStats({ n: 0 })
+      }
+    })()
+  }, [])
 
   return (
     <div style={{ background: s.dark, minHeight: '100vh', color: s.text }}>
@@ -227,6 +251,52 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── AVALIAÇÕES DOS ALUNOS (prova social) ── */}
+      {avalStats && (
+        <section style={{ maxWidth: 1100, margin: '0 auto', padding: '0 32px 60px' }}>
+          <div
+            onClick={() => navigate('/avaliacoes')}
+            role="button"
+            style={{ background: `linear-gradient(135deg, ${s.accent}18, ${s.card})`,
+              border: `1px solid ${s.accent}44`, borderRadius: 16, padding: '32px 40px',
+              display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between',
+              gap: 24, cursor: 'pointer', transition: 'all .2s' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = s.accent; e.currentTarget.style.transform = 'translateY(-3px)' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = `${s.accent}44`; e.currentTarget.style.transform = 'translateY(0)' }}>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 22, flexWrap: 'wrap' }}>
+              {avalStats.n > 0 && (
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: 42, fontWeight: 900, color: s.accent, lineHeight: 1 }}>
+                    {avalStats.geral.toFixed(1)}
+                  </div>
+                  <div style={{ fontSize: 18, marginTop: 4, letterSpacing: 1 }}>
+                    <span style={{ color: '#FFC53D' }}>{'★★★★★'.slice(0, Math.round(avalStats.geral))}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.18)' }}>{'★★★★★'.slice(Math.round(avalStats.geral))}</span>
+                  </div>
+                </div>
+              )}
+              <div>
+                <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>
+                  O que os alunos dizem
+                </div>
+                <div style={{ color: s.muted, fontSize: 14 }}>
+                  {avalStats.n > 0
+                    ? `${avalStats.n} avaliações${avalStats.comprariaPct ? ` · ${avalStats.comprariaPct}% comprariam novamente` : ''}`
+                    : 'Veja as avaliações de quem já fez a mentoria'}
+                </div>
+              </div>
+            </div>
+
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8,
+              background: s.accent, color: '#04140f', padding: '14px 26px',
+              borderRadius: 10, fontWeight: 800, fontSize: 15, whiteSpace: 'nowrap' }}>
+              Ver avaliações →
+            </span>
+          </div>
+        </section>
+      )}
 
       {/* ── FOOTER ── */}
       <footer style={{ background: s.surface, borderTop: `1px solid ${s.border}`,
