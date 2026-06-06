@@ -15012,6 +15012,42 @@
     "res_op_pct": 0
   },
   {
+    "abertura": "05/06/2026 00:00:00",
+    "fechamento": "05/06/2026 00:00:00",
+    "ativo": "FT_WIN_21",
+    "lado": "",
+    "qtd": 1,
+    "res_op": 190,
+    "res_op_pct": 0
+  },
+  {
+    "abertura": "05/06/2026 00:00:00",
+    "fechamento": "05/06/2026 00:00:00",
+    "ativo": "HAGNAR",
+    "lado": "",
+    "qtd": 1,
+    "res_op": 13,
+    "res_op_pct": 0
+  },
+  {
+    "abertura": "05/06/2026 00:00:00",
+    "fechamento": "05/06/2026 00:00:00",
+    "ativo": "SIGURD",
+    "lado": "",
+    "qtd": 1,
+    "res_op": 1,
+    "res_op_pct": 0
+  },
+  {
+    "abertura": "05/06/2026 00:00:00",
+    "fechamento": "05/06/2026 00:00:00",
+    "ativo": "FENRIR",
+    "lado": "",
+    "qtd": 1,
+    "res_op": -117,
+    "res_op_pct": 0
+  },
+  {
     "abertura": "05/06/2026 09:51:49",
     "fechamento": "05/06/2026 10:00:02",
     "ativo": "WIN_36",
@@ -15037,6 +15073,60 @@
     "qtd": 1,
     "res_op": 17,
     "res_op_pct": 85
+  },
+  {
+    "abertura": "05/06/2026 12:18:32",
+    "fechamento": "05/06/2026 12:45:41",
+    "ativo": "WIN_20",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 197,
+    "res_op_pct": 985
+  },
+  {
+    "abertura": "05/06/2026 12:27:17",
+    "fechamento": "05/06/2026 13:43:43",
+    "ativo": "WIN_12",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 224,
+    "res_op_pct": 1120
+  },
+  {
+    "abertura": "05/06/2026 13:55:29",
+    "fechamento": "05/06/2026 14:49:21",
+    "ativo": "WIN_12",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 13,
+    "res_op_pct": 65
+  },
+  {
+    "abertura": "05/06/2026 15:02:48",
+    "fechamento": "05/06/2026 15:09:15",
+    "ativo": "WIN_12",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 0,
+    "res_op_pct": 0
+  },
+  {
+    "abertura": "05/06/2026 15:31:30",
+    "fechamento": "05/06/2026 16:00:01",
+    "ativo": "WIN_33",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 23,
+    "res_op_pct": 115
+  },
+  {
+    "abertura": "05/06/2026 15:49:07",
+    "fechamento": "05/06/2026 16:00:01",
+    "ativo": "WIN_39",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 60,
+    "res_op_pct": 300
   },
   {
     "abertura": "05/07/2023 00:00:00",
