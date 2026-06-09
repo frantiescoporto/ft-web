@@ -810,6 +810,15 @@
     "res_op_pct": 0
   },
   {
+    "abertura": "01/06/2026 09:15:00",
+    "fechamento": "01/06/2026 10:31:17",
+    "ativo": "WIN_16",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -501,
+    "res_op_pct": -2505
+  },
+  {
     "abertura": "01/06/2026 09:42:58",
     "fechamento": "01/06/2026 10:06:01",
     "ativo": "WIN_36",
@@ -943,6 +952,15 @@
     "qtd": 1,
     "res_op": 10,
     "res_op_pct": 50
+  },
+  {
+    "abertura": "01/06/2026 16:40:00",
+    "fechamento": "01/06/2026 17:15:01",
+    "ativo": "WIN_16",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -56,
+    "res_op_pct": -280
   },
   {
     "abertura": "01/07/2024 00:00:00",
