@@ -30,6 +30,8 @@ const _BASE = _pubBase()
 
 const LOGO_OPTIONS = [
   { id: '6015',       label: 'Método 6015',   src: `${_BASE}logos/logo-6015.png`       },
+  { id: 'nelogica',   label: 'Nelogica',       src: `${_BASE}logos/logo-nelogica.png`   },
+  { id: 'smartlab',   label: 'SmartLab',       src: `${_BASE}logos/logo-smartlab.png`   },
   { id: 'ontick',     label: 'OnTick Invest',  src: `${_BASE}logos/logo-ontick.png`     },
   { id: 'avel',       label: 'Avel',           src: `${_BASE}logos/logo-avel.png`       },
   { id: 'frantiesco', label: 'Frantiesco',     src: `${_BASE}logos/logo-frantiesco.png` },
@@ -503,6 +505,8 @@ function filterByDay(ops, isoDate) {
 
 const DIARIO_GROUPS = [
   { logoId: '6015',       label: 'Portfólios Recomendados Mentoria'           },
+  { logoId: 'nelogica',   label: 'Portfólios Recomendados Nelogica'           },
+  { logoId: 'smartlab',   label: 'Portfólios Recomendados SmartLab'           },
   { logoId: 'ontick',     label: 'Portfólios Recomendados OnTick'              },
   { logoId: 'avel',       label: 'Portfólios Recomendados Avel'                },
   { logoId: 'liberdade',  label: 'Portfólios Recomendados Código da Liberdade' },
