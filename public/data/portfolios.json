@@ -170,14 +170,14 @@
     "robots_config": "{\"robots\":[{\"robotId\":59,\"lots\":5},{\"robotId\":60,\"lots\":5},{\"robotId\":17,\"lots\":5},{\"robotId\":79,\"lots\":3},{\"robotId\":48,\"lots\":4},{\"robotId\":81,\"lots\":1},{\"robotId\":7,\"lots\":28},{\"robotId\":63,\"lots\":7},{\"robotId\":101,\"lots\":5},{\"robotId\":39,\"lots\":8},{\"robotId\":103,\"lots\":10},{\"robotId\":116,\"lots\":8},{\"robotId\":11,\"lots\":6},{\"robotId\":25,\"lots\":6},{\"robotId\":31,\"lots\":10},{\"robotId\":8,\"lots\":2},{\"robotId\":12,\"lots\":3},{\"robotId\":22,\"lots\":8},{\"robotId\":30,\"lots\":7},{\"robotId\":23,\"lots\":4},{\"robotId\":13,\"lots\":3},{\"robotId\":14,\"lots\":6},{\"robotId\":10,\"lots\":8},{\"robotId\":32,\"lots\":5},{\"robotId\":28,\"lots\":4},{\"robotId\":114,\"lots\":4},{\"robotId\":40,\"lots\":4},{\"robotId\":34,\"lots\":6},{\"robotId\":9,\"lots\":6}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"35000\"}"
   },
   {
-    "id": 73,
-    "name": "Novo Portfólio",
-    "robots_config": "{\"robots\":[{\"robotId\":31,\"lots\":2},{\"robotId\":14,\"lots\":1},{\"robotId\":7,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"1500\"}"
-  },
-  {
     "id": 79,
     "name": "Novo Portfólio",
     "robots_config": "{\"robots\":[{\"robotId\":140,\"lots\":6},{\"robotId\":141,\"lots\":1},{\"robotId\":144,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"600\"}"
+  },
+  {
+    "id": 83,
+    "name": "Novo Portfólio",
+    "robots_config": "{\"robots\":[{\"robotId\":158,\"lots\":1},{\"robotId\":153,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
   },
   {
     "id": 39,
@@ -203,6 +203,16 @@
     "id": 65,
     "name": "TESTE CORRELAÇÃO",
     "robots_config": "{\"robots\":[{\"robotId\":116,\"lots\":1},{\"robotId\":26,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":17,\"lots\":1},{\"robotId\":108,\"lots\":1},{\"robotId\":23,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
+  },
+  {
+    "id": 73,
+    "name": "TODAS PROFIT COM RECOMENDAÇÃO",
+    "robots_config": "{\"robots\":[{\"robotId\":16,\"lots\":1},{\"robotId\":7,\"lots\":1},{\"robotId\":25,\"lots\":1},{\"robotId\":8,\"lots\":1},{\"robotId\":17,\"lots\":1},{\"robotId\":30,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":26,\"lots\":1},{\"robotId\":22,\"lots\":1},{\"robotId\":12,\"lots\":1},{\"robotId\":14,\"lots\":1},{\"robotId\":34,\"lots\":1},{\"robotId\":39,\"lots\":1},{\"robotId\":33,\"lots\":1},{\"robotId\":10,\"lots\":1},{\"robotId\":23,\"lots\":1},{\"robotId\":3,\"lots\":1},{\"robotId\":13,\"lots\":1},{\"robotId\":9,\"lots\":1},{\"robotId\":28,\"lots\":1},{\"robotId\":36,\"lots\":1},{\"robotId\":11,\"lots\":1},{\"robotId\":40,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"6000\"}"
+  },
+  {
+    "id": 82,
+    "name": "TODAS ROMP BREAKOUT",
+    "robots_config": "{\"robots\":[{\"robotId\":153,\"lots\":1},{\"robotId\":155,\"lots\":1},{\"robotId\":154,\"lots\":1},{\"robotId\":156,\"lots\":1},{\"robotId\":157,\"lots\":1},{\"robotId\":158,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
   },
   {
     "id": 72,
