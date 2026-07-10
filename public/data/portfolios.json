@@ -135,6 +135,11 @@
     "robots_config": "{\"robots\":[{\"robotId\":49,\"lots\":11},{\"robotId\":59,\"lots\":9},{\"robotId\":60,\"lots\":13},{\"robotId\":48,\"lots\":9},{\"robotId\":50,\"lots\":8},{\"robotId\":39,\"lots\":16},{\"robotId\":11,\"lots\":13},{\"robotId\":12,\"lots\":7},{\"robotId\":31,\"lots\":28},{\"robotId\":22,\"lots\":16},{\"robotId\":25,\"lots\":13},{\"robotId\":30,\"lots\":15},{\"robotId\":26,\"lots\":10},{\"robotId\":32,\"lots\":12},{\"robotId\":33,\"lots\":13},{\"robotId\":28,\"lots\":5},{\"robotId\":34,\"lots\":9},{\"robotId\":14,\"lots\":7},{\"robotId\":17,\"lots\":9},{\"robotId\":3,\"lots\":2},{\"robotId\":10,\"lots\":5},{\"robotId\":98,\"lots\":3},{\"robotId\":52,\"lots\":5},{\"robotId\":51,\"lots\":9},{\"robotId\":62,\"lots\":9}],\"multiplier\":5,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
   },
   {
+    "id": 85,
+    "name": "MARRUA",
+    "robots_config": "{\"robots\":[{\"robotId\":17,\"lots\":4},{\"robotId\":26,\"lots\":4},{\"robotId\":114,\"lots\":6},{\"robotId\":14,\"lots\":7},{\"robotId\":25,\"lots\":8},{\"robotId\":59,\"lots\":3},{\"robotId\":60,\"lots\":4},{\"robotId\":72,\"lots\":2},{\"robotId\":86,\"lots\":2},{\"robotId\":50,\"lots\":2},{\"robotId\":101,\"lots\":7},{\"robotId\":48,\"lots\":3},{\"robotId\":103,\"lots\":12},{\"robotId\":64,\"lots\":2},{\"robotId\":84,\"lots\":3},{\"robotId\":1,\"lots\":13},{\"robotId\":2,\"lots\":8},{\"robotId\":104,\"lots\":7},{\"robotId\":52,\"lots\":1},{\"robotId\":3,\"lots\":2},{\"robotId\":13,\"lots\":3},{\"robotId\":63,\"lots\":5},{\"robotId\":79,\"lots\":2},{\"robotId\":87,\"lots\":1},{\"robotId\":39,\"lots\":7},{\"robotId\":94,\"lots\":6},{\"robotId\":10,\"lots\":6},{\"robotId\":81,\"lots\":1},{\"robotId\":23,\"lots\":2},{\"robotId\":98,\"lots\":2},{\"robotId\":28,\"lots\":4},{\"robotId\":33,\"lots\":6},{\"robotId\":119,\"lots\":2},{\"robotId\":16,\"lots\":1},{\"robotId\":11,\"lots\":5},{\"robotId\":12,\"lots\":4},{\"robotId\":40,\"lots\":4}],\"multiplier\":4,\"targetMonthly\":\"\",\"capitalBase\":\"100000\"}"
+  },
+  {
     "id": 45,
     "name": "MISTO - 10K",
     "robots_config": "{\"robots\":[{\"robotId\":59,\"lots\":2},{\"robotId\":60,\"lots\":2},{\"robotId\":17,\"lots\":2},{\"robotId\":79,\"lots\":1},{\"robotId\":48,\"lots\":1},{\"robotId\":7,\"lots\":10},{\"robotId\":101,\"lots\":1},{\"robotId\":39,\"lots\":2},{\"robotId\":103,\"lots\":5},{\"robotId\":116,\"lots\":4},{\"robotId\":11,\"lots\":2},{\"robotId\":25,\"lots\":1},{\"robotId\":31,\"lots\":5},{\"robotId\":8,\"lots\":1},{\"robotId\":12,\"lots\":1},{\"robotId\":22,\"lots\":4},{\"robotId\":23,\"lots\":1},{\"robotId\":10,\"lots\":3},{\"robotId\":32,\"lots\":1},{\"robotId\":28,\"lots\":1},{\"robotId\":114,\"lots\":1},{\"robotId\":40,\"lots\":2},{\"robotId\":9,\"lots\":2}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"10000\"}"
@@ -178,6 +183,11 @@
     "id": 83,
     "name": "Novo Portfólio",
     "robots_config": "{\"robots\":[{\"robotId\":158,\"lots\":1},{\"robotId\":153,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
+  },
+  {
+    "id": 84,
+    "name": "Novo Portfólio",
+    "robots_config": "{\"robots\":[{\"robotId\":17,\"lots\":4},{\"robotId\":26,\"lots\":4},{\"robotId\":114,\"lots\":5},{\"robotId\":14,\"lots\":6},{\"robotId\":25,\"lots\":7},{\"robotId\":59,\"lots\":3},{\"robotId\":60,\"lots\":4},{\"robotId\":72,\"lots\":2},{\"robotId\":86,\"lots\":2},{\"robotId\":50,\"lots\":2},{\"robotId\":101,\"lots\":3},{\"robotId\":48,\"lots\":3},{\"robotId\":103,\"lots\":6},{\"robotId\":64,\"lots\":2},{\"robotId\":84,\"lots\":3},{\"robotId\":1,\"lots\":7},{\"robotId\":2,\"lots\":8},{\"robotId\":104,\"lots\":7},{\"robotId\":52,\"lots\":1},{\"robotId\":3,\"lots\":2},{\"robotId\":13,\"lots\":2},{\"robotId\":63,\"lots\":4},{\"robotId\":79,\"lots\":2},{\"robotId\":87,\"lots\":1},{\"robotId\":39,\"lots\":5},{\"robotId\":94,\"lots\":6},{\"robotId\":10,\"lots\":6},{\"robotId\":81,\"lots\":1},{\"robotId\":23,\"lots\":2},{\"robotId\":98,\"lots\":1},{\"robotId\":28,\"lots\":2},{\"robotId\":33,\"lots\":4},{\"robotId\":119,\"lots\":1},{\"robotId\":16,\"lots\":2},{\"robotId\":11,\"lots\":2},{\"robotId\":12,\"lots\":2},{\"robotId\":40,\"lots\":2}],\"multiplier\":4,\"targetMonthly\":\"\",\"capitalBase\":\"100000\"}"
   },
   {
     "id": 39,
