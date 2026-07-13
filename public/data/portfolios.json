@@ -215,6 +215,11 @@
     "robots_config": "{\"robots\":[{\"robotId\":116,\"lots\":1},{\"robotId\":26,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":17,\"lots\":1},{\"robotId\":108,\"lots\":1},{\"robotId\":23,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
   },
   {
+    "id": 86,
+    "name": "TODAS BLACKARROW",
+    "robots_config": "{\"robots\":[{\"robotId\":145,\"lots\":1},{\"robotId\":141,\"lots\":1},{\"robotId\":180,\"lots\":1},{\"robotId\":144,\"lots\":1},{\"robotId\":172,\"lots\":1},{\"robotId\":143,\"lots\":1},{\"robotId\":173,\"lots\":1},{\"robotId\":140,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
+  },
+  {
     "id": 73,
     "name": "TODAS PROFIT COM RECOMENDAÇÃO",
     "robots_config": "{\"robots\":[{\"robotId\":16,\"lots\":1},{\"robotId\":7,\"lots\":1},{\"robotId\":25,\"lots\":1},{\"robotId\":8,\"lots\":1},{\"robotId\":17,\"lots\":1},{\"robotId\":30,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":26,\"lots\":1},{\"robotId\":22,\"lots\":1},{\"robotId\":12,\"lots\":1},{\"robotId\":14,\"lots\":1},{\"robotId\":34,\"lots\":1},{\"robotId\":39,\"lots\":1},{\"robotId\":33,\"lots\":1},{\"robotId\":10,\"lots\":1},{\"robotId\":23,\"lots\":1},{\"robotId\":3,\"lots\":1},{\"robotId\":13,\"lots\":1},{\"robotId\":9,\"lots\":1},{\"robotId\":28,\"lots\":1},{\"robotId\":36,\"lots\":1},{\"robotId\":11,\"lots\":1},{\"robotId\":40,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"6000\"}"
