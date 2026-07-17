@@ -230,6 +230,16 @@
     "robots_config": "{\"robots\":[{\"robotId\":153,\"lots\":1},{\"robotId\":155,\"lots\":1},{\"robotId\":154,\"lots\":1},{\"robotId\":156,\"lots\":1},{\"robotId\":157,\"lots\":1},{\"robotId\":158,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
   },
   {
+    "id": 87,
+    "name": "TOP|10",
+    "robots_config": "{\"robots\":[{\"robotId\":59,\"lots\":2},{\"robotId\":72,\"lots\":1},{\"robotId\":86,\"lots\":1},{\"robotId\":50,\"lots\":1},{\"robotId\":60,\"lots\":2},{\"robotId\":16,\"lots\":1},{\"robotId\":7,\"lots\":11},{\"robotId\":48,\"lots\":2},{\"robotId\":103,\"lots\":4},{\"robotId\":8,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
+  },
+  {
+    "id": 88,
+    "name": "TOP|15",
+    "robots_config": "{\"robots\":[{\"robotId\":59,\"lots\":9},{\"robotId\":60,\"lots\":12},{\"robotId\":72,\"lots\":6},{\"robotId\":86,\"lots\":8},{\"robotId\":50,\"lots\":7},{\"robotId\":16,\"lots\":8},{\"robotId\":101,\"lots\":11},{\"robotId\":48,\"lots\":9},{\"robotId\":25,\"lots\":12},{\"robotId\":103,\"lots\":21},{\"robotId\":94,\"lots\":19},{\"robotId\":2,\"lots\":28},{\"robotId\":10,\"lots\":23},{\"robotId\":64,\"lots\":6},{\"robotId\":26,\"lots\":29}],\"multiplier\":4,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
+  },
+  {
     "id": 72,
     "name": "edu",
     "robots_config": "{\"robots\":[{\"robotId\":103,\"lots\":1},{\"robotId\":104,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
