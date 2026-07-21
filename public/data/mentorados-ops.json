@@ -52803,6 +52803,15 @@
     "res_op_pct": -250
   },
   {
+    "abertura": "15/07/2026 10:31:04",
+    "fechamento": "15/07/2026 10:31:35",
+    "ativo": "61",
+    "lado": "C",
+    "qtd": 3,
+    "res_op": -60,
+    "res_op_pct": -100
+  },
+  {
     "abertura": "15/07/2026 10:33:16",
     "fechamento": "15/07/2026 10:45:21",
     "ativo": "BIT_54",
@@ -52810,6 +52819,51 @@
     "qtd": 1,
     "res_op": -14.2,
     "res_op_pct": -1420
+  },
+  {
+    "abertura": "15/07/2026 10:35:06",
+    "fechamento": "15/07/2026 10:35:12",
+    "ativo": "61",
+    "lado": "V",
+    "qtd": 3,
+    "res_op": 35,
+    "res_op_pct": 58.33
+  },
+  {
+    "abertura": "15/07/2026 10:37:51",
+    "fechamento": "15/07/2026 10:38:02",
+    "ativo": "61",
+    "lado": "V",
+    "qtd": 3,
+    "res_op": -15,
+    "res_op_pct": -25
+  },
+  {
+    "abertura": "15/07/2026 10:44:30",
+    "fechamento": "15/07/2026 10:44:44",
+    "ativo": "61",
+    "lado": "V",
+    "qtd": 3,
+    "res_op": 35,
+    "res_op_pct": 58.33
+  },
+  {
+    "abertura": "15/07/2026 10:45:02",
+    "fechamento": "15/07/2026 10:45:29",
+    "ativo": "61",
+    "lado": "V",
+    "qtd": 3,
+    "res_op": -60,
+    "res_op_pct": -100
+  },
+  {
+    "abertura": "15/07/2026 10:47:37",
+    "fechamento": "15/07/2026 10:48:12",
+    "ativo": "61",
+    "lado": "V",
+    "qtd": 3,
+    "res_op": 9,
+    "res_op_pct": 15
   },
   {
     "abertura": "15/07/2026 12:15:57",
@@ -59803,6 +59857,123 @@
     "qtd": 1,
     "res_op": 3,
     "res_op_pct": 0
+  },
+  {
+    "abertura": "17/07/2026 10:00:21",
+    "fechamento": "17/07/2026 10:06:00",
+    "ativo": "WIN_25",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 30,
+    "res_op_pct": 150
+  },
+  {
+    "abertura": "17/07/2026 10:00:21",
+    "fechamento": "17/07/2026 10:06:00",
+    "ativo": "WIN_36",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 30,
+    "res_op_pct": 150
+  },
+  {
+    "abertura": "17/07/2026 10:06:00",
+    "fechamento": "17/07/2026 10:36:47",
+    "ativo": "BIT_54",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 9.8,
+    "res_op_pct": 980
+  },
+  {
+    "abertura": "17/07/2026 10:32:02",
+    "fechamento": "17/07/2026 10:32:32",
+    "ativo": "WIN_61_HAALAND",
+    "lado": "C",
+    "qtd": 3,
+    "res_op": 15,
+    "res_op_pct": 25
+  },
+  {
+    "abertura": "17/07/2026 10:33:29",
+    "fechamento": "17/07/2026 10:33:30",
+    "ativo": "WIN_61_HAALAND",
+    "lado": "C",
+    "qtd": 3,
+    "res_op": 35,
+    "res_op_pct": 58.33
+  },
+  {
+    "abertura": "17/07/2026 10:46:51",
+    "fechamento": "17/07/2026 10:46:55",
+    "ativo": "WIN_61_HAALAND",
+    "lado": "V",
+    "qtd": 3,
+    "res_op": -60,
+    "res_op_pct": -100
+  },
+  {
+    "abertura": "17/07/2026 10:53:34",
+    "fechamento": "17/07/2026 10:54:02",
+    "ativo": "WIN_61_HAALAND",
+    "lado": "C",
+    "qtd": 3,
+    "res_op": 35,
+    "res_op_pct": 58.33
+  },
+  {
+    "abertura": "17/07/2026 10:55:24",
+    "fechamento": "17/07/2026 10:55:30",
+    "ativo": "WIN_61_HAALAND",
+    "lado": "C",
+    "qtd": 3,
+    "res_op": 17,
+    "res_op_pct": 28.33
+  },
+  {
+    "abertura": "17/07/2026 10:58:08",
+    "fechamento": "17/07/2026 10:58:11",
+    "ativo": "WIN_61_HAALAND",
+    "lado": "C",
+    "qtd": 3,
+    "res_op": 15,
+    "res_op_pct": 25
+  },
+  {
+    "abertura": "17/07/2026 11:05:00",
+    "fechamento": "17/07/2026 11:47:01",
+    "ativo": "WIN_16",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 39,
+    "res_op_pct": 195
+  },
+  {
+    "abertura": "17/07/2026 12:26:29",
+    "fechamento": "17/07/2026 12:32:10",
+    "ativo": "BIT_53",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 1.4,
+    "res_op_pct": 140
+  },
+  {
+    "abertura": "17/07/2026 12:46:13",
+    "fechamento": "17/07/2026 14:06:16",
+    "ativo": "WIN_10",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -47,
+    "res_op_pct": -235
+  },
+  {
+    "abertura": "17/07/2026 17:00:00",
+    "fechamento": "17/07/2026 17:15:00",
+    "ativo": "WIN_16",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -8,
+    "res_op_pct": -40
   },
   {
     "abertura": "17/08/2023 00:00:00",
