@@ -17,17 +17,17 @@
   {
     "id": 29,
     "name": "6015 - CAPITAL 10K",
-    "robots_config": "{\"robots\":[{\"robotId\":17,\"lots\":1},{\"robotId\":16,\"lots\":1},{\"robotId\":7,\"lots\":9},{\"robotId\":25,\"lots\":2},{\"robotId\":8,\"lots\":1},{\"robotId\":30,\"lots\":1},{\"robotId\":31,\"lots\":3},{\"robotId\":26,\"lots\":1},{\"robotId\":12,\"lots\":1},{\"robotId\":14,\"lots\":2},{\"robotId\":39,\"lots\":2},{\"robotId\":33,\"lots\":2},{\"robotId\":1,\"lots\":4},{\"robotId\":10,\"lots\":1},{\"robotId\":28,\"lots\":1},{\"robotId\":40,\"lots\":1},{\"robotId\":11,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"10000\"}"
+    "robots_config": "{\"robots\":[{\"robotId\":16,\"lots\":2},{\"robotId\":7,\"lots\":7},{\"robotId\":25,\"lots\":2},{\"robotId\":8,\"lots\":1},{\"robotId\":30,\"lots\":2},{\"robotId\":31,\"lots\":3},{\"robotId\":26,\"lots\":0},{\"robotId\":12,\"lots\":1},{\"robotId\":14,\"lots\":1},{\"robotId\":39,\"lots\":2},{\"robotId\":33,\"lots\":1},{\"robotId\":1,\"lots\":0},{\"robotId\":10,\"lots\":4},{\"robotId\":28,\"lots\":1},{\"robotId\":40,\"lots\":1},{\"robotId\":11,\"lots\":2},{\"robotId\":9,\"lots\":2}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"10000\"}"
   },
   {
     "id": 30,
     "name": "6015 - CAPITAL 15K",
-    "robots_config": "{\"robots\":[{\"robotId\":17,\"lots\":2},{\"robotId\":16,\"lots\":1},{\"robotId\":7,\"lots\":15},{\"robotId\":25,\"lots\":2},{\"robotId\":8,\"lots\":1},{\"robotId\":30,\"lots\":3},{\"robotId\":31,\"lots\":3},{\"robotId\":12,\"lots\":2},{\"robotId\":14,\"lots\":2},{\"robotId\":26,\"lots\":1},{\"robotId\":39,\"lots\":3},{\"robotId\":33,\"lots\":3},{\"robotId\":1,\"lots\":4},{\"robotId\":10,\"lots\":1},{\"robotId\":13,\"lots\":1},{\"robotId\":9,\"lots\":3},{\"robotId\":3,\"lots\":1},{\"robotId\":28,\"lots\":2},{\"robotId\":36,\"lots\":1},{\"robotId\":40,\"lots\":2},{\"robotId\":11,\"lots\":2}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"15000\"}"
+    "robots_config": "{\"robots\":[{\"robotId\":16,\"lots\":2},{\"robotId\":7,\"lots\":11},{\"robotId\":25,\"lots\":2},{\"robotId\":8,\"lots\":1},{\"robotId\":30,\"lots\":3},{\"robotId\":31,\"lots\":5},{\"robotId\":12,\"lots\":2},{\"robotId\":14,\"lots\":2},{\"robotId\":26,\"lots\":0},{\"robotId\":39,\"lots\":3},{\"robotId\":33,\"lots\":2},{\"robotId\":10,\"lots\":2},{\"robotId\":13,\"lots\":1},{\"robotId\":9,\"lots\":3},{\"robotId\":3,\"lots\":1},{\"robotId\":28,\"lots\":2},{\"robotId\":36,\"lots\":1},{\"robotId\":40,\"lots\":2},{\"robotId\":11,\"lots\":2},{\"robotId\":22,\"lots\":2}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"15000\"}"
   },
   {
     "id": 31,
     "name": "6015 - CAPITAL 20K",
-    "robots_config": "{\"robots\":[{\"robotId\":17,\"lots\":2},{\"robotId\":16,\"lots\":1},{\"robotId\":7,\"lots\":20},{\"robotId\":25,\"lots\":3},{\"robotId\":8,\"lots\":2},{\"robotId\":30,\"lots\":3},{\"robotId\":31,\"lots\":3},{\"robotId\":26,\"lots\":2},{\"robotId\":12,\"lots\":2},{\"robotId\":14,\"lots\":4},{\"robotId\":34,\"lots\":1},{\"robotId\":39,\"lots\":4},{\"robotId\":33,\"lots\":4},{\"robotId\":1,\"lots\":8},{\"robotId\":10,\"lots\":1},{\"robotId\":13,\"lots\":2},{\"robotId\":9,\"lots\":4},{\"robotId\":3,\"lots\":1},{\"robotId\":28,\"lots\":3},{\"robotId\":36,\"lots\":2},{\"robotId\":40,\"lots\":3},{\"robotId\":11,\"lots\":2}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"20000\"}"
+    "robots_config": "{\"robots\":[{\"robotId\":17,\"lots\":0},{\"robotId\":16,\"lots\":4},{\"robotId\":7,\"lots\":15},{\"robotId\":25,\"lots\":3},{\"robotId\":8,\"lots\":2},{\"robotId\":30,\"lots\":3},{\"robotId\":31,\"lots\":4},{\"robotId\":26,\"lots\":1},{\"robotId\":12,\"lots\":2},{\"robotId\":14,\"lots\":4},{\"robotId\":34,\"lots\":1},{\"robotId\":39,\"lots\":4},{\"robotId\":33,\"lots\":4},{\"robotId\":1,\"lots\":8},{\"robotId\":10,\"lots\":1},{\"robotId\":13,\"lots\":2},{\"robotId\":9,\"lots\":4},{\"robotId\":3,\"lots\":1},{\"robotId\":28,\"lots\":3},{\"robotId\":36,\"lots\":2},{\"robotId\":40,\"lots\":3},{\"robotId\":11,\"lots\":3}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"20000\"}"
   },
   {
     "id": 32,
@@ -37,7 +37,7 @@
   {
     "id": 35,
     "name": "6015 - CAPITAL 30K",
-    "robots_config": "{\"robots\":[{\"robotId\":17,\"lots\":3},{\"robotId\":16,\"lots\":1},{\"robotId\":7,\"lots\":25},{\"robotId\":25,\"lots\":6},{\"robotId\":8,\"lots\":2},{\"robotId\":30,\"lots\":4},{\"robotId\":31,\"lots\":5},{\"robotId\":26,\"lots\":3},{\"robotId\":12,\"lots\":3},{\"robotId\":14,\"lots\":5},{\"robotId\":34,\"lots\":2},{\"robotId\":39,\"lots\":4},{\"robotId\":33,\"lots\":6},{\"robotId\":1,\"lots\":11},{\"robotId\":10,\"lots\":1},{\"robotId\":13,\"lots\":2},{\"robotId\":9,\"lots\":5},{\"robotId\":3,\"lots\":1},{\"robotId\":28,\"lots\":4},{\"robotId\":36,\"lots\":3},{\"robotId\":40,\"lots\":4},{\"robotId\":11,\"lots\":4}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"30000\"}"
+    "robots_config": "{\"robots\":[{\"robotId\":17,\"lots\":0},{\"robotId\":16,\"lots\":3},{\"robotId\":7,\"lots\":21},{\"robotId\":25,\"lots\":6},{\"robotId\":8,\"lots\":3},{\"robotId\":30,\"lots\":4},{\"robotId\":31,\"lots\":6},{\"robotId\":26,\"lots\":2},{\"robotId\":12,\"lots\":4},{\"robotId\":14,\"lots\":5},{\"robotId\":34,\"lots\":2},{\"robotId\":39,\"lots\":4},{\"robotId\":33,\"lots\":5},{\"robotId\":1,\"lots\":11},{\"robotId\":10,\"lots\":1},{\"robotId\":13,\"lots\":2},{\"robotId\":9,\"lots\":5},{\"robotId\":3,\"lots\":1},{\"robotId\":28,\"lots\":4},{\"robotId\":36,\"lots\":3},{\"robotId\":40,\"lots\":4},{\"robotId\":11,\"lots\":4},{\"robotId\":22,\"lots\":3}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"30000\"}"
   },
   {
     "id": 46,
@@ -57,12 +57,17 @@
   {
     "id": 28,
     "name": "6015 - CAPITAL 5K",
-    "robots_config": "{\"robots\":[{\"robotId\":17,\"lots\":1},{\"robotId\":7,\"lots\":5},{\"robotId\":25,\"lots\":1},{\"robotId\":30,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":14,\"lots\":1},{\"robotId\":33,\"lots\":1},{\"robotId\":28,\"lots\":1},{\"robotId\":40,\"lots\":1},{\"robotId\":9,\"lots\":1},{\"robotId\":11,\"lots\":1},{\"robotId\":1,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"5000\"}"
+    "robots_config": "{\"robots\":[{\"robotId\":7,\"lots\":5},{\"robotId\":25,\"lots\":1},{\"robotId\":30,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":14,\"lots\":1},{\"robotId\":33,\"lots\":1},{\"robotId\":28,\"lots\":1},{\"robotId\":40,\"lots\":1},{\"robotId\":9,\"lots\":1},{\"robotId\":11,\"lots\":1},{\"robotId\":12,\"lots\":0}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"5000\"}"
   },
   {
     "id": 42,
     "name": "6015 | CAPITAL 1k",
     "robots_config": "{\"robots\":[{\"robotId\":7,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":1,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"1000\"}"
+  },
+  {
+    "id": 91,
+    "name": "7K PORT",
+    "robots_config": "{\"robots\":[{\"robotId\":25,\"lots\":1},{\"robotId\":30,\"lots\":2},{\"robotId\":31,\"lots\":2},{\"robotId\":16,\"lots\":1},{\"robotId\":11,\"lots\":1},{\"robotId\":12,\"lots\":1},{\"robotId\":28,\"lots\":1},{\"robotId\":7,\"lots\":4},{\"robotId\":8,\"lots\":1},{\"robotId\":9,\"lots\":1},{\"robotId\":40,\"lots\":1},{\"robotId\":174,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"7000\"}"
   },
   {
     "id": 76,
@@ -92,7 +97,7 @@
   {
     "id": 78,
     "name": "FRANTIESCO ",
-    "robots_config": "{\"robots\":[{\"robotId\":17,\"lots\":3},{\"robotId\":16,\"lots\":1},{\"robotId\":7,\"lots\":20},{\"robotId\":25,\"lots\":5},{\"robotId\":8,\"lots\":3},{\"robotId\":31,\"lots\":6},{\"robotId\":30,\"lots\":4},{\"robotId\":26,\"lots\":2},{\"robotId\":12,\"lots\":4},{\"robotId\":14,\"lots\":6},{\"robotId\":34,\"lots\":1},{\"robotId\":39,\"lots\":8},{\"robotId\":33,\"lots\":6},{\"robotId\":1,\"lots\":12},{\"robotId\":10,\"lots\":2},{\"robotId\":13,\"lots\":3},{\"robotId\":23,\"lots\":1},{\"robotId\":9,\"lots\":6},{\"robotId\":3,\"lots\":1},{\"robotId\":28,\"lots\":4},{\"robotId\":36,\"lots\":3},{\"robotId\":40,\"lots\":5},{\"robotId\":11,\"lots\":4},{\"robotId\":44,\"lots\":2},{\"robotId\":6,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
+    "robots_config": "{\"robots\":[{\"robotId\":12,\"lots\":2},{\"robotId\":16,\"lots\":2},{\"robotId\":10,\"lots\":3},{\"robotId\":31,\"lots\":3},{\"robotId\":8,\"lots\":1},{\"robotId\":30,\"lots\":2},{\"robotId\":11,\"lots\":2},{\"robotId\":174,\"lots\":1},{\"robotId\":9,\"lots\":3},{\"robotId\":25,\"lots\":2},{\"robotId\":14,\"lots\":1},{\"robotId\":176,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"15000\"}"
   },
   {
     "id": 39,
@@ -110,19 +115,19 @@
     "robots_config": "{\"robots\":[{\"robotId\":49,\"lots\":1},{\"robotId\":59,\"lots\":1},{\"robotId\":51,\"lots\":1},{\"robotId\":50,\"lots\":1},{\"robotId\":48,\"lots\":1},{\"robotId\":88,\"lots\":1},{\"robotId\":95,\"lots\":1},{\"robotId\":94,\"lots\":1},{\"robotId\":72,\"lots\":1},{\"robotId\":99,\"lots\":1},{\"robotId\":82,\"lots\":1},{\"robotId\":62,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\"}"
   },
   {
+    "id": 92,
+    "name": "PORTFÓLIO BASE",
+    "robots_config": "{\"robots\":[{\"robotId\":31,\"lots\":1},{\"robotId\":30,\"lots\":1},{\"robotId\":8,\"lots\":1},{\"robotId\":16,\"lots\":1},{\"robotId\":11,\"lots\":1},{\"robotId\":25,\"lots\":1},{\"robotId\":34,\"lots\":1},{\"robotId\":39,\"lots\":1},{\"robotId\":10,\"lots\":1},{\"robotId\":12,\"lots\":1},{\"robotId\":13,\"lots\":1},{\"robotId\":174,\"lots\":1},{\"robotId\":28,\"lots\":1},{\"robotId\":26,\"lots\":1},{\"robotId\":36,\"lots\":1},{\"robotId\":22,\"lots\":1},{\"robotId\":14,\"lots\":1},{\"robotId\":7,\"lots\":1},{\"robotId\":33,\"lots\":1},{\"robotId\":9,\"lots\":1},{\"robotId\":40,\"lots\":1},{\"robotId\":23,\"lots\":1},{\"robotId\":3,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
+  },
+  {
     "id": 57,
     "name": "SMARTLAB",
-    "robots_config": "{\"robots\":[{\"robotId\":11,\"lots\":1},{\"robotId\":8,\"lots\":1},{\"robotId\":7,\"lots\":3},{\"robotId\":25,\"lots\":1},{\"robotId\":30,\"lots\":1},{\"robotId\":17,\"lots\":0},{\"robotId\":12,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":16,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
+    "robots_config": "{\"robots\":[{\"robotId\":11,\"lots\":2},{\"robotId\":8,\"lots\":1},{\"robotId\":7,\"lots\":1},{\"robotId\":25,\"lots\":1},{\"robotId\":30,\"lots\":1},{\"robotId\":17,\"lots\":0},{\"robotId\":12,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":16,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"30000\"}"
   },
   {
     "id": 86,
     "name": "TODAS BLACKARROW",
     "robots_config": "{\"robots\":[{\"robotId\":145,\"lots\":1},{\"robotId\":141,\"lots\":1},{\"robotId\":180,\"lots\":1},{\"robotId\":144,\"lots\":1},{\"robotId\":172,\"lots\":1},{\"robotId\":143,\"lots\":1},{\"robotId\":173,\"lots\":1},{\"robotId\":140,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"\"}"
-  },
-  {
-    "id": 73,
-    "name": "TODAS PROFIT COM RECOMENDAÇÃO",
-    "robots_config": "{\"robots\":[{\"robotId\":16,\"lots\":1},{\"robotId\":7,\"lots\":1},{\"robotId\":25,\"lots\":1},{\"robotId\":8,\"lots\":1},{\"robotId\":17,\"lots\":1},{\"robotId\":30,\"lots\":1},{\"robotId\":31,\"lots\":1},{\"robotId\":26,\"lots\":1},{\"robotId\":22,\"lots\":1},{\"robotId\":12,\"lots\":1},{\"robotId\":14,\"lots\":1},{\"robotId\":34,\"lots\":1},{\"robotId\":39,\"lots\":1},{\"robotId\":33,\"lots\":1},{\"robotId\":10,\"lots\":1},{\"robotId\":23,\"lots\":1},{\"robotId\":3,\"lots\":1},{\"robotId\":13,\"lots\":1},{\"robotId\":9,\"lots\":1},{\"robotId\":28,\"lots\":1},{\"robotId\":36,\"lots\":1},{\"robotId\":11,\"lots\":1},{\"robotId\":40,\"lots\":1}],\"multiplier\":3,\"targetMonthly\":\"\",\"capitalBase\":\"6000\"}"
   },
   {
     "id": 87,
