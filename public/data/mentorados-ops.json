@@ -109989,6 +109989,42 @@
     "res_op_pct": 0
   },
   {
+    "abertura": "31/07/2026 13:16:11",
+    "fechamento": "31/07/2026 16:42:00",
+    "ativo": "WIN_20",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 77,
+    "res_op_pct": 385
+  },
+  {
+    "abertura": "31/07/2026 13:57:09",
+    "fechamento": "31/07/2026 14:02:15",
+    "ativo": "WIN_10",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 2,
+    "res_op_pct": 10
+  },
+  {
+    "abertura": "31/07/2026 14:12:39",
+    "fechamento": "31/07/2026 15:00:02",
+    "ativo": "WIN_25",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -57,
+    "res_op_pct": -285
+  },
+  {
+    "abertura": "31/07/2026 16:45:00",
+    "fechamento": "31/07/2026 17:04:09",
+    "ativo": "WIN_16",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 40,
+    "res_op_pct": 200
+  },
+  {
     "abertura": "31/08/2023 00:00:00",
     "fechamento": "31/08/2023 00:00:00",
     "ativo": "WDO_34",
