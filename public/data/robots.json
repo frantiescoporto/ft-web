@@ -100474,6 +100474,46 @@
         "res_op": 18,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 534,
+        "abertura": "14/07/2026 15:26",
+        "fechamento": "14/07/2026 17:08",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -120,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 535,
+        "abertura": "20/07/2026 15:23",
+        "fechamento": "20/07/2026 15:30",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 6,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 536,
+        "abertura": "23/07/2026 15:31",
+        "fechamento": "23/07/2026 16:19",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 19,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 537,
+        "abertura": "27/07/2026 15:16",
+        "fechamento": "27/07/2026 15:30",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 22,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
     "realOps": [
@@ -100583,11 +100623,25 @@
         "res_op": 62
       },
       {
+        "abertura": "05/05/2026 15:25:47",
+        "fechamento": "05/05/2026 17:15:00",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 16
+      },
+      {
         "abertura": "08/05/2026 15:30:20",
         "fechamento": "05/05/2026 17:15:00",
         "lado": "C",
         "qtd": 1,
         "res_op": 16
+      },
+      {
+        "abertura": "08/05/2026 15:30:20",
+        "fechamento": "08/05/2026 16:00:00",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 23
       },
       {
         "abertura": "12/05/2026 15:32:27",
@@ -100597,11 +100651,25 @@
         "res_op": 17
       },
       {
+        "abertura": "12/05/2026 15:32:27",
+        "fechamento": "12/05/2026 15:45:00",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 35
+      },
+      {
         "abertura": "14/05/2026 15:25:07",
         "fechamento": "08/05/2026 16:00:00",
         "lado": "C",
         "qtd": 1,
         "res_op": 23
+      },
+      {
+        "abertura": "14/05/2026 15:25:07",
+        "fechamento": "14/05/2026 17:30:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -34
       },
       {
         "abertura": "15/05/2026 15:16:35",
@@ -100611,11 +100679,25 @@
         "res_op": 35
       },
       {
+        "abertura": "15/05/2026 15:16:35",
+        "fechamento": "15/05/2026 16:45:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 51
+      },
+      {
         "abertura": "28/05/2026 15:22:29",
         "fechamento": "14/05/2026 17:30:00",
         "lado": "V",
         "qtd": 1,
         "res_op": -34
+      },
+      {
+        "abertura": "28/05/2026 15:22:29",
+        "fechamento": "28/05/2026 16:52:56",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -120
       },
       {
         "abertura": "01/06/2026 15:31:21",
@@ -100625,6 +100707,13 @@
         "res_op": 114
       },
       {
+        "abertura": "01/06/2026 15:31:21",
+        "fechamento": "01/06/2026 15:59:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 14
+      },
+      {
         "abertura": "05/06/2026 15:31:29",
         "fechamento": "15/05/2026 16:45:00",
         "lado": "V",
@@ -100632,11 +100721,25 @@
         "res_op": 51
       },
       {
+        "abertura": "05/06/2026 15:31:29",
+        "fechamento": "05/06/2026 15:59:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 12
+      },
+      {
         "abertura": "08/06/2026 15:30:05",
         "fechamento": "28/05/2026 16:52:56",
         "lado": "V",
         "qtd": 1,
         "res_op": -120
+      },
+      {
+        "abertura": "08/06/2026 15:30:05",
+        "fechamento": "08/06/2026 16:14:58",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 32
       },
       {
         "abertura": "08/06/2026 15:44:59",
@@ -100667,6 +100770,13 @@
         "res_op": 14
       },
       {
+        "abertura": "09/06/2026 15:30:12",
+        "fechamento": "09/06/2026 15:44:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 16
+      },
+      {
         "abertura": "09/06/2026 15:44:59",
         "fechamento": "09/06/2026 15:44:59",
         "lado": "C",
@@ -100679,6 +100789,13 @@
         "lado": "C",
         "qtd": 1,
         "res_op": 12
+      },
+      {
+        "abertura": "16/06/2026 15:19:21",
+        "fechamento": "16/06/2026 17:29:59",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -85
       },
       {
         "abertura": "16/06/2026 15:29:59",
@@ -100707,6 +100824,55 @@
         "lado": "V",
         "qtd": 1,
         "res_op": -85
+      },
+      {
+        "abertura": "02/07/2026 15:29:28",
+        "fechamento": "02/07/2026 17:29:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -92
+      },
+      {
+        "abertura": "07/07/2026 15:31:24",
+        "fechamento": "07/07/2026 16:15:12",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 12
+      },
+      {
+        "abertura": "08/07/2026 15:40:36",
+        "fechamento": "08/07/2026 15:42:22",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 12
+      },
+      {
+        "abertura": "14/07/2026 15:26:36",
+        "fechamento": "14/07/2026 17:08:36",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -120
+      },
+      {
+        "abertura": "20/07/2026 15:23:12",
+        "fechamento": "20/07/2026 17:29:59",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -91
+      },
+      {
+        "abertura": "23/07/2026 15:31:02",
+        "fechamento": "23/07/2026 17:14:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 30
+      },
+      {
+        "abertura": "27/07/2026 15:16:34",
+        "fechamento": "27/07/2026 15:29:59",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 22
       }
     ]
   },
@@ -104729,6 +104895,76 @@
         "res_op": 32.8,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 402,
+        "abertura": "15/07/2026 09:30",
+        "fechamento": "15/07/2026 09:36",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 10.8,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 401,
+        "abertura": "15/07/2026 09:31",
+        "fechamento": "15/07/2026 09:36",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 62,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 403,
+        "abertura": "17/07/2026 10:00",
+        "fechamento": "17/07/2026 10:06",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 31,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 404,
+        "abertura": "21/07/2026 09:53",
+        "fechamento": "21/07/2026 09:54",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 7,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 405,
+        "abertura": "21/07/2026 10:00",
+        "fechamento": "21/07/2026 10:12",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 2.8,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 406,
+        "abertura": "29/07/2026 09:44",
+        "fechamento": "29/07/2026 09:48",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 7.8,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 407,
+        "abertura": "29/07/2026 09:59",
+        "fechamento": "29/07/2026 10:06",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 70.8,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
     "realOps": [
@@ -105426,11 +105662,25 @@
         "res_op": 19
       },
       {
+        "abertura": "04/05/2026 09:48:07",
+        "fechamento": "04/05/2026 10:00:00",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 23
+      },
+      {
         "abertura": "05/05/2026 09:45:33",
         "fechamento": "04/05/2026 09:54:00",
         "lado": "C",
         "qtd": 1,
         "res_op": 20
+      },
+      {
+        "abertura": "05/05/2026 09:45:33",
+        "fechamento": "05/05/2026 10:08:05",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 120
       },
       {
         "abertura": "25/05/2026 09:59:53",
@@ -105440,11 +105690,25 @@
         "res_op": 23
       },
       {
+        "abertura": "25/05/2026 09:59:53",
+        "fechamento": "25/05/2026 10:00:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 5
+      },
+      {
         "abertura": "28/05/2026 10:00:03",
         "fechamento": "05/05/2026 10:08:05",
         "lado": "V",
         "qtd": 1,
         "res_op": 120
+      },
+      {
+        "abertura": "28/05/2026 10:00:03",
+        "fechamento": "28/05/2026 10:05:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 10
       },
       {
         "abertura": "29/05/2026 09:42:39",
@@ -105454,11 +105718,25 @@
         "res_op": 5
       },
       {
+        "abertura": "29/05/2026 09:42:39",
+        "fechamento": "29/05/2026 09:48:00",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 34
+      },
+      {
         "abertura": "01/06/2026 09:42:58",
         "fechamento": "28/05/2026 10:05:59",
         "lado": "C",
         "qtd": 1,
         "res_op": 10
+      },
+      {
+        "abertura": "01/06/2026 09:42:58",
+        "fechamento": "01/06/2026 10:05:59",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 17
       },
       {
         "abertura": "05/06/2026 09:51:39",
@@ -105468,11 +105746,25 @@
         "res_op": 34
       },
       {
+        "abertura": "05/06/2026 09:51:39",
+        "fechamento": "05/06/2026 09:59:59",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 4
+      },
+      {
         "abertura": "10/06/2026 09:55:20",
         "fechamento": "01/06/2026 10:05:59",
         "lado": "V",
         "qtd": 1,
         "res_op": 17
+      },
+      {
+        "abertura": "10/06/2026 09:55:20",
+        "fechamento": "10/06/2026 10:06:45",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -100
       },
       {
         "abertura": "11/06/2026 09:42:51",
@@ -105482,6 +105774,13 @@
         "res_op": 4
       },
       {
+        "abertura": "11/06/2026 09:42:51",
+        "fechamento": "11/06/2026 09:48:16",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 61
+      },
+      {
         "abertura": "11/06/2026 09:44:14",
         "fechamento": "10/06/2026 10:06:45",
         "lado": "V",
@@ -105489,11 +105788,74 @@
         "res_op": -100
       },
       {
+        "abertura": "11/06/2026 09:44:14",
+        "fechamento": "11/06/2026 09:48:18",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 25
+      },
+      {
         "abertura": "11/06/2026 10:00:12",
         "fechamento": "11/06/2026 10:16:21",
         "lado": "V",
         "qtd": 1,
         "res_op": 120
+      },
+      {
+        "abertura": "11/06/2026 10:00:12",
+        "fechamento": "11/06/2026 10:16:21",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 120
+      },
+      {
+        "abertura": "07/07/2026 09:58:44",
+        "fechamento": "07/07/2026 10:00:39",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 9
+      },
+      {
+        "abertura": "09/07/2026 09:55:02",
+        "fechamento": "09/07/2026 10:17:50",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 22
+      },
+      {
+        "abertura": "17/07/2026 10:00:21",
+        "fechamento": "17/07/2026 10:05:59",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 33
+      },
+      {
+        "abertura": "21/07/2026 09:53:09",
+        "fechamento": "21/07/2026 10:07:59",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 28
+      },
+      {
+        "abertura": "29/07/2026 09:44:38",
+        "fechamento": "29/07/2026 09:48:30",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 10
+      },
+      {
+        "abertura": "29/07/2026 09:59:44",
+        "fechamento": "29/07/2026 10:08:08",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 120
+      },
+      {
+        "abertura": "29/07/2026 10:00:30",
+        "fechamento": "29/07/2026 10:13:48",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -100
       }
     ]
   },
@@ -109366,6 +109728,16 @@
         "res_op": -29.2,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 386,
+        "abertura": "29/07/2026 10:45",
+        "fechamento": "29/07/2026 11:43",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 155,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
     "realOps": [
@@ -110007,9 +110379,23 @@
         "res_op": 47
       },
       {
+        "abertura": "06/05/2026 16:01:46",
+        "fechamento": "06/05/2026 16:09:17",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 47
+      },
+      {
         "abertura": "07/05/2026 10:45:04",
         "fechamento": "07/05/2026 14:26:58",
         "lado": "C",
+        "qtd": 1,
+        "res_op": 255
+      },
+      {
+        "abertura": "07/05/2026 10:45:04",
+        "fechamento": "07/05/2026 14:26:58",
+        "lado": "V",
         "qtd": 1,
         "res_op": 255
       },
@@ -110021,9 +110407,23 @@
         "res_op": 1
       },
       {
+        "abertura": "12/05/2026 11:30:45",
+        "fechamento": "12/05/2026 13:24:01",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 1
+      },
+      {
         "abertura": "19/05/2026 16:25:23",
         "fechamento": "19/05/2026 17:00:00",
         "lado": "C",
+        "qtd": 1,
+        "res_op": -12
+      },
+      {
+        "abertura": "19/05/2026 16:25:23",
+        "fechamento": "19/05/2026 17:00:00",
+        "lado": "V",
         "qtd": 1,
         "res_op": -12
       },
@@ -110035,9 +110435,23 @@
         "res_op": -244
       },
       {
+        "abertura": "29/05/2026 10:31:01",
+        "fechamento": "29/05/2026 10:45:30",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -244
+      },
+      {
         "abertura": "01/06/2026 10:30:28",
         "fechamento": "01/06/2026 12:21:23",
         "lado": "C",
+        "qtd": 1,
+        "res_op": 1
+      },
+      {
+        "abertura": "01/06/2026 10:30:28",
+        "fechamento": "01/06/2026 12:21:23",
+        "lado": "V",
         "qtd": 1,
         "res_op": 1
       },
@@ -110049,11 +110463,46 @@
         "res_op": -8
       },
       {
+        "abertura": "10/06/2026 11:37:45",
+        "fechamento": "10/06/2026 13:08:51",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -8
+      },
+      {
         "abertura": "17/06/2026 16:33:56",
         "fechamento": "17/06/2026 16:59:59",
         "lado": "C",
         "qtd": 1,
         "res_op": 9
+      },
+      {
+        "abertura": "17/06/2026 16:33:56",
+        "fechamento": "17/06/2026 16:59:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 9
+      },
+      {
+        "abertura": "29/06/2026 16:33:45",
+        "fechamento": "29/06/2026 16:59:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 17
+      },
+      {
+        "abertura": "09/07/2026 16:15:21",
+        "fechamento": "09/07/2026 16:33:57",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -29
+      },
+      {
+        "abertura": "29/07/2026 10:45:02",
+        "fechamento": "29/07/2026 11:43:30",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 155
       }
     ]
   },
@@ -115775,6 +116224,56 @@
         "res_op": -215,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 377,
+        "abertura": "16/07/2026 15:00",
+        "fechamento": "16/07/2026 17:30",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 15,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 378,
+        "abertura": "22/07/2026 14:47",
+        "fechamento": "22/07/2026 17:30",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 120.2,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 379,
+        "abertura": "24/07/2026 10:31",
+        "fechamento": "24/07/2026 17:30",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 192.4,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 380,
+        "abertura": "27/07/2026 16:56",
+        "fechamento": "27/07/2026 17:30",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 13.2,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 381,
+        "abertura": "29/07/2026 11:43",
+        "fechamento": "29/07/2026 15:00",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 12.8,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
     "realOps": [
@@ -115996,9 +116495,23 @@
         "res_op": 62
       },
       {
+        "abertura": "06/05/2026 09:12:32",
+        "fechamento": "06/05/2026 09:40:26",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 62
+      },
+      {
         "abertura": "07/05/2026 09:26:42",
         "fechamento": "07/05/2026 10:32:15",
         "lado": "C",
+        "qtd": 1,
+        "res_op": 291
+      },
+      {
+        "abertura": "07/05/2026 09:26:42",
+        "fechamento": "07/05/2026 10:32:15",
+        "lado": "V",
         "qtd": 1,
         "res_op": 291
       },
@@ -116010,11 +116523,102 @@
         "res_op": 150
       },
       {
+        "abertura": "22/05/2026 10:03:03",
+        "fechamento": "22/05/2026 12:28:10",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 150
+      },
+      {
         "abertura": "26/05/2026 10:52:36",
         "fechamento": "26/05/2026 17:29:59",
         "lado": "C",
         "qtd": 1,
         "res_op": -124
+      },
+      {
+        "abertura": "26/05/2026 10:52:36",
+        "fechamento": "26/05/2026 17:29:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -124
+      },
+      {
+        "abertura": "15/06/2026 14:55:27",
+        "fechamento": "15/06/2026 16:57:30",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 103
+      },
+      {
+        "abertura": "01/07/2026 09:37:34",
+        "fechamento": "01/07/2026 10:35:03",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -172
+      },
+      {
+        "abertura": "02/07/2026 10:45:36",
+        "fechamento": "02/07/2026 10:58:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -228
+      },
+      {
+        "abertura": "06/07/2026 11:40:25",
+        "fechamento": "06/07/2026 17:29:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -122
+      },
+      {
+        "abertura": "09/07/2026 14:39:21",
+        "fechamento": "09/07/2026 17:09:35",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 55
+      },
+      {
+        "abertura": "10/07/2026 10:14:32",
+        "fechamento": "10/07/2026 13:26:30",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -215
+      },
+      {
+        "abertura": "16/07/2026 15:00:11",
+        "fechamento": "16/07/2026 17:29:58",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 14
+      },
+      {
+        "abertura": "22/07/2026 14:47:03",
+        "fechamento": "22/07/2026 17:05:39",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 64
+      },
+      {
+        "abertura": "24/07/2026 10:31:05",
+        "fechamento": "24/07/2026 17:30:00",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 194
+      },
+      {
+        "abertura": "27/07/2026 16:56:08",
+        "fechamento": "27/07/2026 17:28:19",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 10
+      },
+      {
+        "abertura": "29/07/2026 11:43:28",
+        "fechamento": "29/07/2026 15:00:10",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 12
       }
     ]
   },
@@ -119827,6 +120431,36 @@
         "res_op": 48.6,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 380,
+        "abertura": "20/07/2026 17:07",
+        "fechamento": "20/07/2026 17:30",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 15.6,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 381,
+        "abertura": "27/07/2026 16:43",
+        "fechamento": "27/07/2026 17:30",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 24.2,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 382,
+        "abertura": "29/07/2026 11:35",
+        "fechamento": "29/07/2026 15:00",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 27.6,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
     "realOps": [
@@ -120118,11 +120752,25 @@
         "res_op": 287
       },
       {
+        "abertura": "11/06/2026 14:30:15",
+        "fechamento": "11/06/2026 16:30:04",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 287
+      },
+      {
         "abertura": "15/06/2026 15:30:01",
         "fechamento": "15/06/2026 17:29:59",
         "lado": "C",
         "qtd": 1,
         "res_op": 24
+      },
+      {
+        "abertura": "15/06/2026 15:30:01",
+        "fechamento": "15/06/2026 16:57:31",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 32
       },
       {
         "abertura": "17/06/2026 14:03:03",
@@ -120132,11 +120780,60 @@
         "res_op": -177
       },
       {
+        "abertura": "17/06/2026 14:03:03",
+        "fechamento": "17/06/2026 15:00:59",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -177
+      },
+      {
         "abertura": "22/06/2026 11:26:34",
         "fechamento": "22/06/2026 17:29:59",
         "lado": "V",
         "qtd": 1,
         "res_op": 13
+      },
+      {
+        "abertura": "06/07/2026 11:09:25",
+        "fechamento": "06/07/2026 13:55:02",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -8
+      },
+      {
+        "abertura": "07/07/2026 13:09:07",
+        "fechamento": "07/07/2026 15:01:25",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -79
+      },
+      {
+        "abertura": "09/07/2026 14:31:37",
+        "fechamento": "09/07/2026 17:29:49",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 67
+      },
+      {
+        "abertura": "13/07/2026 14:50:55",
+        "fechamento": "13/07/2026 17:29:47",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 48
+      },
+      {
+        "abertura": "20/07/2026 17:07:01",
+        "fechamento": "20/07/2026 17:29:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 16
+      },
+      {
+        "abertura": "29/07/2026 11:35:06",
+        "fechamento": "29/07/2026 15:00:46",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 27
       }
     ]
   },
@@ -122959,6 +123656,26 @@
         "res_op": 69.8,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 281,
+        "abertura": "21/07/2026 09:23",
+        "fechamento": "21/07/2026 10:48",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 21,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 282,
+        "abertura": "22/07/2026 09:30",
+        "fechamento": "22/07/2026 10:30",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 251.6,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
     "realOps": [
@@ -123185,6 +123902,34 @@
         "lado": "V",
         "qtd": 1,
         "res_op": -204
+      },
+      {
+        "abertura": "09/07/2026 11:06:52",
+        "fechamento": "09/07/2026 12:25:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 70
+      },
+      {
+        "abertura": "21/07/2026 09:23:23",
+        "fechamento": "21/07/2026 09:59:59",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -27
+      },
+      {
+        "abertura": "21/07/2026 10:19:43",
+        "fechamento": "21/07/2026 10:48:32",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 20
+      },
+      {
+        "abertura": "22/07/2026 09:30:57",
+        "fechamento": "22/07/2026 10:30:41",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 252
       }
     ]
   },
@@ -146776,6 +147521,36 @@
         "res_op": -259.4,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 527,
+        "abertura": "03/07/2026 11:02",
+        "fechamento": "03/07/2026 17:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 102.6,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 528,
+        "abertura": "15/07/2026 10:14",
+        "fechamento": "15/07/2026 17:00",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -0.6,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 529,
+        "abertura": "20/07/2026 10:00",
+        "fechamento": "20/07/2026 10:43",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -187.6,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
     "realOps": [
@@ -146913,9 +147688,23 @@
         "res_op": 147
       },
       {
+        "abertura": "04/05/2026 17:00:00",
+        "fechamento": "04/05/2026 17:00:00",
+        "lado": "",
+        "qtd": 1,
+        "res_op": 147
+      },
+      {
         "abertura": "05/05/2026 09:30:04",
         "fechamento": "05/05/2026 12:22:58",
         "lado": "C",
+        "qtd": 1,
+        "res_op": -223
+      },
+      {
+        "abertura": "05/05/2026 12:22:58",
+        "fechamento": "05/05/2026 12:22:58",
+        "lado": "",
         "qtd": 1,
         "res_op": -223
       },
@@ -146925,6 +147714,13 @@
         "lado": "C",
         "qtd": 1,
         "res_op": -253
+      },
+      {
+        "abertura": "18/05/2026 13:00:18",
+        "fechamento": "18/05/2026 13:00:18",
+        "lado": "",
+        "qtd": 1,
+        "res_op": -166
       },
       {
         "abertura": "20/05/2026 10:26:45",
@@ -146941,6 +147737,13 @@
         "res_op": 285
       },
       {
+        "abertura": "26/05/2026 10:53:44",
+        "fechamento": "26/05/2026 10:53:44",
+        "lado": "",
+        "qtd": 1,
+        "res_op": 285
+      },
+      {
         "abertura": "01/06/2026 10:12:38",
         "fechamento": "01/06/2026 17:00:00",
         "lado": "C",
@@ -146948,11 +147751,25 @@
         "res_op": 196
       },
       {
+        "abertura": "01/06/2026 11:48:28",
+        "fechamento": "01/06/2026 11:48:28",
+        "lado": "",
+        "qtd": 1,
+        "res_op": 234
+      },
+      {
         "abertura": "02/06/2026 11:41:08",
         "fechamento": "02/06/2026 16:59:59",
         "lado": "V",
         "qtd": 1,
         "res_op": -98
+      },
+      {
+        "abertura": "02/06/2026 14:43:13",
+        "fechamento": "02/06/2026 14:43:13",
+        "lado": "",
+        "qtd": 1,
+        "res_op": -135
       },
       {
         "abertura": "11/06/2026 09:30:01",
@@ -146969,11 +147786,53 @@
         "res_op": -20
       },
       {
+        "abertura": "12/06/2026 12:52:44",
+        "fechamento": "12/06/2026 12:52:44",
+        "lado": "",
+        "qtd": 1,
+        "res_op": 98
+      },
+      {
         "abertura": "17/06/2026 10:02:08",
         "fechamento": "17/06/2026 14:05:57",
         "lado": "V",
         "qtd": 1,
         "res_op": 269
+      },
+      {
+        "abertura": "17/06/2026 14:05:57",
+        "fechamento": "17/06/2026 14:05:57",
+        "lado": "",
+        "qtd": 1,
+        "res_op": 269
+      },
+      {
+        "abertura": "03/07/2026 16:59:59",
+        "fechamento": "03/07/2026 16:59:59",
+        "lado": "",
+        "qtd": 1,
+        "res_op": 102
+      },
+      {
+        "abertura": "15/07/2026 16:59:59",
+        "fechamento": "15/07/2026 16:59:59",
+        "lado": "",
+        "qtd": 1,
+        "res_op": -1
+      },
+      {
+        "abertura": "16/07/2026 09:58:49",
+        "fechamento": "16/07/2026 09:58:49",
+        "lado": "",
+        "qtd": 1,
+        "res_op": -191
+      },
+      {
+        "abertura": "20/07/2026 10:43:41",
+        "fechamento": "20/07/2026 10:43:41",
+        "lado": "",
+        "qtd": 1,
+        "res_op": -188
       }
     ]
   },
@@ -160050,6 +160909,86 @@
         "res_op": -78.8,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 554,
+        "abertura": "02/07/2026 11:45",
+        "fechamento": "02/07/2026 12:07",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -76.8,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 555,
+        "abertura": "02/07/2026 12:41",
+        "fechamento": "02/07/2026 16:25",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -19.6,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 556,
+        "abertura": "06/07/2026 09:26",
+        "fechamento": "06/07/2026 10:45",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -5.8,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 557,
+        "abertura": "09/07/2026 10:14",
+        "fechamento": "09/07/2026 12:25",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 90.8,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 558,
+        "abertura": "15/07/2026 13:26",
+        "fechamento": "15/07/2026 14:30",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -69.2,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 559,
+        "abertura": "20/07/2026 10:00",
+        "fechamento": "20/07/2026 10:30",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -62.2,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 560,
+        "abertura": "20/07/2026 11:01",
+        "fechamento": "20/07/2026 13:41",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -35,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 561,
+        "abertura": "29/07/2026 10:35",
+        "fechamento": "29/07/2026 14:30",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 277,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
     "realOps": [
@@ -160082,9 +161021,23 @@
         "res_op": 328
       },
       {
+        "abertura": "05/05/2026 12:44:17",
+        "fechamento": "05/05/2026 13:43:17",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -86
+      },
+      {
         "abertura": "07/05/2026 10:01:12",
         "fechamento": "07/05/2026 10:35:20",
         "lado": "C",
+        "qtd": 1,
+        "res_op": 313
+      },
+      {
+        "abertura": "07/05/2026 10:01:12",
+        "fechamento": "07/05/2026 10:35:20",
+        "lado": "V",
         "qtd": 1,
         "res_op": 313
       },
@@ -160094,6 +161047,20 @@
         "lado": "C",
         "qtd": 1,
         "res_op": 92
+      },
+      {
+        "abertura": "11/05/2026 11:08:44",
+        "fechamento": "11/05/2026 15:33:22",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 92
+      },
+      {
+        "abertura": "15/05/2026 16:48:16",
+        "fechamento": "15/05/2026 17:00:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -1
       },
       {
         "abertura": "20/05/2026 13:59:29",
@@ -160110,6 +161077,13 @@
         "res_op": 59
       },
       {
+        "abertura": "25/05/2026 14:32:22",
+        "fechamento": "25/05/2026 17:00:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 59
+      },
+      {
         "abertura": "26/05/2026 10:50:12",
         "fechamento": "26/05/2026 11:47:12",
         "lado": "C",
@@ -160117,9 +161091,23 @@
         "res_op": -35
       },
       {
+        "abertura": "26/05/2026 10:50:12",
+        "fechamento": "26/05/2026 11:47:16",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -37
+      },
+      {
         "abertura": "28/05/2026 11:14:02",
         "fechamento": "28/05/2026 13:02:43",
         "lado": "V",
+        "qtd": 1,
+        "res_op": -259
+      },
+      {
+        "abertura": "28/05/2026 11:14:02",
+        "fechamento": "28/05/2026 13:02:43",
+        "lado": "C",
         "qtd": 1,
         "res_op": -259
       },
@@ -160131,6 +161119,20 @@
         "res_op": 50
       },
       {
+        "abertura": "02/06/2026 10:46:15",
+        "fechamento": "02/06/2026 13:40:13",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 50
+      },
+      {
+        "abertura": "03/06/2026 09:15:19",
+        "fechamento": "03/06/2026 10:34:46",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -21
+      },
+      {
         "abertura": "03/06/2026 11:00:00",
         "fechamento": "03/06/2026 15:35:14",
         "lado": "C",
@@ -160138,9 +161140,23 @@
         "res_op": 398
       },
       {
+        "abertura": "03/06/2026 11:00:00",
+        "fechamento": "03/06/2026 14:00:05",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 310
+      },
+      {
         "abertura": "10/06/2026 09:30:04",
         "fechamento": "10/06/2026 09:59:43",
         "lado": "V",
+        "qtd": 1,
+        "res_op": -30
+      },
+      {
+        "abertura": "10/06/2026 09:30:04",
+        "fechamento": "10/06/2026 09:59:43",
+        "lado": "C",
         "qtd": 1,
         "res_op": -30
       },
@@ -160152,9 +161168,23 @@
         "res_op": 10
       },
       {
+        "abertura": "10/06/2026 11:18:13",
+        "fechamento": "10/06/2026 12:23:09",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 10
+      },
+      {
         "abertura": "11/06/2026 14:30:42",
         "fechamento": "11/06/2026 16:30:21",
         "lado": "V",
+        "qtd": 1,
+        "res_op": 307
+      },
+      {
+        "abertura": "11/06/2026 14:30:42",
+        "fechamento": "11/06/2026 16:30:21",
+        "lado": "C",
         "qtd": 1,
         "res_op": 307
       },
@@ -160166,9 +161196,23 @@
         "res_op": 203
       },
       {
+        "abertura": "15/06/2026 13:55:11",
+        "fechamento": "15/06/2026 16:07:24",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 200
+      },
+      {
         "abertura": "17/06/2026 10:59:59",
         "fechamento": "17/06/2026 11:47:29",
         "lado": "V",
+        "qtd": 1,
+        "res_op": 34
+      },
+      {
+        "abertura": "17/06/2026 10:59:59",
+        "fechamento": "17/06/2026 11:47:29",
+        "lado": "C",
         "qtd": 1,
         "res_op": 34
       },
@@ -160185,6 +161229,55 @@
         "lado": "V",
         "qtd": 1,
         "res_op": 135
+      },
+      {
+        "abertura": "02/07/2026 11:45:00",
+        "fechamento": "02/07/2026 12:07:33",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -78
+      },
+      {
+        "abertura": "02/07/2026 12:41:19",
+        "fechamento": "02/07/2026 16:25:23",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -18
+      },
+      {
+        "abertura": "09/07/2026 10:14:04",
+        "fechamento": "09/07/2026 12:25:44",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 91
+      },
+      {
+        "abertura": "15/07/2026 13:26:48",
+        "fechamento": "15/07/2026 14:30:05",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -71
+      },
+      {
+        "abertura": "20/07/2026 10:00:08",
+        "fechamento": "20/07/2026 10:30:07",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -63
+      },
+      {
+        "abertura": "20/07/2026 11:01:08",
+        "fechamento": "20/07/2026 13:41:25",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -35
+      },
+      {
+        "abertura": "29/07/2026 10:35:31",
+        "fechamento": "29/07/2026 14:30:47",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 277
       }
     ]
   },
@@ -179831,6 +180924,66 @@
         "res_op": 116.4,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 452,
+        "abertura": "03/07/2026 13:08",
+        "fechamento": "03/07/2026 17:00",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -53,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 453,
+        "abertura": "06/07/2026 09:24",
+        "fechamento": "06/07/2026 10:45",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 16.6,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 454,
+        "abertura": "09/07/2026 11:07",
+        "fechamento": "09/07/2026 16:19",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 223.4,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 455,
+        "abertura": "15/07/2026 13:24",
+        "fechamento": "15/07/2026 14:35",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -85.6,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 456,
+        "abertura": "21/07/2026 10:01",
+        "fechamento": "21/07/2026 11:16",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -11.2,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 457,
+        "abertura": "29/07/2026 10:15",
+        "fechamento": "29/07/2026 10:55",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 224.6,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
     "realOps": [
@@ -179854,6 +181007,27 @@
         "lado": "C",
         "qtd": 1,
         "res_op": 93
+      },
+      {
+        "abertura": "15/07/2026 13:24:16",
+        "fechamento": "15/07/2026 14:38:47",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -87
+      },
+      {
+        "abertura": "21/07/2026 10:01:32",
+        "fechamento": "21/07/2026 11:16:28",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -12
+      },
+      {
+        "abertura": "29/07/2026 10:14:59",
+        "fechamento": "29/07/2026 10:55:22",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 225
       }
     ]
   },
@@ -187432,6 +188606,36 @@
         "res_op": 6.8,
         "res_op_pct": 0,
         "tempo": null
+      },
+      {
+        "num": 402,
+        "abertura": "30/06/2026 09:30",
+        "fechamento": "30/06/2026 10:01",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": -141.6,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 403,
+        "abertura": "01/07/2026 10:31",
+        "fechamento": "01/07/2026 10:45",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 238.2,
+        "res_op_pct": 0,
+        "tempo": null
+      },
+      {
+        "num": 404,
+        "abertura": "09/07/2026 12:18",
+        "fechamento": "09/07/2026 17:00",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -126.2,
+        "res_op_pct": 0,
+        "tempo": null
       }
     ],
     "realOps": [
@@ -187525,6 +188729,34 @@
         "lado": "V",
         "qtd": 1,
         "res_op": 74
+      },
+      {
+        "abertura": "15/06/2026 11:38:44",
+        "fechamento": "15/06/2026 14:33:37",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": 277
+      },
+      {
+        "abertura": "16/06/2026 10:30:16",
+        "fechamento": "16/06/2026 15:29:59",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 42
+      },
+      {
+        "abertura": "01/07/2026 10:31:35",
+        "fechamento": "01/07/2026 11:15:57",
+        "lado": "C",
+        "qtd": 1,
+        "res_op": 262
+      },
+      {
+        "abertura": "09/07/2026 12:18:10",
+        "fechamento": "09/07/2026 16:59:50",
+        "lado": "V",
+        "qtd": 1,
+        "res_op": -128
       }
     ]
   },
