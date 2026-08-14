@@ -12,6 +12,7 @@ import MentoriaMetodo6015Page from './pages/MentoriaMetodo6015Page.jsx'
 import AvaliacaoPage from './pages/AvaliacaoPage.jsx'
 import Balanse03Page from './pages/Balanse03Page.jsx'
 import AvelPage from './pages/AvelPage.jsx'
+import CopaRobosPage from './pages/CopaRobosPage.jsx'
 
 export default function App() {
   useEffect(() => {
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/avaliacoes" element={<AvaliacaoPage />} />
         <Route path="/balanse_03" element={<Balanse03Page />} />
         <Route path="/daytrademodoautomatico" element={<AvelPage />} />
+        <Route path="/copa-dos-robos" element={<CopaRobosPage />} />
       </Routes>
     </DataProvider>
   )

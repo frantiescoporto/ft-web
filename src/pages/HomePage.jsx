@@ -167,6 +167,42 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── BANNER COPA DOS ROBÔS ── */}
+      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '0 32px 20px' }}>
+        <div
+          onClick={() => navigate('/copa-dos-robos')}
+          role="button"
+          style={{ background: `linear-gradient(120deg, ${s.warning}22, ${s.card} 55%, rgba(155,124,244,0.16))`,
+            border: `1px solid ${s.warning}55`, borderRadius: 16, padding: '26px 32px',
+            display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between',
+            gap: 20, cursor: 'pointer', transition: 'all .2s' }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = s.warning; e.currentTarget.style.transform = 'translateY(-3px)' }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = `${s.warning}55`; e.currentTarget.style.transform = 'translateY(0)' }}>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 20, textAlign: 'left' }}>
+            <div style={{ fontSize: 44, lineHeight: 1 }}>🏆</div>
+            <div>
+              <div style={{ fontSize: 11, color: s.warning, fontWeight: 700,
+                letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 6 }}>
+                Ao vivo · Copa dos Robôs
+              </div>
+              <div style={{ fontSize: 19, fontWeight: 800, marginBottom: 4 }}>
+                15 robôs disputando ao mesmo tempo.
+              </div>
+              <div style={{ color: s.muted, fontSize: 13 }}>
+                Classificação ao vivo por rentabilidade, com o resultado de cada pregão aberto.
+              </div>
+            </div>
+          </div>
+
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: s.warning, color: '#1a1206', padding: '13px 24px',
+            borderRadius: 10, fontWeight: 800, fontSize: 14, whiteSpace: 'nowrap' }}>
+            Ver o ranking →
+          </span>
+        </div>
+      </section>
+
       {/* ── SOBRE ── */}
       <section style={{ background: s.surface, borderTop: `1px solid ${s.border}`, borderBottom: `1px solid ${s.border}` }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '60px 32px',
