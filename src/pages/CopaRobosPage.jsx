@@ -37,8 +37,10 @@ const FONTES_CSV = [
   `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/export?format=csv`,
 ].filter(Boolean)
 
+const LINK_ASSINATURA = 'https://payfast.greenn.com.br/gs8wdp6'
+
 const WHATSAPP = 'https://wa.me/5553999010262?text=' + encodeURIComponent(
-  'Olá Frantiesco! Vi a Copa dos Robôs no site e quero assinar os robôs.'
+  'Olá Frantiesco! Vi a Copa dos Robôs no site e quero saber mais sobre a assinatura dos robôs.'
 )
 
 const COPA = {
@@ -323,6 +325,20 @@ export default function CopaRobosPage() {
         </section>
       )}
 
+      {ranking.length > 0 && (
+        <section style={{ maxWidth: 1100, margin: '0 auto', padding: '22px 32px 0', textAlign: 'center' }}>
+          <a href={LINK_ASSINATURA} target="_blank" rel="noopener noreferrer"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14,
+              color: s.accent, fontWeight: 700, textDecoration: 'none',
+              border: `1px solid ${s.accent}44`, borderRadius: 99, padding: '10px 22px',
+              background: `${s.accent}0d`, transition: 'all .15s' }}
+            onMouseEnter={e => e.currentTarget.style.borderColor = s.accent}
+            onMouseLeave={e => e.currentTarget.style.borderColor = `${s.accent}44`}>
+            Assinar os top robôs da Copa →
+          </a>
+        </section>
+      )}
+
       {/* ── TABELA ── */}
       {ranking.length > 0 && (
         <section style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 32px 20px' }}>
@@ -436,26 +452,36 @@ export default function CopaRobosPage() {
           <div>
             <div style={{ fontSize: 11, color: s.accent, fontWeight: 700,
               letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 12 }}>
-              🤖 Assine os robôs
+              🤖 Top robôs da Copa
             </div>
             <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800,
               letterSpacing: '-0.02em', marginBottom: 12 }}>
               Quer rodar os robôs da Copa na sua conta?
             </h2>
             <p style={{ color: s.muted, fontSize: 14, lineHeight: 1.7, maxWidth: 560, margin: 0 }}>
-              Chama no WhatsApp que eu te explico como funciona a assinatura, qual portfólio
-              faz sentido para o seu capital e como colocar para rodar.
+              Os robôs que estão disputando o campeonato ficam disponíveis para assinatura,
+              já com a configuração que eu uso. Se ficou alguma dúvida antes de assinar,
+              é só me chamar no WhatsApp.
             </p>
           </div>
-          <div style={{ flexShrink: 0 }}>
-            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: s.accent, color: '#04140f', padding: '14px 28px',
+          <div style={{ flexShrink: 0, display: 'grid', gap: 10, justifyItems: 'stretch' }}>
+            <a href={LINK_ASSINATURA} target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                background: s.accent, color: '#04140f', padding: '15px 30px',
                 borderRadius: 10, fontWeight: 800, fontSize: 15, textDecoration: 'none',
                 transition: 'opacity .15s', whiteSpace: 'nowrap' }}
               onMouseEnter={e => e.currentTarget.style.opacity = '.85'}
               onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
-              Falar no WhatsApp →
+              Assinar os robôs →
+            </a>
+            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                background: 'transparent', color: s.text, padding: '13px 30px',
+                border: `1px solid ${s.border}`, borderRadius: 10, fontWeight: 700,
+                fontSize: 14, textDecoration: 'none', transition: 'all .15s', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = s.accent; e.currentTarget.style.color = s.accent }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = s.border; e.currentTarget.style.color = s.text }}>
+              Tirar dúvida no WhatsApp
             </a>
           </div>
         </div>
