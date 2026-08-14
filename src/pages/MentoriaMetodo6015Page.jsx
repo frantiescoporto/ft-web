@@ -8,6 +8,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import './mentoria.css'
 
+// ── Links de checkout (Greenn) ───────────────────────────────────────
+const LINK_ANUAL     = 'https://payfast.greenn.com.br/116632/offer/TQ28Gg'
+const LINK_SEMESTRAL = 'https://payfast.greenn.com.br/116632/offer/H8T6cc'
+
 // ── Dados ─────────────────────────────────────────────────────────────────────
 
 const MONTHLY = [
@@ -51,8 +55,8 @@ const FAQS = [
     a: 'Na prática, 3 a 5 minutos já são suficientes. Quem quer se aprofundar pode dedicar mais. Quem quer algo mais automático também consegue operar assim.' },
   { q: 'Qual o capital mínimo para operar?',
     a: 'R$1.000 já permite operar o portfólio menor. O recomendado para uma operação confortável é a partir de R$3.000.' },
-  { q: 'Quando abre a próxima turma?',
-    a: 'As turmas abrem de vez em quando, com vagas limitadas. Não há data definida. A lista de espera é a única forma de garantir prioridade.' },
+  { q: 'As inscrições estão abertas?',
+    a: 'Sim, as inscrições estão abertas agora — com vagas limitadas. O acesso é liberado assim que o pagamento é confirmado. Quando a turma fechar, a página deixa de exibir a oferta.' },
   { q: 'Tem garantia?',
     a: 'Sim — 7 dias de garantia integral. Se nos primeiros 7 dias você sentir que não é para você, devolvemos 100% do valor. Isso não é garantia de retorno financeiro: mercado sempre envolve risco.' },
   { q: 'Qual a diferença para outros cursos de trading?',
@@ -125,8 +129,6 @@ function Faq({ q, a }) {
 // ── Página ────────────────────────────────────────────────────────────────────
 
 export default function MentoriaMetodo6015Page() {
-  const [form, setForm]         = useState({ name: '', email: '', whatsapp: '' })
-  const [status, setStatus]     = useState('idle')
   const [photoSrc, setPhotoSrc]     = useState('/frantiesco-mentoria.jpg')
   const [photoError, setPhotoError] = useState(false)
 
@@ -147,26 +149,14 @@ export default function MentoriaMetodo6015Page() {
     document.head.appendChild(l)
   }, [])
 
-  async function submit(e) {
-    e.preventDefault()
-    setStatus('sending')
-    try {
-      const r = await fetch('https://formspree.io/f/xpqnjylg', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ ...form, _subject: 'Lista de espera — Método 6015' }),
-      })
-      setStatus(r.ok ? 'ok' : 'err')
-    } catch { setStatus('err') }
-  }
 
   return (
     <div className="m6">
 
       {/* STICKY */}
       <div className="m6-sticky">
-        <span className="m6-sticky-txt">Método 6015 · Vagas fechadas no momento</span>
-        <a href="#lista" className="m6-btn-xs">Quero uma vaga</a>
+        <span className="m6-sticky-txt">Método 6015 · Inscrições abertas · vagas limitadas</span>
+        <a href="#preco" className="m6-btn-xs">Garantir minha vaga</a>
       </div>
 
       {/* HERO */}
@@ -174,7 +164,7 @@ export default function MentoriaMetodo6015Page() {
         <div className="m6-ghost">6015</div>
         <div className="m6-hero-inner">
           <div className="m6-hero-text m6-fade visible" style={{ transitionDelay: '100ms' }}>
-            <p className="m6-overtitle">MENTORIA FECHADA · LISTA DE ESPERA ABERTA</p>
+            <p className="m6-overtitle">INSCRIÇÕES ABERTAS · VAGAS LIMITADAS</p>
             <h1 className="m6-h1">
               Saí de um emprego com salário alto.<br />
               Hoje vivo <em>exclusivamente do mercado.</em><br />
@@ -189,8 +179,8 @@ export default function MentoriaMetodo6015Page() {
               <div><b>~40</b><span>robôs disponíveis</span></div>
               <div><b>3–5 min</b><span>por dia já é suficiente</span></div>
             </div>
-            <a href="#lista" className="m6-btn-primary">Entrar na lista de espera →</a>
-            <p className="m6-hero-note">Próxima turma sem data definida. Lista tem prioridade.</p>
+            <a href="#preco" className="m6-btn-primary">Quero minha vaga na mentoria →</a>
+            <p className="m6-hero-note">Turma com vagas limitadas · 7 dias de garantia integral.</p>
           </div>
           <div className="m6-hero-photo m6-fade visible" style={{ transitionDelay: '300ms' }}>
             {!photoError ? (
@@ -321,7 +311,7 @@ export default function MentoriaMetodo6015Page() {
           <div className="m6-plans">
             <FadeIn delay={100}>
               <div className="m6-plan">
-                <div className="m6-badges"><span className="m6-badge closed">Fechado</span></div>
+                <div className="m6-badges"><span className="m6-badge open">Vagas limitadas</span></div>
                 <h4>Semestral</h4>
                 <div className="m6-price"><strong>R$ 1.997</strong><span>ou 12× de R$ 205,32</span></div>
                 <ul>
@@ -329,14 +319,14 @@ export default function MentoriaMetodo6015Page() {
                   <li>✔ Todos os 5 pilares</li>
                   <li>✔ Acesso imediato ao portfólio</li>
                 </ul>
-                <a href="#lista" className="m6-btn-outline w100">Entrar na lista</a>
+                <a href={LINK_SEMESTRAL} target="_blank" rel="noopener noreferrer" className="m6-btn-outline w100">Assinar semestral →</a>
               </div>
             </FadeIn>
             <FadeIn delay={200}>
               <div className="m6-plan featured">
                 <div className="m6-badges">
                   <span className="m6-badge best">Melhor custo-benefício</span>
-                  <span className="m6-badge closed">Fechado</span>
+                  <span className="m6-badge open">Vagas limitadas</span>
                 </div>
                 <h4>Anual</h4>
                 <div className="m6-price"><strong>R$ 2.997</strong><span>ou 12× de R$ 308,00</span></div>
@@ -345,7 +335,7 @@ export default function MentoriaMetodo6015Page() {
                   <li>✔ Todos os 5 pilares</li>
                   <li>✔ Ciclo completo de mercado acompanhado</li>
                 </ul>
-                <a href="#lista" className="m6-btn-primary w100">Entrar na lista</a>
+                <a href={LINK_ANUAL} target="_blank" rel="noopener noreferrer" className="m6-btn-primary w100">Assinar anual →</a>
               </div>
             </FadeIn>
           </div>
@@ -384,36 +374,22 @@ export default function MentoriaMetodo6015Page() {
         </div>
       </section>
 
-      {/* FORMULÁRIO */}
-      <section className="m6-section" id="lista">
+      {/* CTA FINAL */}
+      <section className="m6-section" id="entrar">
         <div className="m6-wrap m6-form-wrap">
-          <FadeIn><p className="m6-label">LISTA DE ESPERA</p></FadeIn>
-          <FadeIn delay={80}><h2 className="m6-h2">Avise-me quando abrir.</h2></FadeIn>
-          <FadeIn delay={140}><p className="m6-sub">Quando a próxima turma abrir, os inscritos têm prioridade — e às vezes acesso a condições especiais antes do anúncio público.</p></FadeIn>
+          <FadeIn><p className="m6-label">INSCRIÇÕES ABERTAS</p></FadeIn>
+          <FadeIn delay={80}><h2 className="m6-h2">Garanta sua vaga.</h2></FadeIn>
+          <FadeIn delay={140}><p className="m6-sub">Turma com vagas limitadas. O acesso ao portfólio e aos cinco pilares é liberado assim que o pagamento é confirmado — com 7 dias de garantia integral.</p></FadeIn>
           <FadeIn delay={200}>
-            {status === 'ok' ? (
-              <div className="m6-success">
-                <span className="m6-success-icon">✔</span>
-                <div>
-                  <strong>Inscrição confirmada!</strong>
-                  <p>Você está na lista. Quando a próxima turma abrir, você será o primeiro a saber.</p>
-                </div>
-              </div>
-            ) : (
-              <form className="m6-form" onSubmit={submit}>
-                <input className="m6-input" type="text" placeholder="Seu nome" required
-                  value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
-                <input className="m6-input" type="email" placeholder="Seu melhor e-mail" required
-                  value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
-                <input className="m6-input" type="tel" placeholder="WhatsApp (com DDD)" required
-                  value={form.whatsapp} onChange={e => setForm(f => ({ ...f, whatsapp: e.target.value }))} />
-                <button type="submit" className="m6-btn-primary" disabled={status === 'sending'}>
-                  {status === 'sending' ? 'Enviando...' : 'Quero uma vaga quando abrir →'}
-                </button>
-                {status === 'err' && <p className="m6-err">Erro ao enviar. Tente novamente.</p>}
-                <p className="m6-form-note">Sem spam. Só aviso quando abrir vagas.</p>
-              </form>
-            )}
+            <div className="m6-cta-final">
+              <a href={LINK_ANUAL} target="_blank" rel="noopener noreferrer" className="m6-btn-primary w100">
+                Plano Anual — R$ 2.997 →
+              </a>
+              <a href={LINK_SEMESTRAL} target="_blank" rel="noopener noreferrer" className="m6-btn-outline w100">
+                Plano Semestral — R$ 1.997 →
+              </a>
+              <p className="m6-form-note">Pagamento seguro via Greenn · parcelamento em até 12×.</p>
+            </div>
           </FadeIn>
         </div>
       </section>

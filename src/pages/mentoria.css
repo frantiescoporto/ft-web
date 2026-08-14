@@ -672,3 +672,14 @@
   .m6-h1  { font-size: 1.65rem; }
   .m6-h2  { font-size: 1.5rem; }
 }
+
+/* ── Inscrições abertas (checkout Greenn) ─────────────────────────────────── */
+.m6-badge.open { background: rgba(245,166,35,0.14); color: #f5a623; }
+
+.m6-cta-final { display: grid; gap: 12px; margin-top: 8px; }
+.m6-cta-final .m6-btn-primary.w100,
+.m6-cta-final .m6-btn-outline.w100 {
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}

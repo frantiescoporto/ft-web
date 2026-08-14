@@ -210,44 +210,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── SMARTLAB DESTAQUE ── */}
+      {/* ── MENTORIA MÉTODO 6015 DESTAQUE ── */}
       <section style={{ maxWidth: 1100, margin: '0 auto', padding: '60px 32px' }}>
-        <div style={{ background: `linear-gradient(135deg, ${s.warning}18, ${s.card})`,
-          border: `1px solid ${s.warning}44`, borderRadius: 16, padding: '40px',
+        <div style={{ background: `linear-gradient(135deg, ${s.accent}18, ${s.card})`,
+          border: `1px solid ${s.accent}44`, borderRadius: 16, padding: '40px',
           display: 'grid', gridTemplateColumns: '1fr auto', gap: 32, alignItems: 'center' }}>
           <div>
-            <div style={{ fontSize: 11, color: s.warning, fontWeight: 700,
+            <div style={{ fontSize: 11, color: s.accent, fontWeight: 700,
               letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 12 }}>
-              🎓 Nova Mentoria · Em parceria com a Nelogica
+              🔥 Inscrições abertas · vagas limitadas
             </div>
             <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800,
               letterSpacing: '-0.02em', marginBottom: 12 }}>
-              SmartLab — Construa sua carteira de automações
+              Método 6015 — o método que eu opero, em conta real
             </h2>
             <p style={{ color: s.muted, fontSize: 14, lineHeight: 1.7, maxWidth: 560, marginBottom: 20 }}>
-              Mentoria de 3 meses com a plataforma Trade Quant Lab inclusa e 6 a 8 automações
-              entregues. Aprenda a montar uma boa estratégia e um portfólio consistente
-              do zero, com suporte direto.
+              Não é um curso comum: é acompanhamento completo com os mesmos robôs e o mesmo
+              portfólio que eu opero, com resultado publicado mês a mês — incluindo os meses
+              negativos. Sem sala de sinais, sem promessa milagrosa.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              {['Trade Quant Lab incluso', '6–8 automações', '3 meses', 'Suporte direto'].map((f, i) => (
+              {['Conta real, mês a mês', '~40 robôs disponíveis', '3–5 min por dia', 'Sem sala de sinais'].map((f, i) => (
                 <span key={i} style={{ fontSize: 12, padding: '4px 12px',
-                  background: `${s.warning}18`, border: `1px solid ${s.warning}33`,
-                  borderRadius: 99, color: s.warning }}>{f}</span>
+                  background: `${s.accent}18`, border: `1px solid ${s.accent}33`,
+                  borderRadius: 99, color: s.accent }}>{f}</span>
               ))}
             </div>
           </div>
-          <div style={{ flexShrink: 0 }}>
-            <a href="https://use.invest.academy/ed-capt-lp-smartlab"
-              target="_blank" rel="noopener noreferrer"
+          <div style={{ flexShrink: 0, textAlign: 'center' }}>
+            <button onClick={() => navigate('/mentoria_metodo6015')}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 8,
-                background: s.warning, color: '#000', padding: '14px 28px',
-                borderRadius: 10, fontWeight: 800, fontSize: 15, textDecoration: 'none',
-                transition: 'opacity .15s', whiteSpace: 'nowrap' }}
+                background: s.accent, color: '#04140f', border: 'none',
+                padding: '14px 28px', borderRadius: 10, fontWeight: 800, fontSize: 15,
+                cursor: 'pointer', transition: 'opacity .15s', whiteSpace: 'nowrap' }}
               onMouseEnter={e => e.currentTarget.style.opacity = '.85'}
               onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
-              Quero participar →
-            </a>
+              Quero minha vaga →
+            </button>
+            <div style={{ fontSize: 11, color: s.muted, marginTop: 10 }}>
+              Vagas limitadas · 7 dias de garantia.
+            </div>
           </div>
         </div>
       </section>
