@@ -223,8 +223,8 @@ export default function CopaRobosPage() {
       {/* ── HERO ── */}
       <section style={{ maxWidth: 1100, margin: '0 auto', padding: '56px 32px 32px', textAlign: 'center' }}>
         <button onClick={() => navigate('/')}
-          style={{ background: 'none', border: 'none', color: s.muted, fontSize: 13,
-            cursor: 'pointer', marginBottom: 24, padding: 0 }}>
+          style={{ display: 'block', margin: '0 auto 24px', background: 'none',
+            border: 'none', color: s.muted, fontSize: 13, cursor: 'pointer', padding: 0 }}>
           ← voltar para a home
         </button>
 
