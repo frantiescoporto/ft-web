@@ -14,6 +14,7 @@ import Balanse03Page from './pages/Balanse03Page.jsx'
 import AvelPage from './pages/AvelPage.jsx'
 import CopaRobosPage from './pages/CopaRobosPage.jsx'
 import AvelClientesPage from './pages/AvelClientesPage.jsx'
+import ResultadoDoMesPage from './pages/ResultadoDoMesPage.jsx'
 
 export default function App() {
   useEffect(() => {
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/daytrademodoautomatico" element={<AvelPage />} />
         <Route path="/copa-dos-robos" element={<CopaRobosPage />} />
         <Route path="/avel-clientes" element={<AvelClientesPage />} />
+        <Route path="/resultado-do-mes" element={<ResultadoDoMesPage />} />
       </Routes>
     </DataProvider>
   )

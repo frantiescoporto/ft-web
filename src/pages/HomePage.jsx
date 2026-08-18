@@ -122,8 +122,20 @@ export default function HomePage() {
         </div>
 
         {/* ── 3 Opções Menores ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(148px, 1fr))',
           gap: 12, maxWidth: 680, margin: '0 auto' }}>
+
+          {/* Resultado do mês */}
+          <button onClick={() => navigate('/resultado-do-mes')}
+            style={{ background: s.surface, border: `1px solid ${s.border}`,
+              borderRadius: 12, padding: '20px 16px', cursor: 'pointer',
+              textAlign: 'center', transition: 'all .2s', color: s.text }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = s.accent; e.currentTarget.style.background = `${s.accent}08` }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = s.border; e.currentTarget.style.background = s.surface }}>
+            <div style={{ fontSize: 24, marginBottom: 8 }}>📅</div>
+            <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4, color: s.accent }}>Resultado do mês</div>
+            <div style={{ fontSize: 11, color: s.muted }}>pregão por pregão</div>
+          </button>
 
           {/* Como adquirir */}
           <button onClick={() => navigate('/como-adquirir')}
