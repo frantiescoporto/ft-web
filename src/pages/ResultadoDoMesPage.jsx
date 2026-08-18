@@ -42,6 +42,24 @@ import { useNavigate } from 'react-router-dom'
 const PLANILHA_ID = '1wPENWZ_fyFQG7PiIoG0KHeKoR0ejn3hJAo4MoAyc3yY'
 const CSV_PUBLICADO = '' // ← URL do "Publicar na web → CSV", se precisar
 
+// Aba da planilha com o link de assinatura individual de cada robô.
+// Formato:  codigo do robo | link | nome (opcional)
+//   WIN_03 | https://nelogica.com.br/... | Nome comercial
+// Robô sem link fica opaco na tabela, com "em breve" no lugar do botão.
+const ABA_LINKS = 'links'
+const CSV_LINKS_PUBLICADO = '' // ← URL do CSV publicado DESSA aba, se precisar
+
+const FONTES_LINKS = [
+  CSV_LINKS_PUBLICADO,
+  PLANILHA_ID && `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(ABA_LINKS)}`,
+].filter(Boolean)
+
+// Assinatura dos robôs (mesmo checkout usado na página da Copa)
+const LINK_ASSINATURA = 'https://payfast.greenn.com.br/gs8wdp6'
+const WHATSAPP = 'https://wa.me/5553999010262?text=' + encodeURIComponent(
+  'Olá Frantiesco! Vi o resultado dos robôs no site e quero saber mais sobre a assinatura.'
+)
+
 const FONTES_CSV = [
   CSV_PUBLICADO,
   PLANILHA_ID && `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/gviz/tq?tqx=out:csv`,
@@ -156,12 +174,15 @@ function lerPlanilha(texto) {
   const cAtivo = acharCol(cab, ['ativo', 'papel', 'contrato'])
   const cLotes = acharCol(cab, ['lotes', 'lote', 'contratos', 'qtd'])
   const cPonto = acharCol(cab, ['valorponto', 'valordoponto', 'pontovalor'])
+  // nome comercial do robô, se a planilha trouxer numa coluna própria
+  let cNome = acharCol(cab, ['nome', 'apelido', 'nomedorobo', 'nomecomercial'])
+  if (cNome === cRobo) cNome = null
 
   // coluna de total: a primeira coluna sem papel definido antes da 1ª data
   const primeiraData = colunasData[0].i
   let cTotal = null
   for (let i = 0; i < primeiraData; i++) {
-    if (i !== cRobo && i !== cAtivo && i !== cLotes && i !== cPonto) { cTotal = i; break }
+    if (i !== cRobo && i !== cAtivo && i !== cLotes && i !== cPonto && i !== cNome) { cTotal = i; break }
   }
 
   const robos = []
@@ -184,9 +205,6 @@ function lerPlanilha(texto) {
         pontos: valorPonto && valorPonto > 0 ? v / (valorPonto * lotes) : null,
       }
     })
-    // robô sem nenhum pregão lançado não entra
-    if (!Object.keys(dias).length) return
-
     // conferência contra a coluna de total da planilha
     if (cTotal != null) {
       const totalPlanilha = toNum(r[cTotal])
@@ -198,7 +216,8 @@ function lerPlanilha(texto) {
       }
     }
 
-    robos.push({ nome, ativo, lotes, valorPonto, dias })
+    robos.push({ nome, apelido: cNome == null ? '' : String(r[cNome] || '').trim(),
+      ativo, lotes, valorPonto, dias })
   })
   if (!robos.length) throw new Error('nenhum robo encontrado')
 
@@ -216,6 +235,25 @@ function lerPlanilha(texto) {
   })
 
   return { robos, meses, diasPorMes, ultimoDia, divergencias }
+}
+
+function lerLinks(texto) {
+  const rows = parseCSV(texto)
+  const mapa = {}
+  rows.forEach(r => {
+    const codigo = String(r[0] || '').trim()
+    if (!codigo) return
+    // pula uma eventual linha de cabeçalho
+    const c = semAcento(codigo)
+    if (c === 'robo' || c === 'algoritmo' || c === 'codigo' || c === 'estrategia') return
+    const link = String(r[1] || '').trim()
+    const nome = String(r[2] || '').trim()
+    mapa[codigo.toUpperCase()] = {
+      link: /^https?:\/\//i.test(link) ? link : '',
+      nome,
+    }
+  })
+  return mapa
 }
 
 // ── Formatação ───────────────────────────────────────────────────────────────
@@ -244,6 +282,7 @@ const rotuloDia = (k) => {
 export default function ResultadoDoMesPage() {
   const navigate = useNavigate()
   const [dados, setDados] = useState(null)
+  const [links, setLinks] = useState(null)
   const [erro, setErro] = useState(null)
   const [mesSel, setMesSel] = useState(null)
   const [diaSel, setDiaSel] = useState(null)
@@ -266,6 +305,20 @@ export default function ResultadoDoMesPage() {
       }
       if (vivo) setErro(ultimo)
     })()
+
+    // aba de links — falha aqui não quebra a página, só some o botão de assinar
+    ;(async () => {
+      for (const url of FONTES_LINKS) {
+        try {
+          const r = await fetch(url)
+          if (!r.ok) continue
+          const mapa = lerLinks(await r.text())
+          if (!vivo) return
+          if (Object.keys(mapa).length) { setLinks(mapa); return }
+        } catch (e) { /* segue sem links */ }
+      }
+    })()
+
     return () => { vivo = false }
   }, [])
 
@@ -293,8 +346,9 @@ export default function ResultadoDoMesPage() {
     const positivos = chaves.filter(k => porDia[k].financeiro > 0).length
     const fins = chaves.map(k => porDia[k].financeiro).filter(v => v != null)
 
-    // ranking dos robôs no mês
-    const ranking = dados.robos.map(r => {
+    // ranking do mês: quem operou vem ordenado pelo resultado; logo abaixo,
+    // os robôs disponíveis para assinatura que não operaram no período.
+    const avaliados = dados.robos.map(r => {
       let fin = 0, pts = 0, dias = 0, temPts = false, ganhos = 0
       colunas.forEach(c => {
         const d = r.dias[c.chaveDia]
@@ -304,8 +358,17 @@ export default function ResultadoDoMesPage() {
         if (d.financeiro > 0) ganhos++
         if (d.pontos != null) { pts += d.pontos; temPts = true }
       })
-      return { ...r, fin, pts: temPts ? pts : null, dias, ganhos }
-    }).filter(r => r.dias > 0).sort((a, b) => b.fin - a.fin)
+      const info = links ? links[r.nome.toUpperCase()] : null
+      return { ...r, fin, pts: temPts ? pts : null, dias, ganhos,
+        link: info && info.link ? info.link : '',
+        apelido: (info && info.nome) || r.apelido || '' }
+    })
+
+    const operaram = avaliados.filter(r => r.dias > 0).sort((a, b) => b.fin - a.fin)
+    const paradosComLink = avaliados
+      .filter(r => r.dias === 0 && r.link)
+      .sort((a, b) => a.nome.localeCompare(b.nome))
+    const ranking = operaram.concat(paradosComLink)
 
     return {
       porDia, chaves, totalFin, totalPts,
@@ -313,9 +376,9 @@ export default function ResultadoDoMesPage() {
       dias: chaves.length, positivos,
       melhor: fins.length ? Math.max.apply(null, fins) : null,
       pior: fins.length ? Math.min.apply(null, fins) : null,
-      ranking,
+      ranking, nOperaram: operaram.length,
     }
-  }, [dados, mes])
+  }, [dados, mes, links])
 
   const diaAberto = diaSel && resumo && resumo.porDia[diaSel] ? diaSel : null
   const ehPontos = unidade === 'pontos'
@@ -442,7 +505,7 @@ export default function ResultadoDoMesPage() {
                 cor={resumo.positivos >= resumo.dias / 2 ? s.pos : null} />
               <Kpi rotulo="Melhor dia" valor={fmtRSc(resumo.melhor)} cor={s.pos} />
               <Kpi rotulo="Pior dia" valor={fmtRSc(resumo.pior)} cor={s.neg} />
-              <Kpi rotulo="Robôs no mês" valor={String(resumo.ranking.length)} />
+              <Kpi rotulo="Robôs no mês" valor={String(resumo.nOperaram)} />
             </div>
           </section>
 
@@ -476,6 +539,7 @@ export default function ResultadoDoMesPage() {
             </h2>
             <p style={{ color: s.muted, fontSize: 13, marginBottom: 18 }}>
               Acumulado de {rotuloMes(mes).toLowerCase()}, do melhor para o pior.
+              {links && ' Dá para assinar cada robô separadamente — os que ainda não estão disponíveis aparecem esmaecidos, e os que não operaram no mês ficam no fim da lista.'}
             </p>
             <div style={{ overflowX: 'auto', border: `1px solid ${s.border}`, borderRadius: 14 }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 620, fontSize: 13 }}>
@@ -488,22 +552,50 @@ export default function ResultadoDoMesPage() {
                     <Th right>Dias +</Th>
                     {resumo.temPts && <Th right>Pontos</Th>}
                     <Th right>Financeiro</Th>
+                    {links && <Th right>Assinar</Th>}
                   </tr>
                 </thead>
                 <tbody>
                   {resumo.ranking.map((r, i) => (
-                    <tr key={r.nome} style={{ borderTop: `1px solid ${s.border}` }}>
-                      <Td muted>{i + 1}</Td>
-                      <Td><strong>{r.nome}</strong></Td>
+                    <tr key={r.nome} style={{ borderTop: `1px solid ${s.border}`,
+                      opacity: links && !r.link ? 0.5 : 1,
+                      background: r.dias === 0 ? 'rgba(255,255,255,0.02)' : 'transparent' }}>
+                      <Td muted>{r.dias === 0 ? '–' : i + 1}</Td>
+                      <Td>
+                        <strong>{r.nome}</strong>
+                        {r.apelido && (
+                          <span style={{ color: s.muted, fontWeight: 400 }}> · {r.apelido}</span>
+                        )}
+                      </Td>
                       <Td muted>{r.ativo || '—'}</Td>
-                      <Td right muted>{r.dias}</Td>
-                      <Td right muted>{r.ganhos}</Td>
+                      <Td right muted>{r.dias === 0 ? '—' : r.dias}</Td>
+                      <Td right muted>{r.dias === 0 ? '—' : r.ganhos}</Td>
                       {resumo.temPts && (
-                        <Td right cor={r.pts == null ? s.muted : r.pts >= 0 ? s.pos : s.neg}>
-                          {r.pts == null ? '—' : fmtPT(r.pts)}
+                        <Td right cor={r.dias === 0 || r.pts == null ? s.muted : r.pts >= 0 ? s.pos : s.neg}>
+                          {r.dias === 0 || r.pts == null ? '—' : fmtPT(r.pts)}
                         </Td>
                       )}
-                      <Td right cor={r.fin >= 0 ? s.pos : s.neg}><strong>{fmtRS(r.fin)}</strong></Td>
+                      <Td right cor={r.dias === 0 ? s.muted : r.fin >= 0 ? s.pos : s.neg}>
+                        {r.dias === 0 ? 'não operou' : <strong>{fmtRS(r.fin)}</strong>}
+                      </Td>
+                      {links && (
+                        <Td right>
+                          {r.link ? (
+                            <a href={r.link} target="_blank" rel="noopener noreferrer"
+                              style={{ display: 'inline-block', background: `${s.accent}1a`,
+                                border: `1px solid ${s.accent}55`, color: s.accent,
+                                borderRadius: 8, padding: '6px 14px', fontSize: 12,
+                                fontWeight: 800, textDecoration: 'none', whiteSpace: 'nowrap',
+                                transition: 'all .15s' }}
+                              onMouseEnter={e => { e.currentTarget.style.background = s.accent; e.currentTarget.style.color = '#04140f' }}
+                              onMouseLeave={e => { e.currentTarget.style.background = `${s.accent}1a`; e.currentTarget.style.color = s.accent }}>
+                              Assinar →
+                            </a>
+                          ) : (
+                            <span style={{ fontSize: 11.5, color: s.muted }}>em breve</span>
+                          )}
+                        </Td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
@@ -513,9 +605,52 @@ export default function ResultadoDoMesPage() {
         </>
       )}
 
+      {/* ── CTA DE ASSINATURA ── */}
+      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '52px 32px 0' }}>
+        <div style={{ background: `linear-gradient(135deg, ${s.accent}18, ${s.card})`,
+          border: `1px solid ${s.accent}44`, borderRadius: 16, padding: '36px 40px',
+          display: 'grid', gridTemplateColumns: '1fr auto', gap: 32, alignItems: 'center' }}>
+          <div>
+            <div style={{ fontSize: 11, color: s.accent, fontWeight: 700,
+              letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 12 }}>
+              🤖 Assine os robôs
+            </div>
+            <h2 style={{ fontSize: 'clamp(21px, 2.8vw, 30px)', fontWeight: 800,
+              letterSpacing: '-0.02em', marginBottom: 12 }}>
+              Quer esses robôs rodando na sua conta?
+            </h2>
+            <p style={{ color: s.muted, fontSize: 14, lineHeight: 1.7, maxWidth: 560, margin: 0 }}>
+              São os mesmos robôs que você está vendo aqui, pregão a pregão, já com a
+              configuração que eu uso. Ficou dúvida antes de assinar, é só me chamar.
+            </p>
+          </div>
+          <div style={{ flexShrink: 0, display: 'grid', gap: 10 }}>
+            <a href={LINK_ASSINATURA} target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                background: s.accent, color: '#04140f', padding: '15px 30px',
+                borderRadius: 10, fontWeight: 800, fontSize: 15, textDecoration: 'none',
+                boxSizing: 'border-box', transition: 'opacity .15s', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => e.currentTarget.style.opacity = '.85'}
+              onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
+              Assinar os robôs →
+            </a>
+            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                background: 'transparent', color: s.text, padding: '13px 30px',
+                border: `1px solid ${s.border}`, borderRadius: 10, fontWeight: 700,
+                fontSize: 14, textDecoration: 'none', boxSizing: 'border-box',
+                transition: 'all .15s', whiteSpace: 'nowrap' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = s.accent; e.currentTarget.style.color = s.accent }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = s.border; e.currentTarget.style.color = s.text }}>
+              Tirar dúvida no WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* ── RODAPÉ ── */}
       <footer style={{ background: s.surface, borderTop: `1px solid ${s.border}`,
-        padding: '28px 32px', textAlign: 'center', color: s.muted, fontSize: 13, marginTop: 56 }}>
+        padding: '28px 32px', textAlign: 'center', color: s.muted, fontSize: 13, marginTop: 52 }}>
         <div style={{ maxWidth: 800, margin: '0 auto 10px', fontSize: 12, lineHeight: 1.7 }}>
           ⚠ Resultados de conta real, lançados manualmente a cada pregão — esta página reflete
           o último lançamento, não a posição em tempo real do mercado. Resultados passados não
