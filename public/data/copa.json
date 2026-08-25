@@ -1,0 +1,22 @@
+{
+  "atualizado": "25/08/2026",
+  "mes": "Agosto",
+  "fonte": "planilha oficial da Copa dos Robos",
+  "robos": [
+    { "nome": "WIN_07", "rent": 25.26 },
+    { "nome": "WIN_36", "rent": 21.23 },
+    { "nome": "WIN_22", "rent": 17.29 },
+    { "nome": "WIN_41", "rent": 14.22 },
+    { "nome": "WIN_16", "rent": 7.88 },
+    { "nome": "WIN_25", "rent": 7.46 },
+    { "nome": "WIN_38", "rent": 5.35 },
+    { "nome": "WIN_72", "rent": 4.0 },
+    { "nome": "WIN_10", "rent": 0.44 },
+    { "nome": "WIN_27", "rent": -4.05 },
+    { "nome": "WIN_03", "rent": -5.83 },
+    { "nome": "WIN_83", "rent": -18.22 },
+    { "nome": "WIN_06", "rent": -22.9 },
+    { "nome": "WIN_33", "rent": -32.55 },
+    { "nome": "WIN_20", "rent": -33.89 }
+  ]
+}
