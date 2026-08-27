@@ -5,35 +5,85 @@
  * Foto: /public/frantiesco-mentoria.jpg (com fallback)
  */
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
+import { useData } from '../context/DataContext.jsx'
 import './mentoria.css'
 
 // ── Links de checkout (Greenn) ───────────────────────────────────────
 const LINK_ANUAL     = 'https://payfast.greenn.com.br/116632/offer/TQ28Gg'
 const LINK_SEMESTRAL = 'https://payfast.greenn.com.br/116632/offer/H8T6cc'
 
+// ── PORTFÓLIO PÚBLICO (conta real) — leitura ao vivo ────────────────────────
+const CAPITAL_REAL = 12000   // capital real inicial na conta XP (base do cálculo)
+const MESES_PT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
+const normName = (s) => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim()
+
+function opSortKey(d) {
+  if (!d) return ''
+  if (d.includes('/')) { const p = d.split('/'), y = (p[2] || '').split(' ')[0].padStart(4, '0'); return `${y}${(p[1] || '').padStart(2, '0')}${(p[0] || '').padStart(2, '0')}` }
+  return (d.split('T')[0] || '').replace(/-/g, '')
+}
+function parseRobots(json) {
+  try { const p = JSON.parse(json || '[]'); if (!p.length) return []
+    if (typeof p[0] === 'string') return p.map(name => ({ name, lotes: 1 }))
+    return p.map(r => ({ name: r.name || String(r), lotes: Number(r.lotes) || 1 }))
+  } catch { return [] }
+}
+function getConfigVersions(portfolio) {
+  try { const cv = JSON.parse(portfolio.config_versions || '[]'); if (cv.length > 0) return cv } catch {}
+  return [{ valid_from: null, robots_json: portfolio.robots_json || '[]' }]
+}
+function getAllStrategyNames(portfolio) {
+  const names = new Set()
+  getConfigVersions(portfolio).forEach(v => parseRobots(v.robots_json).forEach(r => names.add(r.name)))
+  return [...names]
+}
+function applyLotesVersioned(ops, cv) {
+  if (!ops.length || !cv || !cv.length) return ops
+  if (cv.length === 1 && !cv[0].valid_from) {
+    const rc = parseRobots(cv[0].robots_json); const map = {}; rc.forEach(r => { map[r.name] = r.lotes || 1 })
+    return ops.filter(op => map[op.ativo] !== undefined).map(op => { const l = map[op.ativo]; return (!l || l === 1) ? op : { ...op, res_op: (op.res_op || 0) * l } })
+  }
+  return ops.filter(op => {
+    const k = opSortKey(op.abertura)
+    const valid = cv.filter(v => !v.valid_from || v.valid_from <= k).sort((a, b) => (b.valid_from || '').localeCompare(a.valid_from || ''))
+    if (!valid.length) return false
+    const rc = parseRobots(valid[0].robots_json); const map = {}; rc.forEach(r => { map[r.name] = r.lotes || 1 })
+    return map[op.ativo] !== undefined
+  }).map(op => {
+    const k = opSortKey(op.abertura)
+    const valid = cv.filter(v => !v.valid_from || v.valid_from <= k).sort((a, b) => (b.valid_from || '').localeCompare(a.valid_from || ''))
+    const lotes = parseRobots(valid[0].robots_json).find(r => r.name === op.ativo)?.lotes || 1
+    return lotes === 1 ? op : { ...op, res_op: (op.res_op || 0) * lotes }
+  })
+}
+
+// Resultados pelo método do SALDO ACUMULADO sobre o capital real inicial
+function computePublico(portfolio, allMentOps, base) {
+  if (!portfolio) return null
+  const opsByName = {}
+  ;(allMentOps || []).forEach(op => { const k = op.ativo; (opsByName[k] || (opsByName[k] = [])).push(op) })
+  let ops = getAllStrategyNames(portfolio).flatMap(n => opsByName[n] || [])
+  ops = applyLotesVersioned(ops, getConfigVersions(portfolio))
+  if (ops.length < 2) return null
+  ops = ops.slice().sort((a, b) => opSortKey(a.abertura).localeCompare(opSortKey(b.abertura)))
+  let bal = base, peak = base, ddMax = 0
+  ops.forEach(o => { bal += (o.res_op || 0); if (bal > peak) peak = bal; const dd = (peak - bal) / peak * 100; if (dd > ddMax) ddMax = dd })
+  const total = ops.reduce((s, o) => s + (o.res_op || 0), 0)
+  const acumulado = (total / base) * 100
+  const byMonth = {}
+  ops.forEach(o => { const k = opSortKey(o.abertura).slice(0, 6); byMonth[k] = (byMonth[k] || 0) + (o.res_op || 0) })
+  const keys = Object.keys(byMonth).sort()
+  let b2 = base; const monthly = []
+  keys.forEach(k => { const sum = byMonth[k]; const v = (sum / b2) * 100; b2 += sum; monthly.push({ m: `${MESES_PT[parseInt(k.slice(4, 6), 10) - 1]}/${k.slice(2, 4)}`, v }) })
+  const mediaMensal = monthly.length ? monthly.reduce((a, x) => a + x.v, 0) / monthly.length : 0
+  return { monthly, acumulado, mediaMensal, ddMax, nMeses: monthly.length, from: monthly[0]?.m, to: monthly[monthly.length - 1]?.m }
+}
+
+
 // ── Dados ─────────────────────────────────────────────────────────────────────
 
-const MONTHLY = [
-  { m: 'Fev/25', v:  52.12 }, { m: 'Mar/25', v:  11.24 },
-  { m: 'Abr/25', v:  38.99 }, { m: 'Mai/25', v:  48.22 },
-  { m: 'Jun/25', v:  -7.90 }, { m: 'Jul/25', v:  29.46 },
-  { m: 'Ago/25', v:  35.15 }, { m: 'Set/25', v:  41.93 },
-  { m: 'Out/25', v:   1.60 }, { m: 'Nov/25', v:  13.35 },
-  { m: 'Dez/25', v:  29.76 }, { m: 'Jan/26', v:  16.69 },
-  { m: 'Fev/26', v: -47.28 }, { m: 'Mar/26', v:  16.26 },
-  { m: 'Abr/26', v:   0.57 }, { m: 'Mai/26', v:  12.62 },
-]
 
-const PORTFOLIOS = [
-  { name: 'MENTORIA — 1K',  total: '+179,4%', sem: '+62,2%'  },
-  { name: 'MENTORIA — 5K',  total: '+424,8%', sem: '+94,1%'  },
-  { name: 'MENTORIA — 10K', total: '+519,9%', sem: '+16,9%'  },
-  { name: 'MENTORIA — 15K', total: '+589,6%', sem: '+8,4%'   },
-  { name: 'MENTORIA — 20K', total: '+500,9%', sem: '+8,9%'   },
-  { name: 'MENTORIA — 25K', total: '+549,0%', sem: '+18,0%'  },
-  { name: 'MENTORIA — 35K', total: '+412,9%', sem: '+115,6%' },
-]
 
 const PILLARS = [
   { n: '01', title: 'Portfólio compartilhado',
@@ -132,6 +182,12 @@ export default function MentoriaMetodo6015Page() {
   const [photoSrc, setPhotoSrc]     = useState('/frantiesco-mentoria.jpg')
   const [photoError, setPhotoError] = useState(false)
 
+  const { mentPortfolios, mentOps } = useData()
+  const pub = useMemo(() => {
+    const p = (mentPortfolios || []).find(x => normName(x.name) === 'portfolio publico') || (mentPortfolios || []).find(x => x.id === 38)
+    return computePublico(p, mentOps, CAPITAL_REAL)
+  }, [mentPortfolios, mentOps])
+
   function handlePhotoError() {
     if (photoSrc === '/frantiesco-mentoria.jpg') {
       setPhotoSrc('/frantiesco-mentoria.jpeg')
@@ -175,7 +231,7 @@ export default function MentoriaMetodo6015Page() {
               robôs e portfólio que eu opero, em conta real, mês a mês.
             </p>
             <div className="m6-hero-stats">
-              <div><b>+491%</b><span>consolidado em conta real</span></div>
+              <div><b>{pub ? `+${Math.round(pub.acumulado)}%` : '—'}</b><span>acumulado em conta real</span></div>
               <div><b>~40</b><span>robôs disponíveis</span></div>
               <div><b>3–5 min</b><span>por dia já é suficiente</span></div>
             </div>
@@ -210,11 +266,22 @@ export default function MentoriaMetodo6015Page() {
       {/* RESULTADOS */}
       <section className="m6-section">
         <div className="m6-wrap">
-          <FadeIn><p className="m6-label">RESULTADOS REAIS · CONTA REAL · FEV/25 → MAI/26</p></FadeIn>
-          <FadeIn delay={80}><h2 className="m6-h2">16 meses. Sem edição. Sem cortes.</h2></FadeIn>
+          <FadeIn><p className="m6-label">RESULTADOS REAIS · CONTA REAL{pub ? ` · ${pub.from.toUpperCase()} → ${pub.to.toUpperCase()}` : ''}</p></FadeIn>
+          <FadeIn delay={80}><h2 className="m6-h2">{pub ? `${pub.nMeses} meses` : 'Meses reais'}. Sem edição. Sem cortes.</h2></FadeIn>
           <FadeIn delay={160}><p className="m6-sub">Incluindo os meses negativos — porque é assim que o mercado funciona, e é assim que o Método 6015 se apresenta.</p></FadeIn>
+
+          {pub && (
+            <FadeIn delay={100}>
+              <div className="m6-hero-stats">
+                <div><b>+{Math.round(pub.acumulado)}%</b><span>acumulado</span></div>
+                <div><b>+{pub.mediaMensal.toFixed(1).replace('.', ',')}%</b><span>média mensal</span></div>
+                <div><b>−{pub.ddMax.toFixed(1).replace('.', ',')}%</b><span>drawdown máximo</span></div>
+              </div>
+            </FadeIn>
+          )}
+
           <div className="m6-months">
-            {MONTHLY.map(({ m, v }, i) => (
+            {(pub ? pub.monthly : []).map(({ m, v }, i) => (
               <FadeIn key={m} delay={i * 40}>
                 <div className={`m6-month ${v >= 0 ? 'pos' : 'neg'}`}>
                   <span className="m6-month-lbl">{m}</span>
@@ -223,22 +290,15 @@ export default function MentoriaMetodo6015Page() {
               </FadeIn>
             ))}
           </div>
+
           <FadeIn delay={100}>
-            <h3 className="m6-h3">Portfólios por capital inicial</h3>
-            <div className="m6-tbl-wrap">
-              <table className="m6-tbl">
-                <thead><tr><th>Portfólio</th><th>Semestre</th><th>Total acumulado</th></tr></thead>
-                <tbody>
-                  {PORTFOLIOS.map(p => (
-                    <tr key={p.name}>
-                      <td>{p.name}</td>
-                      <td className="pos">{p.sem}</td>
-                      <td className="pos bold">{p.total}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <p className="m6-label" style={{ marginTop: 32 }}>COMO CALCULAMOS</p>
+            <p className="m6-sub">
+              Partimos do capital real com que a conta começou (R$ 12.000, verificável na XP). A rentabilidade de
+              cada mês é o resultado sobre o saldo no início daquele mês (capital + resultado acumulado), e não
+              sobre um valor fixo — é o retorno sobre o dinheiro que estava de fato na conta. O drawdown máximo é a
+              maior queda do pico ao fundo do saldo. Resultados reais, sem projeção.
+            </p>
             <p className="m6-disc">⚠ Resultados passados não garantem resultados futuros. Mercado financeiro envolve risco, incluindo perda de capital.</p>
           </FadeIn>
         </div>
@@ -288,7 +348,7 @@ export default function MentoriaMetodo6015Page() {
           <div className="m6-nums">
             {[
               { n: 40,  s: '',   lbl: 'robôs disponíveis'     },
-              { n: 491, s: '%',  lbl: 'consolidado conta real' },
+              { n: pub ? Math.round(pub.acumulado) : 0, s: '%',  lbl: 'acumulado conta real' },
               { n: 30,  s: 'h+', lbl: 'horas de treinamento'  },
               { n: 1,   s: 'k',  lbl: 'mínimo pra começar'    },
             ].map(({ n, s, lbl }, i) => (
