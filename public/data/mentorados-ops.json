@@ -8847,6 +8847,15 @@
     "res_op_pct": 180
   },
   {
+    "abertura": "03/08/2026 10:45:00",
+    "fechamento": "03/08/2026 10:51:33",
+    "ativo": "WIN_16",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 36,
+    "res_op_pct": 180
+  },
+  {
     "abertura": "03/08/2026 10:51:33",
     "fechamento": "03/08/2026 11:35:04",
     "ativo": "WIN_41",
@@ -8854,6 +8863,33 @@
     "qtd": 1,
     "res_op": -91,
     "res_op_pct": -455
+  },
+  {
+    "abertura": "03/08/2026 10:51:33",
+    "fechamento": "03/08/2026 11:35:04",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -91,
+    "res_op_pct": -455
+  },
+  {
+    "abertura": "03/08/2026 10:51:33",
+    "fechamento": "03/08/2026 11:35:04",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -91,
+    "res_op_pct": -455
+  },
+  {
+    "abertura": "03/08/2026 11:55:09",
+    "fechamento": "03/08/2026 12:55:35",
+    "ativo": "BIT_54",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -14.8,
+    "res_op_pct": -1480
   },
   {
     "abertura": "03/08/2026 11:55:09",
@@ -8883,6 +8919,33 @@
     "res_op_pct": 10
   },
   {
+    "abertura": "03/08/2026 13:09:41",
+    "fechamento": "03/08/2026 13:26:27",
+    "ativo": "WIN_10",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 2,
+    "res_op_pct": 10
+  },
+  {
+    "abertura": "03/08/2026 16:05:37",
+    "fechamento": "03/08/2026 17:30:00",
+    "ativo": "WIN_39",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -72,
+    "res_op_pct": -360
+  },
+  {
+    "abertura": "03/08/2026 16:05:37",
+    "fechamento": "03/08/2026 17:30:00",
+    "ativo": "WINV26",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -72,
+    "res_op_pct": -360
+  },
+  {
     "abertura": "03/08/2026 16:05:37",
     "fechamento": "03/08/2026 17:30:00",
     "ativo": "WIN_39",
@@ -8899,6 +8962,15 @@
     "qtd": 1,
     "res_op": -16,
     "res_op_pct": -80
+  },
+  {
+    "abertura": "03/08/2026 16:40:00",
+    "fechamento": "03/08/2026 16:45:01",
+    "ativo": "WDO_05",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 0,
+    "res_op_pct": 0
   },
   {
     "abertura": "03/08/2026 16:40:00",
@@ -12348,6 +12420,15 @@
     "res_op_pct": 0
   },
   {
+    "abertura": "04/08/2026 09:18:25",
+    "fechamento": "04/08/2026 10:20:09",
+    "ativo": "WIN_83",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 0,
+    "res_op_pct": 0
+  },
+  {
     "abertura": "04/08/2026 09:53:05",
     "fechamento": "04/08/2026 09:57:14",
     "ativo": "WIN_22",
@@ -12364,6 +12445,24 @@
     "qtd": 1,
     "res_op": -69,
     "res_op_pct": -345
+  },
+  {
+    "abertura": "04/08/2026 09:53:05",
+    "fechamento": "04/08/2026 09:57:14",
+    "ativo": "WIN_22",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -69,
+    "res_op_pct": -345
+  },
+  {
+    "abertura": "04/08/2026 10:00:19",
+    "fechamento": "04/08/2026 10:02:05",
+    "ativo": "WIN_72",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -95,
+    "res_op_pct": -475
   },
   {
     "abertura": "04/08/2026 10:00:19",
@@ -12393,6 +12492,15 @@
     "res_op_pct": -390
   },
   {
+    "abertura": "04/08/2026 10:02:09",
+    "fechamento": "04/08/2026 10:02:22",
+    "ativo": "WIN_22",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -78,
+    "res_op_pct": -390
+  },
+  {
     "abertura": "04/08/2026 10:20:08",
     "fechamento": "04/08/2026 10:55:02",
     "ativo": "WIN_72",
@@ -12400,6 +12508,24 @@
     "qtd": 1,
     "res_op": 258,
     "res_op_pct": 1290
+  },
+  {
+    "abertura": "04/08/2026 10:20:08",
+    "fechamento": "04/08/2026 10:55:02",
+    "ativo": "WIN_72",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 258,
+    "res_op_pct": 1290
+  },
+  {
+    "abertura": "04/08/2026 10:40:00",
+    "fechamento": "04/08/2026 10:43:49",
+    "ativo": "WIN_16",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 40,
+    "res_op_pct": 200
   },
   {
     "abertura": "04/08/2026 10:40:00",
@@ -12427,6 +12553,24 @@
     "qtd": 1,
     "res_op": -62,
     "res_op_pct": -310
+  },
+  {
+    "abertura": "04/08/2026 10:57:19",
+    "fechamento": "04/08/2026 11:03:13",
+    "ativo": "WIN_22",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -62,
+    "res_op_pct": -310
+  },
+  {
+    "abertura": "04/08/2026 12:12:40",
+    "fechamento": "04/08/2026 12:52:26",
+    "ativo": "WIN_20",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -28,
+    "res_op_pct": -140
   },
   {
     "abertura": "04/08/2026 12:12:40",
@@ -12463,6 +12607,24 @@
     "qtd": 1,
     "res_op": 166,
     "res_op_pct": 830
+  },
+  {
+    "abertura": "04/08/2026 12:55:10",
+    "fechamento": "04/08/2026 17:12:00",
+    "ativo": "WIN_10",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 166,
+    "res_op_pct": 830
+  },
+  {
+    "abertura": "04/08/2026 15:54:09",
+    "fechamento": "04/08/2026 16:00:00",
+    "ativo": "WIN_25",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 14,
+    "res_op_pct": 70
   },
   {
     "abertura": "04/08/2026 15:54:09",
@@ -16875,6 +17037,24 @@
     "res_op_pct": -225
   },
   {
+    "abertura": "05/08/2026 10:00:34",
+    "fechamento": "05/08/2026 10:11:02",
+    "ativo": "WIN_07",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -45,
+    "res_op_pct": -225
+  },
+  {
+    "abertura": "05/08/2026 10:25:27",
+    "fechamento": "05/08/2026 10:30:07",
+    "ativo": "WIN_83",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -100,
+    "res_op_pct": -500
+  },
+  {
     "abertura": "05/08/2026 10:25:27",
     "fechamento": "05/08/2026 10:30:07",
     "ativo": "WIN_83",
@@ -16891,6 +17071,15 @@
     "qtd": 1,
     "res_op": 0.6,
     "res_op_pct": 60
+  },
+  {
+    "abertura": "05/08/2026 12:45:01",
+    "fechamento": "05/08/2026 14:42:59",
+    "ativo": "WIN_38",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -1,
+    "res_op_pct": -5
   },
   {
     "abertura": "05/08/2026 12:45:01",
@@ -16927,6 +17116,24 @@
     "qtd": 1,
     "res_op": -120,
     "res_op_pct": -600
+  },
+  {
+    "abertura": "05/08/2026 15:31:50",
+    "fechamento": "05/08/2026 16:59:48",
+    "ativo": "WIN_33",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -120,
+    "res_op_pct": -600
+  },
+  {
+    "abertura": "05/08/2026 15:32:03",
+    "fechamento": "05/08/2026 17:30:00",
+    "ativo": "WIN_39",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -98,
+    "res_op_pct": -490
   },
   {
     "abertura": "05/08/2026 15:32:03",
@@ -21591,6 +21798,24 @@
     "res_op_pct": -560
   },
   {
+    "abertura": "06/08/2026 09:15:52",
+    "fechamento": "06/08/2026 10:12:04",
+    "ativo": "WIN_83",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -112,
+    "res_op_pct": -560
+  },
+  {
+    "abertura": "06/08/2026 09:25:00",
+    "fechamento": "06/08/2026 09:27:48",
+    "ativo": "WDO_05",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -140,
+    "res_op_pct": -14
+  },
+  {
     "abertura": "06/08/2026 09:25:00",
     "fechamento": "06/08/2026 09:27:48",
     "ativo": "WDO_05",
@@ -21609,6 +21834,15 @@
     "res_op_pct": 730
   },
   {
+    "abertura": "06/08/2026 09:47:16",
+    "fechamento": "06/08/2026 10:19:53",
+    "ativo": "WIN_72",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 146,
+    "res_op_pct": 730
+  },
+  {
     "abertura": "06/08/2026 11:22:29",
     "fechamento": "06/08/2026 12:07:14",
     "ativo": "BIT_53",
@@ -21616,6 +21850,24 @@
     "qtd": 1,
     "res_op": -18.8,
     "res_op_pct": -1880
+  },
+  {
+    "abertura": "06/08/2026 13:41:22",
+    "fechamento": "06/08/2026 14:52:50",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -38,
+    "res_op_pct": -190
+  },
+  {
+    "abertura": "06/08/2026 13:41:22",
+    "fechamento": "06/08/2026 14:52:50",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -38,
+    "res_op_pct": -190
   },
   {
     "abertura": "06/08/2026 13:41:22",
@@ -25713,6 +25965,15 @@
     "res_op_pct": -245
   },
   {
+    "abertura": "07/08/2026 09:27:24",
+    "fechamento": "07/08/2026 09:30:00",
+    "ativo": "WIN_83",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -49,
+    "res_op_pct": -245
+  },
+  {
     "abertura": "07/08/2026 10:25:01",
     "fechamento": "07/08/2026 11:21:04",
     "ativo": "BIT_53",
@@ -25720,6 +25981,15 @@
     "qtd": 1,
     "res_op": -4.6,
     "res_op_pct": -460
+  },
+  {
+    "abertura": "07/08/2026 10:46:51",
+    "fechamento": "07/08/2026 11:09:03",
+    "ativo": "WIN_38",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 198,
+    "res_op_pct": 990
   },
   {
     "abertura": "07/08/2026 10:46:51",
@@ -25749,6 +26019,33 @@
     "res_op_pct": 1055
   },
   {
+    "abertura": "07/08/2026 10:53:06",
+    "fechamento": "07/08/2026 11:23:17",
+    "ativo": "WIN_22",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 211,
+    "res_op_pct": 1055
+  },
+  {
+    "abertura": "07/08/2026 11:21:53",
+    "fechamento": "07/08/2026 11:46:02",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 108,
+    "res_op_pct": 540
+  },
+  {
+    "abertura": "07/08/2026 11:21:53",
+    "fechamento": "07/08/2026 11:46:02",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 108,
+    "res_op_pct": 540
+  },
+  {
     "abertura": "07/08/2026 11:21:53",
     "fechamento": "07/08/2026 11:46:02",
     "ativo": "WIN_41",
@@ -25776,6 +26073,15 @@
     "res_op_pct": 295
   },
   {
+    "abertura": "07/08/2026 11:46:22",
+    "fechamento": "07/08/2026 12:18:30",
+    "ativo": "WIN_22",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 59,
+    "res_op_pct": 295
+  },
+  {
     "abertura": "07/08/2026 13:23:20",
     "fechamento": "07/08/2026 13:31:21",
     "ativo": "WIN_41",
@@ -25783,6 +26089,33 @@
     "qtd": 1,
     "res_op": 41,
     "res_op_pct": 205
+  },
+  {
+    "abertura": "07/08/2026 13:23:20",
+    "fechamento": "07/08/2026 13:31:21",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 41,
+    "res_op_pct": 205
+  },
+  {
+    "abertura": "07/08/2026 13:23:20",
+    "fechamento": "07/08/2026 13:31:21",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 41,
+    "res_op_pct": 205
+  },
+  {
+    "abertura": "07/08/2026 16:20:00",
+    "fechamento": "07/08/2026 17:15:00",
+    "ativo": "WDO_05",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -20,
+    "res_op_pct": -2
   },
   {
     "abertura": "07/08/2026 16:20:00",
@@ -36918,6 +37251,24 @@
     "res_op_pct": 3.5
   },
   {
+    "abertura": "10/08/2026 09:10:00",
+    "fechamento": "10/08/2026 09:15:00",
+    "ativo": "WDO_05",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 35,
+    "res_op_pct": 3.5
+  },
+  {
+    "abertura": "10/08/2026 09:15:00",
+    "fechamento": "10/08/2026 09:22:20",
+    "ativo": "WIN_16",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 22,
+    "res_op_pct": 110
+  },
+  {
     "abertura": "10/08/2026 09:15:00",
     "fechamento": "10/08/2026 09:22:20",
     "ativo": "WIN_16",
@@ -36943,6 +37294,24 @@
     "qtd": 1,
     "res_op": -68,
     "res_op_pct": -340
+  },
+  {
+    "abertura": "10/08/2026 09:19:37",
+    "fechamento": "10/08/2026 09:22:20",
+    "ativo": "WIN_22",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -68,
+    "res_op_pct": -340
+  },
+  {
+    "abertura": "10/08/2026 10:00:01",
+    "fechamento": "10/08/2026 10:55:36",
+    "ativo": "WIN_33",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -120,
+    "res_op_pct": -600
   },
   {
     "abertura": "10/08/2026 10:00:01",
@@ -36990,6 +37359,24 @@
     "res_op_pct": 100
   },
   {
+    "abertura": "10/08/2026 10:00:02",
+    "fechamento": "10/08/2026 10:21:08",
+    "ativo": "WIN_25",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 20,
+    "res_op_pct": 100
+  },
+  {
+    "abertura": "10/08/2026 10:00:02",
+    "fechamento": "10/08/2026 10:21:08",
+    "ativo": "WIN_36",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 20,
+    "res_op_pct": 100
+  },
+  {
     "abertura": "10/08/2026 10:00:04",
     "fechamento": "10/08/2026 10:55:40",
     "ativo": "WIN_39",
@@ -36997,6 +37384,24 @@
     "qtd": 1,
     "res_op": -120,
     "res_op_pct": -600
+  },
+  {
+    "abertura": "10/08/2026 10:00:04",
+    "fechamento": "10/08/2026 10:55:40",
+    "ativo": "WIN_39",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -120,
+    "res_op_pct": -600
+  },
+  {
+    "abertura": "10/08/2026 10:00:05",
+    "fechamento": "10/08/2026 10:10:27",
+    "ativo": "WIN_03",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 27,
+    "res_op_pct": 135
   },
   {
     "abertura": "10/08/2026 10:00:05",
@@ -37026,6 +37431,24 @@
     "res_op_pct": 0
   },
   {
+    "abertura": "10/08/2026 10:55:15",
+    "fechamento": "10/08/2026 11:34:04",
+    "ativo": "WIN_83",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 0,
+    "res_op_pct": 0
+  },
+  {
+    "abertura": "10/08/2026 13:00:06",
+    "fechamento": "10/08/2026 13:03:55",
+    "ativo": "BIT_54",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -6.8,
+    "res_op_pct": -680
+  },
+  {
     "abertura": "10/08/2026 13:00:06",
     "fechamento": "10/08/2026 13:03:55",
     "ativo": "BIT_54",
@@ -37053,6 +37476,15 @@
     "res_op_pct": -15
   },
   {
+    "abertura": "10/08/2026 13:08:01",
+    "fechamento": "10/08/2026 14:04:48",
+    "ativo": "WIN_10",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -3,
+    "res_op_pct": -15
+  },
+  {
     "abertura": "10/08/2026 16:03:35",
     "fechamento": "10/08/2026 16:15:00",
     "ativo": "WIN_39",
@@ -37060,6 +37492,33 @@
     "qtd": 1,
     "res_op": 32,
     "res_op_pct": 160
+  },
+  {
+    "abertura": "10/08/2026 16:03:35",
+    "fechamento": "10/08/2026 16:15:00",
+    "ativo": "WINV26",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 32,
+    "res_op_pct": 160
+  },
+  {
+    "abertura": "10/08/2026 16:03:35",
+    "fechamento": "10/08/2026 16:15:00",
+    "ativo": "WIN_39",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 32,
+    "res_op_pct": 160
+  },
+  {
+    "abertura": "10/08/2026 16:30:00",
+    "fechamento": "10/08/2026 16:41:02",
+    "ativo": "WIN_16",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 14,
+    "res_op_pct": 70
   },
   {
     "abertura": "10/08/2026 16:30:00",
@@ -41319,6 +41778,15 @@
     "res_op_pct": 150
   },
   {
+    "abertura": "11/08/2026 09:53:20",
+    "fechamento": "11/08/2026 09:55:00",
+    "ativo": "WIN_03",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 30,
+    "res_op_pct": 150
+  },
+  {
     "abertura": "11/08/2026 09:55:08",
     "fechamento": "11/08/2026 09:58:52",
     "ativo": "WIN_25",
@@ -41344,6 +41812,33 @@
     "qtd": 1,
     "res_op": 22,
     "res_op_pct": 110
+  },
+  {
+    "abertura": "11/08/2026 09:55:08",
+    "fechamento": "11/08/2026 09:58:52",
+    "ativo": "WIN_25",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 22,
+    "res_op_pct": 110
+  },
+  {
+    "abertura": "11/08/2026 09:55:08",
+    "fechamento": "11/08/2026 09:58:52",
+    "ativo": "WIN_36",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 22,
+    "res_op_pct": 110
+  },
+  {
+    "abertura": "11/08/2026 10:00:23",
+    "fechamento": "11/08/2026 10:15:04",
+    "ativo": "WIN_03",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -3,
+    "res_op_pct": -15
   },
   {
     "abertura": "11/08/2026 10:00:23",
@@ -41373,6 +41868,15 @@
     "res_op_pct": -335
   },
   {
+    "abertura": "11/08/2026 10:27:19",
+    "fechamento": "11/08/2026 10:41:49",
+    "ativo": "WIN_83",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -67,
+    "res_op_pct": -335
+  },
+  {
     "abertura": "11/08/2026 11:17:56",
     "fechamento": "11/08/2026 12:06:24",
     "ativo": "WIN_22",
@@ -41389,6 +41893,24 @@
     "qtd": 1,
     "res_op": 210,
     "res_op_pct": 1050
+  },
+  {
+    "abertura": "11/08/2026 11:17:56",
+    "fechamento": "11/08/2026 12:06:24",
+    "ativo": "WIN_22",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 210,
+    "res_op_pct": 1050
+  },
+  {
+    "abertura": "11/08/2026 12:09:40",
+    "fechamento": "11/08/2026 13:28:39",
+    "ativo": "WIN_22",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 181,
+    "res_op_pct": 905
   },
   {
     "abertura": "11/08/2026 12:09:40",
@@ -41418,6 +41940,24 @@
     "res_op_pct": -260
   },
   {
+    "abertura": "11/08/2026 12:52:41",
+    "fechamento": "11/08/2026 13:14:42",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -52,
+    "res_op_pct": -260
+  },
+  {
+    "abertura": "11/08/2026 12:52:41",
+    "fechamento": "11/08/2026 13:14:42",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -52,
+    "res_op_pct": -260
+  },
+  {
     "abertura": "11/08/2026 14:56:10",
     "fechamento": "11/08/2026 15:06:36",
     "ativo": "WIN_41",
@@ -41425,6 +41965,33 @@
     "qtd": 1,
     "res_op": 46,
     "res_op_pct": 230
+  },
+  {
+    "abertura": "11/08/2026 14:56:10",
+    "fechamento": "11/08/2026 15:06:36",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 46,
+    "res_op_pct": 230
+  },
+  {
+    "abertura": "11/08/2026 14:56:10",
+    "fechamento": "11/08/2026 15:06:36",
+    "ativo": "WIN_41",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 46,
+    "res_op_pct": 230
+  },
+  {
+    "abertura": "11/08/2026 15:11:07",
+    "fechamento": "11/08/2026 16:03:06",
+    "ativo": "WIN_22",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -62,
+    "res_op_pct": -310
   },
   {
     "abertura": "11/08/2026 15:11:07",
@@ -45702,6 +46269,24 @@
     "res_op_pct": 45
   },
   {
+    "abertura": "12/08/2026 12:12:00",
+    "fechamento": "12/08/2026 16:00:26",
+    "ativo": "WIN_20",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 9,
+    "res_op_pct": 45
+  },
+  {
+    "abertura": "12/08/2026 13:00:36",
+    "fechamento": "12/08/2026 13:09:15",
+    "ativo": "WIN_10",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 0,
+    "res_op_pct": 0
+  },
+  {
     "abertura": "12/08/2026 13:00:36",
     "fechamento": "12/08/2026 13:09:15",
     "ativo": "WIN_10",
@@ -45736,6 +46321,24 @@
     "qtd": 1,
     "res_op": 7,
     "res_op_pct": 35
+  },
+  {
+    "abertura": "12/08/2026 15:15:48",
+    "fechamento": "12/08/2026 15:30:00",
+    "ativo": "WIN_33",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 7,
+    "res_op_pct": 35
+  },
+  {
+    "abertura": "12/08/2026 15:30:06",
+    "fechamento": "12/08/2026 16:00:00",
+    "ativo": "WIN_39",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 4,
+    "res_op_pct": 20
   },
   {
     "abertura": "12/08/2026 15:30:06",
@@ -49041,6 +49644,15 @@
     "res_op_pct": 95
   },
   {
+    "abertura": "13/08/2026 09:45:29",
+    "fechamento": "13/08/2026 09:55:00",
+    "ativo": "WIN_03",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 19,
+    "res_op_pct": 95
+  },
+  {
     "abertura": "13/08/2026 10:04:01",
     "fechamento": "13/08/2026 10:06:00",
     "ativo": "WIN_25",
@@ -49066,6 +49678,33 @@
     "qtd": 1,
     "res_op": 19,
     "res_op_pct": 95
+  },
+  {
+    "abertura": "13/08/2026 10:04:01",
+    "fechamento": "13/08/2026 10:06:00",
+    "ativo": "WIN_25",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 20,
+    "res_op_pct": 100
+  },
+  {
+    "abertura": "13/08/2026 10:04:01",
+    "fechamento": "13/08/2026 10:06:00",
+    "ativo": "WIN_36",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 19,
+    "res_op_pct": 95
+  },
+  {
+    "abertura": "13/08/2026 10:15:00",
+    "fechamento": "13/08/2026 10:20:00",
+    "ativo": "WDO_05",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 10,
+    "res_op_pct": 1
   },
   {
     "abertura": "13/08/2026 10:15:00",
@@ -49104,6 +49743,15 @@
     "res_op_pct": 975
   },
   {
+    "abertura": "13/08/2026 10:59:41",
+    "fechamento": "13/08/2026 12:21:54",
+    "ativo": "WIN_07",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 195,
+    "res_op_pct": 975
+  },
+  {
     "abertura": "13/08/2026 12:53:19",
     "fechamento": "13/08/2026 13:39:15",
     "ativo": "WIN_06",
@@ -49111,6 +49759,15 @@
     "qtd": 1,
     "res_op": -64,
     "res_op_pct": -320
+  },
+  {
+    "abertura": "13/08/2026 13:15:00",
+    "fechamento": "13/08/2026 13:30:56",
+    "ativo": "WIN_10",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 6,
+    "res_op_pct": 30
   },
   {
     "abertura": "13/08/2026 13:15:00",
@@ -49140,6 +49797,15 @@
     "res_op_pct": -645
   },
   {
+    "abertura": "13/08/2026 13:25:19",
+    "fechamento": "13/08/2026 14:21:48",
+    "ativo": "WIN_20",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -129,
+    "res_op_pct": -645
+  },
+  {
     "abertura": "13/08/2026 15:36:17",
     "fechamento": "13/08/2026 17:30:00",
     "ativo": "WIN_33",
@@ -49156,6 +49822,33 @@
     "qtd": 1,
     "res_op": -48,
     "res_op_pct": -240
+  },
+  {
+    "abertura": "13/08/2026 15:36:17",
+    "fechamento": "13/08/2026 17:30:00",
+    "ativo": "WIN_33",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -48,
+    "res_op_pct": -240
+  },
+  {
+    "abertura": "13/08/2026 15:36:46",
+    "fechamento": "13/08/2026 16:19:52",
+    "ativo": "WIN_25",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -38,
+    "res_op_pct": -190
+  },
+  {
+    "abertura": "13/08/2026 15:36:46",
+    "fechamento": "13/08/2026 16:45:00",
+    "ativo": "WIN_39",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -17,
+    "res_op_pct": -85
   },
   {
     "abertura": "13/08/2026 15:36:46",
@@ -52704,6 +53397,24 @@
     "res_op_pct": -15
   },
   {
+    "abertura": "14/08/2026 09:01:22",
+    "fechamento": "14/08/2026 09:04:39",
+    "ativo": "WIN_07",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -3,
+    "res_op_pct": -15
+  },
+  {
+    "abertura": "14/08/2026 10:00:13",
+    "fechamento": "14/08/2026 10:32:39",
+    "ativo": "WIN_72",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -111,
+    "res_op_pct": -555
+  },
+  {
     "abertura": "14/08/2026 10:00:13",
     "fechamento": "14/08/2026 10:32:39",
     "ativo": "WIN_72",
@@ -52720,6 +53431,24 @@
     "qtd": 1,
     "res_op": -107,
     "res_op_pct": -535
+  },
+  {
+    "abertura": "14/08/2026 10:50:35",
+    "fechamento": "14/08/2026 11:03:41",
+    "ativo": "WIN_72",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -107,
+    "res_op_pct": -535
+  },
+  {
+    "abertura": "14/08/2026 12:13:48",
+    "fechamento": "14/08/2026 12:24:57",
+    "ativo": "WIN_20",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 10,
+    "res_op_pct": 50
   },
   {
     "abertura": "14/08/2026 12:13:48",
@@ -52749,6 +53478,24 @@
     "res_op_pct": -675
   },
   {
+    "abertura": "14/08/2026 12:51:13",
+    "fechamento": "14/08/2026 16:27:48",
+    "ativo": "WIN_10",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -135,
+    "res_op_pct": -675
+  },
+  {
+    "abertura": "14/08/2026 15:36:37",
+    "fechamento": "14/08/2026 15:45:00",
+    "ativo": "WIN_33",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 17,
+    "res_op_pct": 85
+  },
+  {
     "abertura": "14/08/2026 15:36:37",
     "fechamento": "14/08/2026 15:45:00",
     "ativo": "WIN_33",
@@ -52774,6 +53521,24 @@
     "qtd": 1,
     "res_op": -120,
     "res_op_pct": -600
+  },
+  {
+    "abertura": "14/08/2026 15:48:32",
+    "fechamento": "14/08/2026 16:27:09",
+    "ativo": "WIN_39",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -120,
+    "res_op_pct": -600
+  },
+  {
+    "abertura": "14/08/2026 16:40:00",
+    "fechamento": "14/08/2026 16:44:28",
+    "ativo": "WIN_16",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 40,
+    "res_op_pct": 200
   },
   {
     "abertura": "14/08/2026 16:40:00",
@@ -63954,6 +64719,24 @@
     "res_op_pct": 260
   },
   {
+    "abertura": "17/08/2026 10:00:28",
+    "fechamento": "17/08/2026 10:01:50",
+    "ativo": "WIN_25",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 53,
+    "res_op_pct": 265
+  },
+  {
+    "abertura": "17/08/2026 10:00:28",
+    "fechamento": "17/08/2026 10:01:50",
+    "ativo": "WIN_36",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 52,
+    "res_op_pct": 260
+  },
+  {
     "abertura": "17/08/2026 10:01:50",
     "fechamento": "17/08/2026 10:16:03",
     "ativo": "WIN_03",
@@ -63988,6 +64771,33 @@
     "qtd": 1,
     "res_op": -136,
     "res_op_pct": -680
+  },
+  {
+    "abertura": "17/08/2026 10:01:50",
+    "fechamento": "17/08/2026 10:16:03",
+    "ativo": "WIN_03",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -136,
+    "res_op_pct": -680
+  },
+  {
+    "abertura": "17/08/2026 10:01:50",
+    "fechamento": "17/08/2026 10:09:27",
+    "ativo": "WIN_36",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -100,
+    "res_op_pct": -500
+  },
+  {
+    "abertura": "17/08/2026 10:08:49",
+    "fechamento": "17/08/2026 10:21:23",
+    "ativo": "WIN_07",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 198,
+    "res_op_pct": 990
   },
   {
     "abertura": "17/08/2026 10:08:49",
@@ -64026,6 +64836,24 @@
     "res_op_pct": -5
   },
   {
+    "abertura": "17/08/2026 12:48:19",
+    "fechamento": "17/08/2026 13:03:21",
+    "ativo": "WIN_10",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -1,
+    "res_op_pct": -5
+  },
+  {
+    "abertura": "17/08/2026 12:48:19",
+    "fechamento": "17/08/2026 13:03:21",
+    "ativo": "WIN_20",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 9,
+    "res_op_pct": 45
+  },
+  {
     "abertura": "17/08/2026 15:17:16",
     "fechamento": "17/08/2026 15:30:00",
     "ativo": "WIN_33",
@@ -64042,6 +64870,24 @@
     "qtd": 1,
     "res_op": 6,
     "res_op_pct": 30
+  },
+  {
+    "abertura": "17/08/2026 15:17:16",
+    "fechamento": "17/08/2026 15:30:00",
+    "ativo": "WIN_33",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 6,
+    "res_op_pct": 30
+  },
+  {
+    "abertura": "17/08/2026 15:43:02",
+    "fechamento": "17/08/2026 15:45:00",
+    "ativo": "WIN_39",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 8,
+    "res_op_pct": 40
   },
   {
     "abertura": "17/08/2026 15:43:02",
@@ -67923,6 +68769,15 @@
     "res_op_pct": 280
   },
   {
+    "abertura": "18/08/2026 09:02:57",
+    "fechamento": "18/08/2026 09:03:25",
+    "ativo": "WIN_07",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 56,
+    "res_op_pct": 280
+  },
+  {
     "abertura": "18/08/2026 09:32:10",
     "fechamento": "18/08/2026 09:54:41",
     "ativo": "WIN_02",
@@ -67930,6 +68785,24 @@
     "qtd": 1,
     "res_op": -67,
     "res_op_pct": -335
+  },
+  {
+    "abertura": "18/08/2026 09:32:10",
+    "fechamento": "18/08/2026 09:54:41",
+    "ativo": "WIN_02",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -67,
+    "res_op_pct": -335
+  },
+  {
+    "abertura": "18/08/2026 09:48:02",
+    "fechamento": "18/08/2026 10:01:32",
+    "ativo": "WIN_03",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 7,
+    "res_op_pct": 35
   },
   {
     "abertura": "18/08/2026 09:48:02",
@@ -67977,6 +68850,24 @@
     "res_op_pct": 275
   },
   {
+    "abertura": "18/08/2026 09:49:34",
+    "fechamento": "18/08/2026 10:02:00",
+    "ativo": "WIN_25",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 55,
+    "res_op_pct": 275
+  },
+  {
+    "abertura": "18/08/2026 09:49:34",
+    "fechamento": "18/08/2026 10:02:00",
+    "ativo": "WIN_36",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 55,
+    "res_op_pct": 275
+  },
+  {
     "abertura": "18/08/2026 10:00:00",
     "fechamento": "18/08/2026 10:01:45",
     "ativo": "WIN_27",
@@ -67993,6 +68884,24 @@
     "qtd": 1,
     "res_op": -77,
     "res_op_pct": -385
+  },
+  {
+    "abertura": "18/08/2026 10:00:00",
+    "fechamento": "18/08/2026 10:01:45",
+    "ativo": "WIN_27",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -77,
+    "res_op_pct": -385
+  },
+  {
+    "abertura": "18/08/2026 10:01:45",
+    "fechamento": "18/08/2026 10:12:05",
+    "ativo": "WIN_72",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -80,
+    "res_op_pct": -400
   },
   {
     "abertura": "18/08/2026 10:01:45",
@@ -68040,6 +68949,15 @@
     "res_op_pct": -145
   },
   {
+    "abertura": "18/08/2026 13:54:13",
+    "fechamento": "18/08/2026 14:25:55",
+    "ativo": "WIN_10",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -29,
+    "res_op_pct": -145
+  },
+  {
     "abertura": "18/08/2026 15:35:22",
     "fechamento": "18/08/2026 16:05:03",
     "ativo": "WIN_33",
@@ -68056,6 +68974,24 @@
     "qtd": 1,
     "res_op": -121,
     "res_op_pct": -605
+  },
+  {
+    "abertura": "18/08/2026 15:35:22",
+    "fechamento": "18/08/2026 16:05:03",
+    "ativo": "WIN_33",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -121,
+    "res_op_pct": -605
+  },
+  {
+    "abertura": "18/08/2026 15:45:00",
+    "fechamento": "18/08/2026 16:45:00",
+    "ativo": "WIN_71",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 35,
+    "res_op_pct": 175
   },
   {
     "abertura": "18/08/2026 15:45:00",
@@ -71721,6 +72657,15 @@
     "res_op_pct": -30
   },
   {
+    "abertura": "19/08/2026 09:08:42",
+    "fechamento": "19/08/2026 09:20:56",
+    "ativo": "WIN_07",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -6,
+    "res_op_pct": -30
+  },
+  {
     "abertura": "19/08/2026 09:35",
     "fechamento": "19/08/2026 09:41",
     "ativo": "WIN_22",
@@ -71737,6 +72682,15 @@
     "qtd": 1,
     "res_op": -41,
     "res_op_pct": -205
+  },
+  {
+    "abertura": "19/08/2026 11:46:30",
+    "fechamento": "19/08/2026 11:55:13",
+    "ativo": "BIT_54",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 18.4,
+    "res_op_pct": 1840
   },
   {
     "abertura": "19/08/2026 11:46:30",
@@ -71766,6 +72720,15 @@
     "res_op_pct": 10
   },
   {
+    "abertura": "19/08/2026 13:56:34",
+    "fechamento": "19/08/2026 14:07:04",
+    "ativo": "WIN_10",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 2,
+    "res_op_pct": 10
+  },
+  {
     "abertura": "19/08/2026 15:19:50",
     "fechamento": "19/08/2026 15:41:12",
     "ativo": "WIN_25",
@@ -71773,6 +72736,24 @@
     "qtd": 1,
     "res_op": 16,
     "res_op_pct": 80
+  },
+  {
+    "abertura": "19/08/2026 15:19:50",
+    "fechamento": "19/08/2026 15:41:12",
+    "ativo": "WIN_25",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 16,
+    "res_op_pct": 80
+  },
+  {
+    "abertura": "19/08/2026 16:20:00",
+    "fechamento": "19/08/2026 17:15:00",
+    "ativo": "WIN_16",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -49,
+    "res_op_pct": -245
   },
   {
     "abertura": "19/08/2026 16:20:00",
@@ -76608,6 +77589,15 @@
     "res_op_pct": 820
   },
   {
+    "abertura": "20/08/2026 09:49:59",
+    "fechamento": "20/08/2026 10:34:01",
+    "ativo": "WIN_72",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 164,
+    "res_op_pct": 820
+  },
+  {
     "abertura": "20/08/2026 10:00:01",
     "fechamento": "20/08/2026 10:06:00",
     "ativo": "WIN_25",
@@ -76624,6 +77614,24 @@
     "qtd": 1,
     "res_op": 70,
     "res_op_pct": 350
+  },
+  {
+    "abertura": "20/08/2026 10:00:01",
+    "fechamento": "20/08/2026 10:01:20",
+    "ativo": "WIN_36",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 70,
+    "res_op_pct": 350
+  },
+  {
+    "abertura": "20/08/2026 10:00:01",
+    "fechamento": "20/08/2026 10:06:00",
+    "ativo": "WIN_25",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 18,
+    "res_op_pct": 90
   },
   {
     "abertura": "20/08/2026 10:00:01",
@@ -76653,6 +77661,24 @@
     "res_op_pct": -745
   },
   {
+    "abertura": "20/08/2026 12:01:12",
+    "fechamento": "20/08/2026 12:38:45",
+    "ativo": "WIN_38",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -149,
+    "res_op_pct": -745
+  },
+  {
+    "abertura": "20/08/2026 12:32:42",
+    "fechamento": "20/08/2026 13:51:52",
+    "ativo": "WIN_20",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -215,
+    "res_op_pct": -1075
+  },
+  {
     "abertura": "20/08/2026 12:32:42",
     "fechamento": "20/08/2026 13:51:52",
     "ativo": "WIN_20",
@@ -76671,6 +77697,15 @@
     "res_op_pct": 870
   },
   {
+    "abertura": "20/08/2026 13:16:04",
+    "fechamento": "20/08/2026 14:19:13",
+    "ativo": "WIN_38",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 174,
+    "res_op_pct": 870
+  },
+  {
     "abertura": "20/08/2026 13:29:18",
     "fechamento": "20/08/2026 15:18:16",
     "ativo": "WIN_07",
@@ -76678,6 +77713,24 @@
     "qtd": 1,
     "res_op": 80,
     "res_op_pct": 400
+  },
+  {
+    "abertura": "20/08/2026 13:29:18",
+    "fechamento": "20/08/2026 15:18:16",
+    "ativo": "WIN_07",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 80,
+    "res_op_pct": 400
+  },
+  {
+    "abertura": "20/08/2026 15:18:54",
+    "fechamento": "20/08/2026 15:46:10",
+    "ativo": "WIN_25",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 4,
+    "res_op_pct": 20
   },
   {
     "abertura": "20/08/2026 15:18:54",
@@ -76705,6 +77758,33 @@
     "qtd": 1,
     "res_op": 45,
     "res_op_pct": 225
+  },
+  {
+    "abertura": "20/08/2026 15:35:12",
+    "fechamento": "20/08/2026 16:00:00",
+    "ativo": "WIN_33",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 45,
+    "res_op_pct": 225
+  },
+  {
+    "abertura": "20/08/2026 15:35:28",
+    "fechamento": "20/08/2026 15:45:00",
+    "ativo": "WIN_39",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 8,
+    "res_op_pct": 40
+  },
+  {
+    "abertura": "20/08/2026 15:35:28",
+    "fechamento": "20/08/2026 15:45:00",
+    "ativo": "WINV26",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 8,
+    "res_op_pct": 40
   },
   {
     "abertura": "20/08/2026 15:35:28",
@@ -79695,6 +80775,15 @@
     "res_op_pct": 0
   },
   {
+    "abertura": "21/08/2026 09:35:48",
+    "fechamento": "21/08/2026 10:06:45",
+    "ativo": "WIN_07",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -42,
+    "res_op_pct": -210
+  },
+  {
     "abertura": "21/08/2026 09:58:12",
     "fechamento": "21/08/2026 10:09:45",
     "ativo": "WIN_06",
@@ -79702,6 +80791,24 @@
     "qtd": 1,
     "res_op": -121,
     "res_op_pct": -605
+  },
+  {
+    "abertura": "21/08/2026 09:58:12",
+    "fechamento": "21/08/2026 10:09:45",
+    "ativo": "WIN_38",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -123,
+    "res_op_pct": -615
+  },
+  {
+    "abertura": "21/08/2026 10:06:45",
+    "fechamento": "21/08/2026 10:30:02",
+    "ativo": "WIN_72",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -89,
+    "res_op_pct": -445
   },
   {
     "abertura": "21/08/2026 10:39",
@@ -79713,6 +80820,24 @@
     "res_op_pct": 30
   },
   {
+    "abertura": "21/08/2026 11:11:22",
+    "fechamento": "21/08/2026 12:30:02",
+    "ativo": "WIN_41",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 166,
+    "res_op_pct": 830
+  },
+  {
+    "abertura": "21/08/2026 11:11:22",
+    "fechamento": "21/08/2026 12:30:02",
+    "ativo": "WIN_41",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 166,
+    "res_op_pct": 830
+  },
+  {
     "abertura": "21/08/2026 13:13:59",
     "fechamento": "21/08/2026 13:21:11",
     "ativo": "WIN_10",
@@ -79720,6 +80845,51 @@
     "qtd": 1,
     "res_op": -2,
     "res_op_pct": -10
+  },
+  {
+    "abertura": "21/08/2026 13:13:59",
+    "fechamento": "21/08/2026 13:21:11",
+    "ativo": "WIN_10",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -2,
+    "res_op_pct": -10
+  },
+  {
+    "abertura": "21/08/2026 13:15:00",
+    "fechamento": "21/08/2026 13:21:11",
+    "ativo": "WIN_20",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 8,
+    "res_op_pct": 40
+  },
+  {
+    "abertura": "21/08/2026 13:24:00",
+    "fechamento": "21/08/2026 13:40:51",
+    "ativo": "WIN_20",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 21,
+    "res_op_pct": 105
+  },
+  {
+    "abertura": "21/08/2026 16:00:22",
+    "fechamento": "21/08/2026 16:00:23",
+    "ativo": "WIN_39",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 1,
+    "res_op_pct": 5
+  },
+  {
+    "abertura": "21/08/2026 16:40:00",
+    "fechamento": "21/08/2026 16:57:11",
+    "ativo": "WIN_16",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 31,
+    "res_op_pct": 155
   },
   {
     "abertura": "21/09/2023 00:00:00",
@@ -90810,6 +91980,15 @@
     "res_op_pct": 0
   },
   {
+    "abertura": "24/08/2026 10:39:51",
+    "fechamento": "24/08/2026 10:43:51",
+    "ativo": "WIN_07",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -39,
+    "res_op_pct": -195
+  },
+  {
     "abertura": "24/08/2026 10:40",
     "fechamento": "24/08/2026 10:43",
     "ativo": "WIN_22",
@@ -90846,6 +92025,24 @@
     "res_op_pct": -300
   },
   {
+    "abertura": "24/08/2026 12:13:01",
+    "fechamento": "24/08/2026 12:24:54",
+    "ativo": "WIN_41",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 103,
+    "res_op_pct": 515
+  },
+  {
+    "abertura": "24/08/2026 12:13:01",
+    "fechamento": "24/08/2026 12:24:54",
+    "ativo": "WIN_41",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 103,
+    "res_op_pct": 515
+  },
+  {
     "abertura": "24/08/2026 13:13:33",
     "fechamento": "24/08/2026 13:27:53",
     "ativo": "WIN_10",
@@ -90855,6 +92052,33 @@
     "res_op_pct": 10
   },
   {
+    "abertura": "24/08/2026 13:13:33",
+    "fechamento": "24/08/2026 13:27:53",
+    "ativo": "WIN_10",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 2,
+    "res_op_pct": 10
+  },
+  {
+    "abertura": "24/08/2026 13:21:28",
+    "fechamento": "24/08/2026 13:27:53",
+    "ativo": "WIN_20",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 10,
+    "res_op_pct": 50
+  },
+  {
+    "abertura": "24/08/2026 15:15:25",
+    "fechamento": "24/08/2026 15:24:56",
+    "ativo": "WIN_25",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 40,
+    "res_op_pct": 200
+  },
+  {
     "abertura": "24/08/2026 15:15:38",
     "fechamento": "24/08/2026 15:30:00",
     "ativo": "WIN_33",
@@ -90862,6 +92086,24 @@
     "qtd": 1,
     "res_op": 24,
     "res_op_pct": 120
+  },
+  {
+    "abertura": "24/08/2026 15:15:38",
+    "fechamento": "24/08/2026 15:30:00",
+    "ativo": "WIN_33",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 24,
+    "res_op_pct": 120
+  },
+  {
+    "abertura": "24/08/2026 16:00:06",
+    "fechamento": "24/08/2026 16:30:00",
+    "ativo": "WIN_39",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 8,
+    "res_op_pct": 40
   },
   {
     "abertura": "24/09/2024 00:00:00",
@@ -94779,6 +96021,42 @@
     "res_op_pct": 0
   },
   {
+    "abertura": "25/08/2026 09:23:40",
+    "fechamento": "25/08/2026 10:02:36",
+    "ativo": "WIN_02",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 10,
+    "res_op_pct": 50
+  },
+  {
+    "abertura": "25/08/2026 09:35:00",
+    "fechamento": "25/08/2026 09:37:13",
+    "ativo": "WIN_16",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 40,
+    "res_op_pct": 200
+  },
+  {
+    "abertura": "25/08/2026 09:45:00",
+    "fechamento": "25/08/2026 09:47:25",
+    "ativo": "WIN_16",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 40,
+    "res_op_pct": 200
+  },
+  {
+    "abertura": "25/08/2026 10:43:35",
+    "fechamento": "25/08/2026 10:48:09",
+    "ativo": "WIN_07",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -80,
+    "res_op_pct": -400
+  },
+  {
     "abertura": "25/08/2026 12:19:26",
     "fechamento": "25/08/2026 14:44:44",
     "ativo": "WIN_06",
@@ -94786,6 +96064,42 @@
     "qtd": 1,
     "res_op": 304,
     "res_op_pct": 1520
+  },
+  {
+    "abertura": "25/08/2026 12:51:23",
+    "fechamento": "25/08/2026 12:55:31",
+    "ativo": "WIN_41",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 76,
+    "res_op_pct": 380
+  },
+  {
+    "abertura": "25/08/2026 12:51:23",
+    "fechamento": "25/08/2026 12:55:31",
+    "ativo": "WIN_41",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 76,
+    "res_op_pct": 380
+  },
+  {
+    "abertura": "25/08/2026 13:00:08",
+    "fechamento": "25/08/2026 16:26:42",
+    "ativo": "WIN_38",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 190,
+    "res_op_pct": 950
+  },
+  {
+    "abertura": "25/08/2026 14:06:13",
+    "fechamento": "25/08/2026 14:24:47",
+    "ativo": "WIN_10",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -2,
+    "res_op_pct": -10
   },
   {
     "abertura": "25/08/2026 14:06:13",
@@ -99009,6 +100323,15 @@
     "res_op_pct": 0
   },
   {
+    "abertura": "26/08/2026 10:00:18",
+    "fechamento": "26/08/2026 10:10:46",
+    "ativo": "WIN_02",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -91,
+    "res_op_pct": -455
+  },
+  {
     "abertura": "26/08/2026 12:43:04",
     "fechamento": "26/08/2026 13:09:55",
     "ativo": "WIN_10",
@@ -99016,6 +100339,24 @@
     "qtd": 1,
     "res_op": -17,
     "res_op_pct": -85
+  },
+  {
+    "abertura": "26/08/2026 12:43:04",
+    "fechamento": "26/08/2026 13:09:55",
+    "ativo": "WIN_10",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -17,
+    "res_op_pct": -85
+  },
+  {
+    "abertura": "26/08/2026 12:47:08",
+    "fechamento": "26/08/2026 13:09:55",
+    "ativo": "WIN_20",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -7,
+    "res_op_pct": -35
   },
   {
     "abertura": "26/09/2023 00:00:00",
@@ -103158,6 +104499,51 @@
     "res_op_pct": 0
   },
   {
+    "abertura": "27/08/2026 09:03:24",
+    "fechamento": "27/08/2026 09:03:42",
+    "ativo": "WIN_07",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 32,
+    "res_op_pct": 160
+  },
+  {
+    "abertura": "27/08/2026 09:15:00",
+    "fechamento": "27/08/2026 09:16:37",
+    "ativo": "WIN_16",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 40,
+    "res_op_pct": 200
+  },
+  {
+    "abertura": "27/08/2026 11:03:46",
+    "fechamento": "27/08/2026 11:27:19",
+    "ativo": "WIN_72",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -109,
+    "res_op_pct": -545
+  },
+  {
+    "abertura": "27/08/2026 11:27:19",
+    "fechamento": "27/08/2026 11:43:13",
+    "ativo": "WIN_38",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -152,
+    "res_op_pct": -760
+  },
+  {
+    "abertura": "27/08/2026 12:00:00",
+    "fechamento": "27/08/2026 12:15:27",
+    "ativo": "WIN_16",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 40,
+    "res_op_pct": 200
+  },
+  {
     "abertura": "27/09/2023 00:00:00",
     "fechamento": "27/09/2023 00:00:00",
     "ativo": "WIN_19",
@@ -106486,6 +107872,105 @@
     "qtd": 1,
     "res_op": -1,
     "res_op_pct": 0
+  },
+  {
+    "abertura": "28/08/2026 09:20:00",
+    "fechamento": "28/08/2026 09:37:39",
+    "ativo": "WDO_05",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 10,
+    "res_op_pct": 1
+  },
+  {
+    "abertura": "28/08/2026 09:39:14",
+    "fechamento": "28/08/2026 11:17:58",
+    "ativo": "WIN_72",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 220,
+    "res_op_pct": 1100
+  },
+  {
+    "abertura": "28/08/2026 09:51:20",
+    "fechamento": "28/08/2026 10:03:18",
+    "ativo": "WIN_25",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 58,
+    "res_op_pct": 290
+  },
+  {
+    "abertura": "28/08/2026 09:51:20",
+    "fechamento": "28/08/2026 10:03:18",
+    "ativo": "WIN_36",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 58,
+    "res_op_pct": 290
+  },
+  {
+    "abertura": "28/08/2026 09:51:40",
+    "fechamento": "28/08/2026 10:02:19",
+    "ativo": "WIN_03",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 57,
+    "res_op_pct": 285
+  },
+  {
+    "abertura": "28/08/2026 11:06:48",
+    "fechamento": "28/08/2026 11:19:01",
+    "ativo": "WIN_07",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": -89,
+    "res_op_pct": -445
+  },
+  {
+    "abertura": "28/08/2026 11:17:58",
+    "fechamento": "28/08/2026 15:02:44",
+    "ativo": "WIN_38",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -6,
+    "res_op_pct": -30
+  },
+  {
+    "abertura": "28/08/2026 13:29:06",
+    "fechamento": "28/08/2026 14:46:45",
+    "ativo": "WIN_10",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": -126,
+    "res_op_pct": -630
+  },
+  {
+    "abertura": "28/08/2026 15:24:28",
+    "fechamento": "28/08/2026 15:24:35",
+    "ativo": "WIN_33",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 10,
+    "res_op_pct": 50
+  },
+  {
+    "abertura": "28/08/2026 15:30:11",
+    "fechamento": "28/08/2026 15:33:59",
+    "ativo": "WIN_33",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 36,
+    "res_op_pct": 180
+  },
+  {
+    "abertura": "28/08/2026 15:30:19",
+    "fechamento": "28/08/2026 15:33:59",
+    "ativo": "WIN_39",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 41,
+    "res_op_pct": 205
   },
   {
     "abertura": "28/09/2023 00:00:00",
@@ -115144,6 +116629,24 @@
     "qtd": 1,
     "res_op": -102,
     "res_op_pct": 0
+  },
+  {
+    "abertura": "31/08/2026 12:56:37",
+    "fechamento": "31/08/2026 14:35:38",
+    "ativo": "WIN_10",
+    "lado": "C",
+    "qtd": 1,
+    "res_op": 24,
+    "res_op_pct": 120
+  },
+  {
+    "abertura": "31/08/2026 16:06:21",
+    "fechamento": "31/08/2026 16:15:00",
+    "ativo": "WIN_39",
+    "lado": "V",
+    "qtd": 1,
+    "res_op": 6,
+    "res_op_pct": 30
   },
   {
     "abertura": "31/10/2023 00:00:00",
