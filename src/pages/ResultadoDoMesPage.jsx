@@ -40,7 +40,7 @@ import { useNavigate } from 'react-router-dom'
  */
 
 const PLANILHA_ID = '1wPENWZ_fyFQG7PiIoG0KHeKoR0ejn3hJAo4MoAyc3yY'
-const CSV_PUBLICADO = '' // ← URL do "Publicar na web → CSV", se precisar
+const CSV_PUBLICADO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRQFR3zu92pdJkZrRP9Ss2lsBbV_flUjrvfRwZnnDsOR934q7XW462wqHXLXbjQ3W0f4AVEz4PBT8E/pub?gid=0&single=true&output=csv' // Publicar na web → CSV (aba de resultados diários)
 
 // Aba da planilha com o link de assinatura individual de cada robô.
 // Formato:  codigo do robo | link | nome (opcional)
@@ -290,12 +290,14 @@ export default function ResultadoDoMesPage() {
 
   useEffect(() => {
     if (!FONTES_CSV.length) { setErro('sem-csv'); return }
+    // cache-buster: força buscar sempre a versão nova do CSV (evita cache do Google/navegador)
+    const semCache = (u) => u + (u.indexOf('?') >= 0 ? '&' : '?') + 'cb=' + Date.now()
     let vivo = true
     ;(async () => {
       let ultimo = 'nenhuma fonte respondeu'
       for (const url of FONTES_CSV) {
         try {
-          const r = await fetch(url)
+          const r = await fetch(semCache(url))
           if (!r.ok) { ultimo = 'HTTP ' + r.status; continue }
           const lido = lerPlanilha(await r.text())
           if (!vivo) return
@@ -310,7 +312,7 @@ export default function ResultadoDoMesPage() {
     ;(async () => {
       for (const url of FONTES_LINKS) {
         try {
-          const r = await fetch(url)
+          const r = await fetch(semCache(url))
           if (!r.ok) continue
           const mapa = lerLinks(await r.text())
           if (!vivo) return
