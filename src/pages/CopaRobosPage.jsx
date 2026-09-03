@@ -1,85 +1,34 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-/**
- * CopaRobosPage.jsx — rota /copa-dos-robos
- *
- * Lê a planilha oficial da Copa dos Robôs (Google Sheets) e monta o ranking.
- * NENHUM número é digitado aqui: rentabilidade, margem, resultado e o dia a dia
- * vêm todos da planilha. O que a página calcula em cima disso (dias operados,
- * dias positivos, melhor/pior dia) é derivado da própria série diária.
- *
- * ── FORMATO ESPERADO DA PLANILHA ─────────────────────────────────────────────
- *   linha 1:  ALGORÍTMO | (vazio) | (vazio) | (vazio) | 03/08/2026 | 04/08/2026 | ...
- *   linha 2+: WIN_03    | 7,60%   | R$ 960  | R$ 73   | (result. do dia) | ...
- *
- *   col A  = nome do robô
- *   col B  = rentabilidade % no período  (é a coluna que define o ranking)
- *   col C  = margem exigida / garantia
- *   col D  = resultado acumulado em R$
- *   col E+ = resultado de cada pregão (célula vazia = não operou no dia)
- *
- *   As colunas de data são detectadas pelo formato DD/MM/AAAA no cabeçalho —
- *   pode adicionar pregões à direita que a página acompanha sozinha.
- *
- * ── SE O RANKING NÃO CARREGAR ────────────────────────────────────────────────
- *   A planilha precisa estar acessível publicamente. O caminho mais confiável é
- *   Arquivo → Compartilhar → Publicar na web → aba do ranking → CSV, e colar a
- *   URL gerada em CSV_PUBLICADO abaixo (ela tem prioridade sobre as outras).
- */
+/* ============================================================================
+ *  Copa dos Robôs — Série A e Série B (acesso e rebaixamento)
+ *  NENHUM número é digitado: tudo vem da planilha (CSV).
+ *  Colunas: ALGORÍTMO | SÉRIE (A/B) | RENTABILIDADE % | margem | resultado | <pregões DD/MM/AAAA...>
+ *  Sobe 2 / cai 2: projeção pela posição atual dentro de cada série (se o mês fechasse hoje).
+ * ========================================================================== */
 
 const PLANILHA_ID = '1bGEBfwfMAkWp0r_6ahWmGyntEd_Cen7QyxhxpyCm0Ns'
-const CSV_PUBLICADO = '' // ← cole aqui a URL do "Publicar na web → CSV" se precisar
-
+const CSV_PUBLICADO = '' // ← cole aqui a URL do "Publicar na web → CSV" da aba do ranking, se quiser
 const FONTES_CSV = [
   CSV_PUBLICADO,
   `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/gviz/tq?tqx=out:csv`,
   `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/export?format=csv`,
 ].filter(Boolean)
 
-const LINK_ASSINATURA = 'https://payfast.greenn.com.br/gs8wdp6'
-
 const WHATSAPP = 'https://wa.me/5553999010262?text=' + encodeURIComponent(
-  'Olá Frantiesco! Vi a Copa dos Robôs no site e quero saber mais sobre a assinatura dos robôs.'
+  'Olá Frantiesco! Vi a Copa dos Robôs no site e quero testar os robôs grátis por 30 dias.'
 )
+const COPA = { titulo: 'Copa dos Robôs', edicao: '1ª edição' }
+const SOBEM = 2, CAEM = 2
 
-const COPA = {
-  titulo: 'Copa dos Robôs',
-  edicao: '1ª edição',
-}
-
-const s = {
-  accent: '#00d4aa',
-  dark: '#080c12',
-  surface: '#0f1520',
-  card: '#131b28',
-  border: 'rgba(255,255,255,0.07)',
-  text: '#e8edf5',
-  muted: '#6b7a99',
-  warning: '#f5a623',
-  purple: '#9b7cf4',
-  pos: '#34d47e',
-  neg: '#f06060',
-}
-
-const MEDALHAS = ['🥇', '🥈', '🥉']
-const CORES_PODIO = [s.warning, '#c6d0e0', '#cd7f32']
-
-// ── Leitura do CSV ───────────────────────────────────────────────────────────
-
+/* ── leitura do CSV ── */
 function parseCSV(text) {
-  const rows = []
-  let row = []
-  let field = ''
-  let inQuotes = false
+  const rows = []; let row = [], field = '', q = false
   for (let i = 0; i < text.length; i++) {
     const c = text[i]
-    if (inQuotes) {
-      if (c === '"') {
-        if (text[i + 1] === '"') { field += '"'; i++ }
-        else inQuotes = false
-      } else field += c
-    } else if (c === '"') inQuotes = true
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++ } else q = false } else field += c }
+    else if (c === '"') q = true
     else if (c === ',') { row.push(field); field = '' }
     else if (c === '\n') { row.push(field); rows.push(row); row = []; field = '' }
     else if (c !== '\r') field += c
@@ -87,34 +36,23 @@ function parseCSV(text) {
   if (field !== '' || row.length) { row.push(field); rows.push(row) }
   return rows
 }
-
 const EH_DATA = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/
-
 function toNum(v) {
   if (v == null) return null
-  let t = String(v).trim()
-  if (!t) return null
-  const negativo = t.indexOf('-') >= 0 || /^\(.*\)$/.test(t)
-  t = t.replace(/[^0-9.,]/g, '')
-  if (!t) return null
+  let t = String(v).trim(); if (!t) return null
+  const neg = t.indexOf('-') >= 0 || /^\(.*\)$/.test(t)
+  t = t.replace(/[^0-9.,]/g, ''); if (!t) return null
   if (t.indexOf(',') >= 0) t = t.replace(/\./g, '').replace(',', '.')
-  const n = parseFloat(t)
-  if (!isFinite(n)) return null
-  return negativo ? -Math.abs(n) : n
+  const n = parseFloat(t); if (!isFinite(n)) return null
+  return neg ? -Math.abs(n) : n
 }
-
-const fmtBRL = (n) => n == null ? '—'
-  : (n < 0 ? '-' : '+') + 'R$ ' + Math.abs(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-
-const fmtPct = (n) => n == null ? '—'
-  : (n > 0 ? '+' : n < 0 ? '-' : '') + Math.abs(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'
-
-const diaCurto = (d) => String(d || '').split('/').slice(0, 2).join('/')
+const ehSerie = (v) => { const t = String(v || '').trim().toUpperCase().replace(/[^AB]/g, ''); return (t === 'A' || t === 'B') ? t : null }
+const fmtPct = (n) => n == null ? '—' : (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'
+const fmtBRL = (n) => n == null ? '—' : (n < 0 ? '−' : '+') + 'R$ ' + Math.abs(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
 function lerPlanilha(texto) {
   const rows = parseCSV(texto).filter(r => r.some(c => String(c).trim() !== ''))
   if (rows.length < 2) throw new Error('planilha vazia')
-
   const cab = rows[0]
   const idxDatas = cab.map((c, i) => EH_DATA.test(String(c).trim()) ? i : -1).filter(i => i >= 0)
   const primeiraData = idxDatas.length ? idxDatas[0] : cab.length
@@ -122,500 +60,282 @@ function lerPlanilha(texto) {
   const linhasRobo = rows.slice(1).filter(r => {
     const nome = String(r[0] || '').trim()
     if (!nome || /^https?:/i.test(nome)) return false
-    return toNum(r[1]) != null || toNum(r[3]) != null
+    for (let i = 1; i < cab.length; i++) if (toNum(r[i]) != null) return true
+    return false
   })
-  if (!linhasRobo.length) throw new Error('nenhum robo encontrado')
+  if (!linhasRobo.length) throw new Error('nenhum robô encontrado')
 
-  // col da rentabilidade = a que traz "%"; as outras duas, na ordem da planilha,
-  // são margem e resultado acumulado.
-  const candidatas = []
-  for (let i = 1; i < primeiraData; i++) candidatas.push(i)
-  let colRent = candidatas.find(i => String(linhasRobo[0][i] || '').indexOf('%') >= 0)
-  if (colRent == null) colRent = candidatas[0]
-  const resto = candidatas.filter(i => i !== colRent)
-  const colMargem = resto[0]
-  const colResultado = resto[1]
+  const pre = []; for (let i = 1; i < primeiraData; i++) pre.push(i)
+  const colSerie = pre.find(i => linhasRobo.filter(r => ehSerie(r[i])).length >= Math.max(1, linhasRobo.length * 0.5))
+  const numericas = pre.filter(i => i !== colSerie)
+  let colRent = numericas.find(i => String(linhasRobo[0][i] || '').indexOf('%') >= 0)
+  if (colRent == null) colRent = numericas[0]
+  const resto = numericas.filter(i => i !== colRent)
+  const colMargem = resto[0], colResultado = resto[1]
 
   const robos = linhasRobo.map(r => {
-    const serie = idxDatas
-      .map(i => ({ data: String(cab[i]).trim(), valor: toNum(r[i]) }))
-      .filter(d => d.valor != null)
-
-    let acumulado = 0
-    const curva = serie.map(d => { acumulado += d.valor; return { ...d, acumulado } })
-    const positivos = serie.filter(d => d.valor > 0).length
-    const negativos = serie.filter(d => d.valor < 0).length
+    const serie = idxDatas.map(i => ({ data: String(cab[i]).trim(), valor: toNum(r[i]) })).filter(d => d.valor != null)
     const valores = serie.map(d => d.valor)
-
     return {
       robo: String(r[0]).trim(),
-      rentTexto: String(r[colRent] || '').trim(),
+      serieRobo: colSerie != null ? ehSerie(r[colSerie]) : null,
       rent: toNum(r[colRent]),
       margem: colMargem == null ? null : toNum(r[colMargem]),
       resultado: colResultado == null ? null : toNum(r[colResultado]),
-      serie, curva, positivos, negativos,
-      dias: serie.length,
+      serie, dias: serie.length,
       melhorDia: valores.length ? Math.max.apply(null, valores) : null,
       piorDia: valores.length ? Math.min.apply(null, valores) : null,
     }
   })
-
   const comDado = idxDatas.filter(i => linhasRobo.some(r => toNum(r[i]) != null))
-  const periodo = comDado.length
-    ? { inicio: String(cab[comDado[0]]).trim(), fim: String(cab[comDado[comDado.length - 1]]).trim(), pregoes: comDado.length }
-    : null
-
+  const periodo = comDado.length ? { inicio: String(cab[comDado[0]]).trim(), fim: String(cab[comDado[comDado.length - 1]]).trim(), pregoes: comDado.length } : null
   return { robos, periodo }
 }
 
-// ── Página ───────────────────────────────────────────────────────────────────
+/* ── tira diária ── */
+function Tira({ serie, escala, altura = 30 }) {
+  if (!serie || !serie.length) return <span style={{ color: 'var(--muted)', fontSize: 12 }}>sem pregões</span>
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 2, height: altura }}>
+      {serie.map((d, i) => {
+        const h = escala > 0 ? Math.max(2, Math.abs(d.valor) / escala * (altura / 2 - 1)) : 2
+        const pos = d.valor >= 0
+        return (
+          <div key={i} title={`${d.data}: ${fmtBRL(d.valor)}`} style={{ width: 6, height: altura, display: 'flex', flexDirection: 'column' }}>
+            <div style={{ height: altura / 2, display: 'flex', alignItems: 'flex-end' }}>{pos && <div style={{ width: '100%', height: h, background: 'var(--pos)', borderRadius: 1 }} />}</div>
+            <div style={{ height: altura / 2, display: 'flex', alignItems: 'flex-start' }}>{!pos && <div style={{ width: '100%', height: h, background: 'var(--neg)', borderRadius: 1 }} />}</div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function Linha({ r, pos, escala, zona }) {
+  const cor = zona === 'sobe' ? 'var(--pos)' : zona === 'cai' ? 'var(--neg)' : 'transparent'
+  const bg = zona === 'sobe' ? 'rgba(55,226,155,.06)' : zona === 'cai' ? 'rgba(255,107,107,.06)' : 'transparent'
+  return (
+    <div className="copa-row" style={{ borderLeft: `3px solid ${cor}`, background: bg }}>
+      <div className="copa-pos mono">{pos}</div>
+      <div className="copa-nome">
+        <span className="mono">{r.robo}</span>
+        {zona === 'sobe' && <span className="copa-tag sobe">▲ sobe</span>}
+        {zona === 'cai' && <span className="copa-tag cai">▼ cai</span>}
+      </div>
+      <div className="copa-tira"><Tira serie={r.serie} escala={escala} /></div>
+      <div className="copa-rent mono" style={{ color: r.rent == null ? 'var(--muted)' : r.rent >= 0 ? 'var(--pos)' : 'var(--neg)' }}>{fmtPct(r.rent)}</div>
+    </div>
+  )
+}
 
 export default function CopaRobosPage() {
   const navigate = useNavigate()
   const [dados, setDados] = useState(null)
   const [erro, setErro] = useState(null)
-  const [aberto, setAberto] = useState(null)
 
   useEffect(() => {
+    const id = 'copa-fonts'
+    if (!document.getElementById(id)) {
+      const l = document.createElement('link'); l.id = id; l.rel = 'stylesheet'
+      l.href = 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap'
+      document.head.appendChild(l)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!FONTES_CSV.length) { setErro('sem-csv'); return }
     let vivo = true
     ;(async () => {
-      let ultimoErro = 'nenhuma fonte configurada'
+      let ultimo = 'nenhuma fonte respondeu'
       for (const url of FONTES_CSV) {
         try {
-          const r = await fetch(url)
-          if (!r.ok) { ultimoErro = 'HTTP ' + r.status; continue }
-          const txt = await r.text()
-          const lido = lerPlanilha(txt)
+          const r = await fetch(url + (url.indexOf('?') >= 0 ? '&' : '?') + 'cb=' + Date.now())
+          if (!r.ok) { ultimo = 'HTTP ' + r.status; continue }
+          const lido = lerPlanilha(await r.text())
           if (!vivo) return
-          setDados(lido)
-          return
-        } catch (e) {
-          ultimoErro = String(e && e.message ? e.message : e)
-        }
+          setDados(lido); return
+        } catch (e) { ultimo = String(e && e.message ? e.message : e) }
       }
-      if (vivo) setErro(ultimoErro)
+      if (vivo) setErro(ultimo)
     })()
     return () => { vivo = false }
   }, [])
 
-  const ranking = useMemo(() => {
-    if (!dados) return []
-    return dados.robos.slice().sort((a, b) => {
-      const x = a.rent == null ? -1e9 : a.rent
-      const y = b.rent == null ? -1e9 : b.rent
-      return y - x
-    })
+  const { serieA, serieB, escala, temSerie } = useMemo(() => {
+    const robos = dados?.robos || []
+    const sort = arr => arr.slice().sort((a, b) => (b.rent == null ? -1e9 : b.rent) - (a.rent == null ? -1e9 : a.rent))
+    const A = sort(robos.filter(r => r.serieRobo === 'A'))
+    const B = sort(robos.filter(r => r.serieRobo === 'B'))
+    let m = 0; robos.forEach(r => r.serie.forEach(d => { m = Math.max(m, Math.abs(d.valor)) }))
+    const tem = (A.length + B.length) > 0
+    return { serieA: tem ? A : sort(robos), serieB: tem ? B : [], escala: m, temSerie: tem && B.length > 0 }
   }, [dados])
 
-  // escala comum: todas as tirinhas diárias usam o mesmo eixo, senão a
-  // comparação entre linhas mente.
-  const escalaDia = useMemo(() => {
-    let m = 0
-    ranking.forEach(r => r.serie.forEach(d => { m = Math.max(m, Math.abs(d.valor)) }))
-    return m || 1
-  }, [ranking])
-
-  const noPositivo = ranking.filter(r => r.rent != null && r.rent > 0).length
+  const carregando = !dados && !erro
 
   return (
-    <div style={{ background: s.dark, minHeight: '100vh', color: s.text }}>
+    <div className="copa">
+      <style>{CSS}</style>
 
-      {/* ── HERO ── */}
-      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '56px 32px 32px', textAlign: 'center' }}>
-        <button onClick={() => navigate('/')}
-          style={{ display: 'block', margin: '0 auto 24px', background: 'none',
-            border: 'none', color: s.muted, fontSize: 13, cursor: 'pointer', padding: 0 }}>
-          ← voltar para a home
-        </button>
+      <nav className="copa-nav">
+        <button onClick={() => navigate('/')} className="copa-back">← Início</button>
+        <span className="copa-brand">Frantiesco <span>Trader</span></span>
+      </nav>
 
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8,
-          border: `1px solid ${s.warning}55`, borderRadius: 99, padding: '5px 16px',
-          fontSize: 12, color: s.warning, fontWeight: 700, letterSpacing: '.08em',
-          marginBottom: 24, background: `${s.warning}0d` }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: s.warning,
-            display: 'inline-block', boxShadow: `0 0 8px ${s.warning}` }} />
-          AO VIVO · {COPA.edicao}
+      {/* HERO */}
+      <section className="copa-hero">
+        <div className="copa-glow" />
+        <div className="copa-in">
+          <div className="copa-eyebrow">{COPA.titulo} · {COPA.edicao}</div>
+          <h1 className="copa-h1">Duas séries.<br /><span className="g">Acesso e rebaixamento.</span></h1>
+          <p className="copa-lede">
+            {temSerie ? 'Série A e Série B, 12 robôs em cada. ' : 'Ranking dos robôs pela rentabilidade. '}
+            A classificação é pela rentabilidade sobre a margem, e se o mês fechasse hoje os <b>{SOBEM} primeiros da Série B sobem</b> e os <b>{CAEM} últimos da Série A caem</b>.
+          </p>
+          {dados?.periodo && (
+            <div className="copa-periodo mono">{dados.periodo.inicio} → {dados.periodo.fim} · {dados.periodo.pregoes} pregões</div>
+          )}
         </div>
+      </section>
 
-        <h1 style={{ fontSize: 'clamp(34px, 5vw, 60px)', fontWeight: 900,
-          lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 18 }}>
-          {COPA.titulo}
-          <br />
-          <span style={{ color: s.accent }}>15 robôs, a mesma janela.</span>
-        </h1>
+      <div className="copa-wrap">
+        {carregando && <p className="copa-msg">Carregando ranking…</p>}
+        {erro && <div className="copa-warn">Não consegui ler a planilha agora. Verifique se ela está pública (Publicar na web → CSV) e a URL em <b>CSV_PUBLICADO</b>.</div>}
 
-        <p style={{ fontSize: 'clamp(15px, 1.5vw, 18px)', color: s.muted,
-          lineHeight: 1.7, maxWidth: 640, margin: '0 auto' }}>
-          Todos rodando ao mesmo tempo, no mesmo período, com o resultado de cada pregão
-          publicado. A classificação é pela <strong style={{ color: s.text }}>rentabilidade
-          sobre a margem exigida</strong> — e muda a cada dia de mercado.
-        </p>
+        {dados && (
+          <>
+            {/* SÉRIE A */}
+            <div className="copa-serie-h">
+              <span className="copa-serie-nome">Série A</span>
+              <span className="copa-serie-meta mono">{serieA.length} robôs</span>
+            </div>
+            <div className="copa-board">
+              {serieA.map((r, i) => (
+                <Linha key={r.robo} r={r} pos={i + 1} escala={escala}
+                  zona={temSerie && i >= serieA.length - CAEM ? 'cai' : null} />
+              ))}
+            </div>
 
-        {dados && dados.periodo && (
-          <div style={{ display: 'inline-flex', flexWrap: 'wrap', justifyContent: 'center',
-            gap: 10, marginTop: 26 }}>
-            {[
-              { r: 'Período', v: `${diaCurto(dados.periodo.inicio)} → ${diaCurto(dados.periodo.fim)}` },
-              { r: 'Pregões', v: String(dados.periodo.pregoes) },
-              { r: 'Robôs', v: String(ranking.length) },
-              { r: 'No positivo', v: `${noPositivo} de ${ranking.length}` },
-            ].map((c, i) => (
-              <div key={i} style={{ background: s.card, border: `1px solid ${s.border}`,
-                borderRadius: 10, padding: '10px 16px', textAlign: 'left' }}>
-                <div style={{ fontSize: 10, color: s.muted, letterSpacing: '.06em',
-                  textTransform: 'uppercase' }}>{c.r}</div>
-                <div style={{ fontSize: 15, fontWeight: 800, marginTop: 2 }}>{c.v}</div>
+            {/* DIVISOR DE TROCA */}
+            {temSerie && (
+              <div className="copa-swap">
+                <span className="up">▲ {SOBEM} sobem</span>
+                <span className="line" />
+                <span className="down">▼ {CAEM} caem</span>
               </div>
-            ))}
-          </div>
+            )}
+
+            {/* SÉRIE B */}
+            {temSerie && (
+              <>
+                <div className="copa-serie-h">
+                  <span className="copa-serie-nome b">Série B</span>
+                  <span className="copa-serie-meta mono">{serieB.length} robôs</span>
+                </div>
+                <div className="copa-board">
+                  {serieB.map((r, i) => (
+                    <Linha key={r.robo} r={r} pos={i + 1} escala={escala} zona={i < SOBEM ? 'sobe' : null} />
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* METODOLOGIA */}
+            <div className="copa-metod">
+              <p className="copa-kick">Como funciona</p>
+              <p className="copa-p">A nota de cada robô é a <b>rentabilidade sobre a margem</b> que a B3 exige para operá-lo, então dá pra comparar robôs que precisam de capitais diferentes. As barras do mês são os pregões: verde pra cima nos dias positivos, vermelho pra baixo nos negativos.</p>
+              <p className="copa-p" style={{ color: 'var(--muted)', fontSize: 13 }}>A cada fechamento de mês, sobem {SOBEM} da Série B e caem {CAEM} da Série A. As marcações mostram como ficaria se o mês acabasse agora.</p>
+            </div>
+
+            {/* CTA */}
+            <div className="copa-cta">
+              <h2>Teste os robôs por 30 dias, de graça.</h2>
+              <p>Contratação gratuita. Rode no seu Profit e decida com os resultados na mão.</p>
+              <div className="copa-cta-row">
+                <a className="btn grad" href={WHATSAPP} target="_blank" rel="noopener noreferrer">Quero testar grátis</a>
+                <a className="btn ghost" href="/resultado-do-mes" onClick={(e) => { e.preventDefault(); navigate('/resultado-do-mes') }}>Ver resultado do mês</a>
+              </div>
+            </div>
+          </>
         )}
-      </section>
+      </div>
 
-      {/* ── ESTADOS ── */}
-      {erro && (
-        <section style={{ maxWidth: 760, margin: '0 auto 60px', padding: '0 32px' }}>
-          <div style={{ background: s.card, border: `1px solid ${s.warning}44`,
-            borderRadius: 14, padding: '28px 32px' }}>
-            <div style={{ color: s.warning, fontWeight: 800, marginBottom: 10 }}>
-              Não consegui carregar o ranking
-            </div>
-            <p style={{ color: s.muted, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-              A planilha precisa estar publicada. Vá em Arquivo → Compartilhar → Publicar na
-              web → aba do ranking → CSV e cole a URL em <code style={{ color: s.accent }}>CSV_PUBLICADO</code>,
-              no topo de <code style={{ color: s.accent }}>CopaRobosPage.jsx</code>.
-              <br /><span style={{ fontSize: 12, opacity: .7 }}>Detalhe técnico: {erro}</span>
-            </p>
-          </div>
-        </section>
-      )}
-
-      {!erro && !dados && (
-        <section style={{ maxWidth: 1100, margin: '0 auto 60px', padding: '0 32px',
-          textAlign: 'center', color: s.muted }}>
-          Carregando o ranking...
-        </section>
-      )}
-
-      {/* ── PÓDIO ── */}
-      {ranking.length > 0 && (
-        <section style={{ maxWidth: 1100, margin: '0 auto', padding: '20px 32px 0' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 16 }}>
-            {ranking.slice(0, 3).map((r, i) => (
-              <div key={r.robo}
-                style={{ background: `linear-gradient(150deg, ${CORES_PODIO[i]}1f, ${s.card})`,
-                  border: `1px solid ${CORES_PODIO[i]}55`, borderRadius: 16, padding: '26px 22px',
-                  textAlign: 'center' }}>
-                <div style={{ fontSize: 38, lineHeight: 1, marginBottom: 8 }}>{MEDALHAS[i]}</div>
-                <div style={{ fontSize: 11, color: CORES_PODIO[i], fontWeight: 700,
-                  letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 8 }}>
-                  {i + 1}º lugar
-                </div>
-                <div style={{ fontSize: 22, fontWeight: 900, marginBottom: 10 }}>{r.robo}</div>
-                <div style={{ fontSize: 30, fontWeight: 900,
-                  color: r.rent >= 0 ? s.pos : s.neg, letterSpacing: '-0.02em' }}>
-                  {fmtPct(r.rent)}
-                </div>
-                <div style={{ fontSize: 12, color: s.muted, marginTop: 4, marginBottom: 16 }}>
-                  {fmtBRL(r.resultado)} sobre {r.margem == null ? '—' : 'R$ ' + r.margem.toLocaleString('pt-BR')} de margem
-                </div>
-                <TiraDiaria serie={r.serie} escala={escalaDia} altura={34} />
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {ranking.length > 0 && (
-        <section style={{ maxWidth: 1100, margin: '0 auto', padding: '22px 32px 0', textAlign: 'center' }}>
-          <a href={LINK_ASSINATURA} target="_blank" rel="noopener noreferrer"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14,
-              color: s.accent, fontWeight: 700, textDecoration: 'none',
-              border: `1px solid ${s.accent}44`, borderRadius: 99, padding: '10px 22px',
-              background: `${s.accent}0d`, transition: 'all .15s' }}
-            onMouseEnter={e => e.currentTarget.style.borderColor = s.accent}
-            onMouseLeave={e => e.currentTarget.style.borderColor = `${s.accent}44`}>
-            Assinar os top robôs da Copa →
-          </a>
-        </section>
-      )}
-
-      {/* ── TABELA ── */}
-      {ranking.length > 0 && (
-        <section style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 32px 20px' }}>
-          <h2 style={{ fontSize: 'clamp(20px, 2.6vw, 28px)', fontWeight: 800,
-            letterSpacing: '-0.02em', marginBottom: 6 }}>
-            Classificação
-          </h2>
-          <p style={{ color: s.muted, fontSize: 13, marginBottom: 20 }}>
-            Clique em qualquer linha para abrir o relatório do robô, dia a dia.
-            As barrinhas mostram o resultado de cada pregão — acima da linha positivo,
-            abaixo negativo — todas na mesma escala.
-          </p>
-
-          <div style={{ overflowX: 'auto', border: `1px solid ${s.border}`, borderRadius: 14 }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 720, fontSize: 13 }}>
-              <thead>
-                <tr style={{ background: s.surface }}>
-                  <Th style={{ width: 54 }}>#</Th>
-                  <Th>Robô</Th>
-                  <Th right>Rentabilidade</Th>
-                  <Th right>Resultado</Th>
-                  <Th right>Margem</Th>
-                  <Th right>Pregões</Th>
-                  <Th>Dia a dia</Th>
-                </tr>
-              </thead>
-              <tbody>
-                {ranking.map((r, i) => {
-                  const ativo = aberto === r.robo
-                  return (
-                    <React.Fragment key={r.robo}>
-                      <tr onClick={() => setAberto(ativo ? null : r.robo)}
-                        style={{ borderTop: `1px solid ${s.border}`, cursor: 'pointer',
-                          background: ativo ? `${s.accent}0d` : 'transparent' }}>
-                        <Td><span style={{ fontWeight: 800, color: i < 3 ? CORES_PODIO[i] : s.muted }}>
-                          {i < 3 ? MEDALHAS[i] : i + 1}
-                        </span></Td>
-                        <Td><strong>{r.robo}</strong></Td>
-                        <Td right cor={r.rent == null ? s.muted : r.rent >= 0 ? s.pos : s.neg}>
-                          <strong>{fmtPct(r.rent)}</strong>
-                        </Td>
-                        <Td right cor={r.resultado == null ? s.muted : r.resultado >= 0 ? s.pos : s.neg}>
-                          {fmtBRL(r.resultado)}
-                        </Td>
-                        <Td right muted>{r.margem == null ? '—' : 'R$ ' + r.margem.toLocaleString('pt-BR')}</Td>
-                        <Td right muted>{r.dias}</Td>
-                        <Td><TiraDiaria serie={r.serie} escala={escalaDia} altura={26} /></Td>
-                      </tr>
-                      {ativo && (
-                        <tr style={{ background: `${s.accent}08` }}>
-                          <td colSpan={7} style={{ padding: '16px 18px 24px' }}>
-                            <RelatorioRobo r={r} posicao={i + 1} />
-                          </td>
-                        </tr>
-                      )}
-                    </React.Fragment>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      )}
-
-      {/* ── COMO FUNCIONA ── */}
-      <section style={{ background: s.surface, borderTop: `1px solid ${s.border}`,
-        borderBottom: `1px solid ${s.border}`, marginTop: 40 }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto', padding: '56px 32px' }}>
-          <div style={{ fontSize: 12, color: s.accent, fontWeight: 700,
-            letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 14 }}>
-            Como a Copa funciona
-          </div>
-          <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800,
-            letterSpacing: '-0.02em', marginBottom: 16 }}>
-            Todo mundo na mesma régua.
-          </h2>
-          <p style={{ color: s.muted, fontSize: 15, lineHeight: 1.75, maxWidth: 720, marginBottom: 28 }}>
-            Os robôs rodam simultaneamente, no mesmo período, cada um com a margem que a
-            B3 exige para ele. A classificação é a rentabilidade sobre essa margem — assim
-            um robô que precisa de menos capital para produzir o mesmo resultado aparece
-            na frente, que é o que importa na hora de montar portfólio.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
-            {[
-              { t: 'Mesma janela', d: 'Nada de escolher o melhor período de cada robô. Todos são medidos exatamente nos mesmos pregões.' },
-              { t: 'Resultado diário aberto', d: 'Cada pregão entra na planilha, positivo ou negativo. Abra qualquer robô e veja dia a dia.' },
-              { t: 'Rentabilidade sobre a margem', d: 'Resultado dividido pela margem exigida do robô. Compara robôs que precisam de capitais diferentes.' },
-              { t: 'Ranking ao vivo', d: 'A página lê a planilha oficial da Copa a cada acesso. O que está aqui é o que está lá — sem número digitado no site.' },
-            ].map((c, i) => (
-              <div key={i} style={{ background: s.card, border: `1px solid ${s.border}`,
-                borderRadius: 12, padding: '20px' }}>
-                <div style={{ fontWeight: 800, fontSize: 14, marginBottom: 8, color: s.accent }}>{c.t}</div>
-                <div style={{ fontSize: 13, color: s.muted, lineHeight: 1.65 }}>{c.d}</div>
-              </div>
-            ))}
-          </div>
-          <p style={{ color: s.muted, fontSize: 12, lineHeight: 1.7, marginTop: 22, marginBottom: 0 }}>
-            Uma janela curta de pregões mostra o momento de cada robô, não a qualidade dele no
-            longo prazo. Para o histórico completo de cada estratégia, veja a página de{' '}
-            <span onClick={() => navigate('/estrategias')}
-              style={{ color: s.accent, cursor: 'pointer', textDecoration: 'underline' }}>estratégias</span>.
-          </p>
-        </div>
-      </section>
-
-      {/* ── CTA ── */}
-      <section style={{ maxWidth: 1100, margin: '0 auto', padding: '60px 32px' }}>
-        <div style={{ background: `linear-gradient(135deg, ${s.accent}18, ${s.card})`,
-          border: `1px solid ${s.accent}44`, borderRadius: 16, padding: '40px',
-          display: 'grid', gridTemplateColumns: '1fr auto', gap: 32, alignItems: 'center' }}>
-          <div>
-            <div style={{ fontSize: 11, color: s.accent, fontWeight: 700,
-              letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 12 }}>
-              🤖 Top robôs da Copa
-            </div>
-            <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 800,
-              letterSpacing: '-0.02em', marginBottom: 12 }}>
-              Quer rodar os robôs da Copa na sua conta?
-            </h2>
-            <p style={{ color: s.muted, fontSize: 14, lineHeight: 1.7, maxWidth: 560, margin: 0 }}>
-              Os robôs que estão disputando o campeonato ficam disponíveis para assinatura,
-              já com a configuração que eu uso. Se ficou alguma dúvida antes de assinar,
-              é só me chamar no WhatsApp.
-            </p>
-          </div>
-          <div style={{ flexShrink: 0, display: 'grid', gap: 10, justifyItems: 'stretch' }}>
-            <a href={LINK_ASSINATURA} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                background: s.accent, color: '#04140f', padding: '15px 30px',
-                borderRadius: 10, fontWeight: 800, fontSize: 15, textDecoration: 'none',
-                transition: 'opacity .15s', whiteSpace: 'nowrap' }}
-              onMouseEnter={e => e.currentTarget.style.opacity = '.85'}
-              onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
-              Assinar os robôs →
-            </a>
-            <a href={WHATSAPP} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                background: 'transparent', color: s.text, padding: '13px 30px',
-                border: `1px solid ${s.border}`, borderRadius: 10, fontWeight: 700,
-                fontSize: 14, textDecoration: 'none', transition: 'all .15s', whiteSpace: 'nowrap' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = s.accent; e.currentTarget.style.color = s.accent }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = s.border; e.currentTarget.style.color = s.text }}>
-              Tirar dúvida no WhatsApp
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* ── RISCO + FOOTER ── */}
-      <footer style={{ background: s.surface, borderTop: `1px solid ${s.border}`,
-        padding: '28px 32px', textAlign: 'center', color: s.muted, fontSize: 13 }}>
-        <div style={{ maxWidth: 780, margin: '0 auto 10px', fontSize: 12, lineHeight: 1.7 }}>
-          ⚠ Resultados passados não garantem resultados futuros. O período exibido é curto e
-          não representa o comportamento de longo prazo das estratégias. Operações no mercado
-          futuro envolvem risco, incluindo a possibilidade de perda do capital investido.
-          Avalie seu perfil antes de investir.
-        </div>
+      <footer className="copa-foot">
         <div>Frantiesco Trader · Método 6015</div>
+        <div className="r">Resultados passados não garantem retornos futuros. Operar derivativos envolve risco.</div>
       </footer>
     </div>
   )
 }
 
-// ── Gráfico: resultado por pregão ────────────────────────────────────────────
-// Barras divergentes em torno da linha do zero. A direção (acima/abaixo) carrega
-// o sinal junto com a cor, então continua legível para daltônicos e em P&B.
+const CSS = `
+.copa{ --bg:#060809; --text:#F4F7FA; --muted:#8A93A0; --line:rgba(255,255,255,.09);
+  --glass:rgba(255,255,255,.045); --tealA:#00E0B8; --cyanA:#38C6FF; --pos:#37E29B; --neg:#FF6B6B;
+  --grad:linear-gradient(120deg,#00E0B8 0%,#38C6FF 55%,#5B8CFF 100%);
+  background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden;
+  font-family:'Geist',-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif; -webkit-font-smoothing:antialiased; }
+.copa .mono{ font-family:'Geist Mono','SF Mono',monospace; font-variant-numeric:tabular-nums; }
+.copa-wrap{ max-width:900px; margin:0 auto; padding:0 22px; }
+.copa a{ color:inherit; text-decoration:none; }
 
-function TiraDiaria({ serie, escala, altura = 26, larguraBarra = 7, gap = 3 }) {
-  if (!serie || !serie.length) {
-    return <span style={{ fontSize: 11, color: s.muted }}>sem operações</span>
-  }
-  const largura = serie.length * (larguraBarra + gap) - gap
-  const meio = altura / 2
-  const maxAlt = meio - 1
+.copa-nav{ position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between;
+  padding:13px 22px; background:rgba(6,8,9,.65); backdrop-filter:saturate(160%) blur(16px); border-bottom:1px solid var(--line); }
+.copa-back{ background:none; border:none; color:var(--muted); cursor:pointer; font-size:14px; font-family:inherit; }
+.copa-brand{ font-weight:600; font-size:15px; letter-spacing:-.02em; }
+.copa-brand span{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
 
-  return (
-    <svg width={largura} height={altura} style={{ display: 'block', overflow: 'visible' }}
-      role="img" aria-label={`Resultado de ${serie.length} pregões`}>
-      <line x1="0" y1={meio} x2={largura} y2={meio}
-        stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
-      {serie.map((d, i) => {
-        const h = Math.max(2, Math.abs(d.valor) / escala * maxAlt)
-        const positivo = d.valor >= 0
-        const x = i * (larguraBarra + gap)
-        const y = positivo ? meio - h : meio
-        return (
-          <rect key={i} x={x} y={y} width={larguraBarra} height={h} rx="2"
-            fill={d.valor === 0 ? s.muted : positivo ? s.pos : s.neg}
-            opacity={d.valor === 0 ? .45 : .9}>
-            <title>{`${d.data}: ${fmtBRL(d.valor)}`}</title>
-          </rect>
-        )
-      })}
-    </svg>
-  )
+.copa-hero{ position:relative; text-align:center; padding:64px 22px 40px; }
+.copa-glow{ position:absolute; left:50%; top:20px; width:820px; height:440px; transform:translateX(-50%);
+  background:radial-gradient(closest-side, rgba(0,224,184,.24), rgba(56,198,255,.12) 45%, transparent 72%); filter:blur(26px); z-index:0; }
+.copa-in{ position:relative; z-index:2; max-width:720px; margin:0 auto; }
+.copa-eyebrow{ font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--cyanA); margin-bottom:18px; }
+.copa-h1{ font-weight:600; font-size:clamp(36px,6.5vw,66px); line-height:.98; letter-spacing:-.04em; margin:0 0 18px; }
+.copa-h1 .g{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.copa-lede{ color:var(--muted); font-size:17px; line-height:1.6; max-width:54ch; margin:0 auto 18px; }
+.copa-lede b{ color:var(--text); }
+.copa-periodo{ font-size:12.5px; color:var(--muted); letter-spacing:.04em; }
+
+.copa-serie-h{ display:flex; align-items:baseline; gap:12px; margin:40px 0 12px; }
+.copa-serie-nome{ font-weight:600; font-size:22px; letter-spacing:-.02em; }
+.copa-serie-nome.b{ color:var(--text); }
+.copa-serie-meta{ color:var(--muted); font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+
+.copa-board{ background:var(--glass); border:1px solid var(--line); border-radius:16px; overflow:hidden; backdrop-filter:blur(12px); }
+.copa-row{ display:grid; grid-template-columns:34px 1fr auto auto; align-items:center; gap:14px; padding:12px 16px; border-top:1px solid var(--line); }
+.copa-row:first-child{ border-top:none; }
+.copa-pos{ font-size:14px; color:var(--muted); text-align:center; }
+.copa-nome{ display:flex; align-items:center; gap:9px; font-weight:600; font-size:15px; min-width:0; }
+.copa-nome .mono{ font-size:15px; }
+.copa-tag{ font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:2px 7px; border-radius:999px; white-space:nowrap; }
+.copa-tag.sobe{ color:var(--pos); border:1px solid rgba(55,226,155,.4); }
+.copa-tag.cai{ color:var(--neg); border:1px solid rgba(255,107,107,.4); }
+.copa-tira{ justify-self:end; }
+.copa-rent{ font-size:16px; font-weight:600; min-width:88px; text-align:right; }
+
+.copa-swap{ display:flex; align-items:center; gap:14px; justify-content:center; padding:16px 0; font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase; }
+.copa-swap .up{ color:var(--pos); } .copa-swap .down{ color:var(--neg); }
+.copa-swap .line{ flex:1; max-width:120px; height:1px; background:var(--line); }
+
+.copa-metod{ margin:48px 0 0; background:var(--glass); border:1px solid var(--line); border-radius:16px; padding:24px; }
+.copa-kick{ font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--cyanA); margin:0 0 12px; }
+.copa-p{ color:var(--text); font-size:15px; line-height:1.6; margin:0 0 10px; }
+.copa-p b{ color:var(--tealA); font-weight:600; }
+
+.copa-cta{ text-align:center; padding:70px 0 40px; }
+.copa-cta h2{ font-weight:600; font-size:clamp(26px,4vw,40px); letter-spacing:-.03em; margin:0 0 12px; }
+.copa-cta p{ color:var(--muted); font-size:16px; margin:0 0 26px; }
+.copa-cta-row{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.copa .btn{ font-weight:600; font-size:15px; padding:14px 28px; border-radius:999px; cursor:pointer; display:inline-block; }
+.copa .btn.grad{ background:var(--grad); color:#04140f; box-shadow:0 12px 40px rgba(0,224,184,.24); }
+.copa .btn.ghost{ background:var(--glass); border:1px solid var(--line); color:var(--text); }
+
+.copa-msg{ color:var(--muted); text-align:center; padding:40px 0; }
+.copa-warn{ background:var(--glass); border:1px solid rgba(245,166,35,.4); border-radius:12px; padding:18px; color:var(--muted); font-size:14px; margin-top:20px; }
+.copa-foot{ text-align:center; padding:40px 22px 60px; color:var(--muted); font-size:12.5px; border-top:1px solid var(--line); margin-top:30px; }
+.copa-foot .r{ margin-top:8px; font-size:11px; }
+
+@media (max-width:640px){
+  .copa-row{ grid-template-columns:26px 1fr auto; gap:10px; }
+  .copa-tira{ display:none; }
 }
-
-// ── Auxiliares ───────────────────────────────────────────────────────────────
-
-function Th({ children, right, style }) {
-  return (
-    <th style={{ padding: '12px 14px', textAlign: right ? 'right' : 'left',
-      fontSize: 11, letterSpacing: '.06em', textTransform: 'uppercase',
-      color: s.muted, fontWeight: 700, whiteSpace: 'nowrap', ...(style || {}) }}>
-      {children}
-    </th>
-  )
-}
-
-function Td({ children, right, muted, cor }) {
-  return (
-    <td style={{ padding: '12px 14px', textAlign: right ? 'right' : 'left',
-      color: cor || (muted ? s.muted : s.text), whiteSpace: 'nowrap' }}>
-      {children}
-    </td>
-  )
-}
-
-function RelatorioRobo({ r, posicao }) {
-  const cards = [
-    { r: 'Rentabilidade', v: fmtPct(r.rent), cor: r.rent == null ? null : r.rent >= 0 ? s.pos : s.neg },
-    { r: 'Resultado', v: fmtBRL(r.resultado), cor: r.resultado == null ? null : r.resultado >= 0 ? s.pos : s.neg },
-    { r: 'Margem exigida', v: r.margem == null ? '—' : 'R$ ' + r.margem.toLocaleString('pt-BR') },
-    { r: 'Pregões operados', v: String(r.dias) },
-    { r: 'Dias positivos', v: `${r.positivos} de ${r.dias}` },
-    { r: 'Melhor pregão', v: fmtBRL(r.melhorDia), cor: s.pos },
-    { r: 'Pior pregão', v: fmtBRL(r.piorDia), cor: r.piorDia != null && r.piorDia < 0 ? s.neg : null },
-  ]
-
-  return (
-    <div style={{ background: s.card, border: `1px solid ${s.border}`,
-      borderRadius: 12, padding: '20px 22px' }}>
-      <div style={{ fontSize: 11, color: s.muted, letterSpacing: '.08em',
-        textTransform: 'uppercase', fontWeight: 700, marginBottom: 4 }}>
-        Relatório · {posicao}º colocado
-      </div>
-      <div style={{ fontSize: 19, fontWeight: 900, marginBottom: 18 }}>{r.robo}</div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
-        {cards.map((c, i) => (
-          <div key={i} style={{ background: s.surface, border: `1px solid ${s.border}`,
-            borderRadius: 10, padding: '12px 14px' }}>
-            <div style={{ fontSize: 10, color: s.muted, letterSpacing: '.05em',
-              textTransform: 'uppercase', marginBottom: 5 }}>{c.r}</div>
-            <div style={{ fontSize: 15, fontWeight: 800, color: c.cor || s.text }}>{c.v}</div>
-          </div>
-        ))}
-      </div>
-
-      {r.curva.length > 0 && (
-        <div style={{ marginTop: 20 }}>
-          <div style={{ fontSize: 11, color: s.muted, letterSpacing: '.06em',
-            textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>
-            Pregão a pregão
-          </div>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ borderCollapse: 'collapse', fontSize: 12, minWidth: 320 }}>
-              <thead>
-                <tr>
-                  <Th>Data</Th>
-                  <Th right>Resultado</Th>
-                  <Th right>Acumulado</Th>
-                </tr>
-              </thead>
-              <tbody>
-                {r.curva.map((d, i) => (
-                  <tr key={i} style={{ borderTop: `1px solid ${s.border}` }}>
-                    <Td muted>{d.data}</Td>
-                    <Td right cor={d.valor > 0 ? s.pos : d.valor < 0 ? s.neg : s.muted}>{fmtBRL(d.valor)}</Td>
-                    <Td right cor={d.acumulado >= 0 ? s.pos : s.neg}>{fmtBRL(d.acumulado)}</Td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
+`
