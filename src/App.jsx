@@ -15,6 +15,7 @@ import AvelPage from './pages/AvelPage.jsx'
 import CopaRobosPage from './pages/CopaRobosPage.jsx'
 import AvelClientesPage from './pages/AvelClientesPage.jsx'
 import ResultadoDoMesPage from './pages/ResultadoDoMesPage.jsx'
+import CadastroClientePage from './pages/CadastroClientePage.jsx'
 
 export default function App() {
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/copa-dos-robos" element={<CopaRobosPage />} />
         <Route path="/avel-clientes" element={<AvelClientesPage />} />
         <Route path="/resultado-do-mes" element={<ResultadoDoMesPage />} />
+        <Route path="/cadastro" element={<CadastroClientePage />} />
       </Routes>
     </DataProvider>
   )
