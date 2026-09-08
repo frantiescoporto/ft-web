@@ -17,8 +17,9 @@ const FONTES_CSV = [
 ].filter(Boolean)
 
 const WHATSAPP = 'https://wa.me/5553999010262?text=' + encodeURIComponent(
-  'Olá Frantiesco! Vi a Copa dos Robôs no site e quero testar os robôs grátis por 30 dias.'
+  'Olá Frantiesco! Vi a Copa dos Robôs no site e quero assinar o Combo COPA 6015.'
 )
+const GREENN = 'https://payfast.greenn.com.br/ug3vjsm'
 const COPA = { titulo: 'Copa dos Robôs', edicao: '1ª edição' }
 const SOBEM = 2, CAEM = 2
 
@@ -249,10 +250,10 @@ export default function CopaRobosPage() {
 
             {/* CTA */}
             <div className="copa-cta">
-              <h2>Teste os robôs por 30 dias, de graça.</h2>
-              <p>Contratação gratuita. Rode no seu Profit e decida com os resultados na mão.</p>
+              <h2>Assine agora o Combo COPA 6015 e leve as 24 automações.</h2>
+              <p>As 24 automações da Copa, prontas pra rodar no seu Profit.</p>
               <div className="copa-cta-row">
-                <a className="btn grad" href={WHATSAPP} target="_blank" rel="noopener noreferrer">Quero testar grátis</a>
+                <a className="btn grad" href={GREENN} target="_blank" rel="noopener noreferrer">Assine o Combo COPA 6015</a>
                 <a className="btn ghost" href="/resultado-do-mes" onClick={(e) => { e.preventDefault(); navigate('/resultado-do-mes') }}>Ver resultado do mês</a>
               </div>
             </div>
