@@ -39,8 +39,8 @@ import { useNavigate } from 'react-router-dom'
  * e não deve ser anunciada como tal — o topo informa o último pregão lançado.
  */
 
-const PLANILHA_ID = '1wPENWZ_fyFQG7PiIoG0KHeKoR0ejn3hJAo4MoAyc3yY'
-const CSV_PUBLICADO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRQFR3zu92pdJkZrRP9Ss2lsBbV_flUjrvfRwZnnDsOR934q7XW462wqHXLXbjQ3W0f4AVEz4PBT8E/pub?gid=0&single=true&output=csv' // Publicar na web → CSV (aba de resultados diários)
+const PLANILHA_ID = '1emn2ZOD1yN8CgMPp1jrnujTqXNoBOPJ_F7z3MOADQk4'
+const CSV_PUBLICADO = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRa79HNQl2JGz6D8QUB4FRqAERgR0j04aoBdObK4PuQ0ImIHdukpwX4-OA2CQ5pZoIkf3pf0CHx1oJr/pub?gid=0&single=true&output=csv' // Publicar na web → CSV (aba de resultados diários)
 
 // Aba da planilha com o link de assinatura individual de cada robô.
 // Formato:  codigo do robo | link | nome (opcional)
