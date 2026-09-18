@@ -10,9 +10,9 @@ import {
 try { Chart.register(CategoryScale, LinearScale, BarElement, BarController, LineElement, LineController, PointElement, Tooltip, Legend, Filler) } catch(_) {}
 
 const s = {
-  accent:'#00d4aa', dark:'#080c12', surface:'#0f1520',
+  accent:'#00E0B8', dark:'#060809', surface:'#0f1520',
   card:'#131b28', border:'rgba(255,255,255,0.07)',
-  text:'#e8edf5', muted:'#6b7a99',
+  text:'#F4F7FA', muted:'#6b7a99',
 }
 const MN = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
 const fmt = (v,d=2) => v==null||isNaN(v)?'—':`R$ ${Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})}`

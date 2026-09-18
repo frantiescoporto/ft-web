@@ -22,9 +22,9 @@ const PLANOS = [
 ]
 
 const s = {
-  accent: '#00d4aa', accent2: '#34d47e',
-  dark: '#080c12', surface: '#0f1520', card: '#131b28',
-  border: 'rgba(255,255,255,0.08)', text: '#e8edf5', muted: '#8b97ad',
+  accent: '#00E0B8', accent2: '#34d47e',
+  dark: '#060809', surface: '#0f1520', card: '#131b28',
+  border: 'rgba(255,255,255,0.08)', text: '#F4F7FA', muted: '#8b97ad',
 }
 
 function fmtR(v) {
@@ -120,11 +120,11 @@ export default function Balanse03Page() {
       <div style={{ padding: '56px 0' }}>
         <div style={section}>
           <h2 style={h2}>O que você leva no combo</h2>
-          <p style={sub}>Tudo pronto pra colocar pra rodar — sem precisar saber programar.</p>
+          <p style={sub}>Tudo pronto pra colocar pra rodar, sem precisar saber programar.</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
             {[
               { t: '3 robôs do Método 6015', d: 'As 3 estratégias do combo, prontas pra operar no seu Profit.' },
-              { t: 'Módulo de automação Basic', d: 'Os robôs operam sozinhos por você — você só acompanha.' },
+              { t: 'Módulo de automação Basic', d: 'Os robôs operam sozinhos por você. Você só acompanha.' },
               { t: '30 dias grátis', d: 'Roda tudo no seu ambiente antes de decidir pagar qualquer coisa.' },
               { t: 'Cancela quando quiser', d: 'Sem fidelidade. Não gostou, cancela e não paga.' },
             ].map((c, i) => (
@@ -143,7 +143,7 @@ export default function Balanse03Page() {
         <div style={section}>
           <h2 style={h2}>Os números, sem maquiagem</h2>
           <p style={sub}>
-            Dados reais dos 3 robôs do combo. Clique em qualquer um para ver a análise completa — incluindo drawdown e resultados de conta real.
+            Dados reais dos 3 robôs do combo. Clique em qualquer um para ver a análise completa, incluindo drawdown e resultados de conta real.
           </p>
 
           {loading ? (
@@ -238,7 +238,7 @@ export default function Balanse03Page() {
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: 36 }}>
-            <CTA big>COMEÇAR AGORA — É GRÁTIS →</CTA>
+            <CTA big>COMEÇAR AGORA, É GRÁTIS →</CTA>
           </div>
         </div>
       </div>
@@ -291,7 +291,7 @@ export default function Balanse03Page() {
           <div style={{ marginTop: 28 }}>
             {[
               { q: 'Preciso pagar alguma coisa agora?', a: 'Não. A contratação é gratuita e você tem 30 dias grátis pra testar tudo no seu ambiente.' },
-              { q: 'E depois dos 30 dias?', a: 'Você começa no plano mensal gratuito (100% OFF) e roda 30 dias sem pagar nada. Se decidir continuar, pode travar um preço melhor nos planos semestral, anual ou bienal — o bienal sai por R$ 224,17/mês (25% OFF). Cancela quando quiser, sem fidelidade.' },
+              { q: 'E depois dos 30 dias?', a: 'Você começa no plano mensal gratuito (100% OFF) e roda 30 dias sem pagar nada. Se decidir continuar, pode travar um preço melhor nos planos semestral, anual ou bienal. O bienal sai por R$ 224,17/mês (25% OFF). Cancela quando quiser, sem fidelidade.' },
               { q: 'Em qual plataforma funciona?', a: 'No Profit (Nelogica). Os robôs e o módulo de automação rodam direto na plataforma, sem você precisar programar nada.' },
               { q: 'Consigo cancelar fácil?', a: 'Sim, sem fidelidade. Se não fizer sentido pra você, é só cancelar dentro do período gratuito e você não paga nada.' },
             ].map((f, i) => (

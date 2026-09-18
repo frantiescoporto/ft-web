@@ -30,12 +30,12 @@ const WHATSAPP = 'https://wa.me/5553999010262?text=' + encodeURIComponent(
 )
 
 const s = {
-  accent: '#00d4aa',
-  dark: '#080c12',
+  accent: '#00E0B8',
+  dark: '#060809',
   surface: '#0f1520',
   card: '#131b28',
   border: 'rgba(255,255,255,0.07)',
-  text: '#e8edf5',
+  text: '#F4F7FA',
   muted: '#6b7a99',
   warning: '#f5a623',
   blue: '#4f8ef7',
@@ -206,7 +206,7 @@ export default function AvelClientesPage() {
           lineHeight: 1.7, maxWidth: 660, marginBottom: 30 }}>
           {robos.length} estratégias rodando em conta real desde{' '}
           {mesLegivel(resumo.inicio)}. {resumo.nOps.toLocaleString('pt-BR')} operações,{' '}
-          {resumo.nMeses} meses de histórico — todos publicados, inclusive os negativos.
+          {resumo.nMeses} meses de histórico, todos publicados, inclusive os negativos.
         </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12 }}>
@@ -229,7 +229,7 @@ export default function AvelClientesPage() {
         </h2>
         <p style={{ color: s.muted, fontSize: 13, lineHeight: 1.7, marginBottom: 20, maxWidth: 720 }}>
           Os dois começam em 100, no mesmo mês e com o mesmo capital. A escala é
-          logarítmica — é o que permite ver o CDI e o portfólio no mesmo gráfico sem
+          logarítmica: é o que permite ver o CDI e o portfólio no mesmo gráfico sem
           esmagar um dos dois.
         </p>
         <GraficoCurva curva={curva} curvaCDI={curvaCDI} />
@@ -237,7 +237,7 @@ export default function AvelClientesPage() {
           O portfólio opera com <strong style={{ color: s.text }}>lote fixo</strong>: o lucro não
           é reinvestido, então a curva é o capital inicial mais o resultado acumulado. O CDI
           está com juros compostos, que é como ele realmente rende. São regimes diferentes, e
-          isso favorece o CDI na comparação de longo prazo — mesmo assim o portfólio termina o
+          isso favorece o CDI na comparação de longo prazo. Mesmo assim o portfólio termina o
           período em {resumo.indiceFinal.toFixed(0)} contra {resumo.indiceCDI.toFixed(0)} do CDI.
           {!cdiCompleto && ' Alguns meses não têm CDI publicado ainda e ficam achatados na linha.'}
         </p>
@@ -341,7 +341,7 @@ export default function AvelClientesPage() {
               {
                 icone: '📊',
                 titulo: 'Profit Pro liberado',
-                texto: 'A versão profissional da plataforma da Nelogica, com gráfico, book e todas as ferramentas de análise — sem custo de assinatura enquanto você mantém o giro.',
+                texto: 'A versão profissional da plataforma da Nelogica, com gráfico, book e todas as ferramentas de análise, sem custo de assinatura enquanto você mantém o giro.',
               },
               {
                 icone: '⚙️',
@@ -356,7 +356,7 @@ export default function AvelClientesPage() {
               {
                 icone: '🤝',
                 titulo: 'Atendimento especializado',
-                texto: 'Equipe que conhece automação e mesa de futuros. Não é call center genérico — é quem sabe o que é um robô travado e resolve.',
+                texto: 'Equipe que conhece automação e mesa de futuros. Não é call center genérico: é quem sabe o que é um robô travado e resolve.',
               },
             ].map((c, i) => (
               <div key={i} style={{ background: s.card, border: `1px solid ${s.border}`,
@@ -548,7 +548,7 @@ function GraficoCurva({ curva, curvaCDI }) {
           <span style={{ color: s.muted }}>
             Fim do período: portfólio <strong style={{ color: s.accent }}>{ptFinal.idx.toFixed(1)}</strong>
             {' · '}CDI <strong style={{ color: s.blue }}>{cdiFinal.idx.toFixed(1)}</strong>
-            {'  — passe o mouse para ver mês a mês.'}
+            {'  · passe o mouse para ver mês a mês.'}
           </span>
         )}
       </div>

@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "stats": "node build-stats.mjs",
+    "data": "node export-data-ft.cjs --db \"C:\\\\Users\\\\PIchau\\\\AppData\\\\Roaming\\\\Trade Quant Lab\\\\robots.db\" && node build-stats.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.106.2",

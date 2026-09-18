@@ -153,13 +153,11 @@ export default function AvaliacaoPage() {
   return (
     <div style={wrap}>
       <div style={inner}>
-        <Link to="/" style={{ color: C.muted, textDecoration: 'none', fontSize: 14 }}>← Início</Link>
-
         <h1 style={{ fontSize: 30, fontWeight: 900, margin: '14px 0 4px' }}>
           Avaliações da Mentoria
         </h1>
         <p style={{ color: C.muted, marginTop: 0 }}>
-          O que os alunos do Método 6015 dizem — e o espaço para você deixar a sua.
+          O que os alunos do Método 6015 dizem, e o espaço para você deixar a sua.
         </p>
 
         {/* -------------------- RESUMO / MÉDIAS -------------------- */}
@@ -239,7 +237,7 @@ export default function AvaliacaoPage() {
                         readOnly size={16}
                       />
                       <p style={{ margin: '10px 0 6px', fontSize: 15, lineHeight: 1.5 }}>"{r.comentario}"</p>
-                      <div style={{ color: C.muted, fontSize: 13 }}>— {r.nome || 'Aluno(a) Método 6015'}</div>
+                      <div style={{ color: C.muted, fontSize: 13 }}>{r.nome || 'Aluno(a) Método 6015'}</div>
                     </div>
                   ))}
                 </div>
@@ -335,7 +333,7 @@ export default function AvaliacaoPage() {
 
               {form.compraria === false && (
                 <div style={{ marginBottom: 16 }}>
-                  <div style={label}>O que faltou? <span style={{ color: C.muted, fontWeight: 400, fontSize: 13 }}>(opcional — fica visível só pra você)</span></div>
+                  <div style={label}>O que faltou? <span style={{ color: C.muted, fontWeight: 400, fontSize: 13 }}>(opcional, fica visível só pra você)</span></div>
                   <textarea
                     value={form.motivo_nao}
                     onChange={(e) => setForm((s) => ({ ...s, motivo_nao: e.target.value }))}

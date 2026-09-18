@@ -7,7 +7,7 @@ import { supabase } from '../lib/supabaseClient'
  * ========================================================================== */
 
 const TEMPO = ['Menos de 1 mês', '1 a 3 meses', '3 a 6 meses', '6 a 12 meses', 'Mais de 12 meses']
-const PRODUTOS = ['Mentoria Método 6015', 'Mentoria SmartLab', 'Combo Hunter', 'OnTick']
+const PRODUTOS = ['Mentoria Método 6015', 'Mentoria SmartLab', 'Combo Hunter', 'Combo COPA 6015']
 const CORRETORAS = ['XP', 'Rico', 'Clear', 'Genial', 'CM Capital', 'Toro', 'BTG', 'Inter', 'Master', 'Outra']
 const ASSESSORIAS = ['AVEL', 'Outro']
 const PROFIT = ['Pro', 'Ultra']
@@ -21,14 +21,6 @@ export default function CadastroClientePage() {
   const [erro, setErro] = useState('')
   const [enviando, setEnviando] = useState(false)
   const [ok, setOk] = useState(false)
-
-  useEffect(() => {
-    const id = 'cad-fonts'
-    if (document.getElementById(id)) return
-    const l = document.createElement('link'); l.id = id; l.rel = 'stylesheet'
-    l.href = 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap'
-    document.head.appendChild(l)
-  }, [])
 
   const set = (k, v) => setF(s => {
     const next = { ...s, [k]: v }
@@ -78,7 +70,6 @@ export default function CadastroClientePage() {
       <style>{CSS}</style>
       <div className="cad-glow" />
       <div className="cad-wrap">
-        <button onClick={() => navigate('/')} className="cad-back">← Início</button>
 
         {ok ? (
           <div className="cad-ok">

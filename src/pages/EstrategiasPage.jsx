@@ -5,9 +5,9 @@ import { buildAdjOps, calcMetrics, fmtNum } from '../lib/analytics.js'
 import PlatformBadge from '../components/PlatformBadge.jsx'
 
 const s = {
-  accent: '#00d4aa', dark: '#080c12', surface: '#0f1520',
+  accent: '#00E0B8', dark: '#060809', surface: '#0f1520',
   card: '#131b28', border: 'rgba(255,255,255,0.07)',
-  text: '#e8edf5', muted: '#6b7a99',
+  text: '#F4F7FA', muted: '#6b7a99',
 }
 
 function fmtR(v) {
@@ -63,7 +63,7 @@ export default function EstrategiasPage() {
 
   const filtered = [...robots]
     .filter(r => {
-      // Apenas Profit/Nelogica — MT5 não aparece no site público
+      // Apenas Profit/Nelogica (o export já não traz outras plataformas; a trava fica por segurança)
       if ((r.platform || 'profit') === 'mt5') return false
       if (filterAtivo !== 'all' && r.ativo !== filterAtivo) return false
       if (filterType !== 'all' && r.strategy_type !== filterType) return false
@@ -89,9 +89,6 @@ export default function EstrategiasPage() {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 32px' }}>
 
         <div style={{ marginBottom: 28 }}>
-          <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none', color: s.muted, cursor: 'pointer', fontSize: 13, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-            ← Início
-          </button>
           <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>Estratégias</h1>
           <p style={{ color: s.muted, fontSize: 14 }}>
             {filtered.length} estratégias · Clique para ver análise completa
@@ -158,7 +155,7 @@ export default function EstrategiasPage() {
                 {m ? (
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 10 }}>
                     {[
-                      { l: 'M.6015', v: (m.m6015||0) > 20 ? `${fmtNum(m.m6015||0)} ✦` : fmtNum(m.m6015 || 0), c: (m.m6015||0)>6?'#00d4aa':(m.m6015||0)>3?'#34d47e':(m.m6015||0)>1?'#f5a623':'#f06060' },
+                      { l: 'M.6015', v: (m.m6015||0) > 20 ? `${fmtNum(m.m6015||0)} ✦` : fmtNum(m.m6015 || 0), c: (m.m6015||0)>6?'#00E0B8':(m.m6015||0)>3?'#34d47e':(m.m6015||0)>1?'#f5a623':'#f06060' },
                       { l: 'Win Rate', v: (m.winRate||0).toFixed(0)+'%', c: (m.winRate||0)>=55?'#34d47e':'#f5a623' },
                       { l: 'Méd. BT/mês', v: fmtR(m.avgMonthly||0), c: (m.avgMonthly||0)>=0?'#34d47e':'#f06060' },
                       m.avgMonthlyReal != null

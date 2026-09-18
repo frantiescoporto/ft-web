@@ -51,8 +51,16 @@ const stmtOps  = db.prepare('SELECT num, abertura, fechamento, lado, qtd, res_op
 const stmtReal = db.prepare('SELECT abertura, fechamento, lado, qtd, res_op FROM real_operations WHERE robot_id = ? ORDER BY abertura')
 const stmtPer  = db.prepare('SELECT in_sample_start, in_sample_end, out_sample_start, out_sample_end, paper_start, paper_end, periods_json FROM periods WHERE robot_id = ?')
 
+// robôs de teste que não vão pro site
+const OCULTOS = new Set(['narnia'])
+// nada de MetaTrader / OnTick no site: só plataformas Nelogica (profit, blackarrow)
+const PLATAFORMAS_OK = new Set(['profit', 'blackarrow'])
+const NOME_PROIBIDO = /mt5|meta ?trader|ontick|^on_/i
+
 const robots = []
 for (const r of robotRows) {
+  if (OCULTOS.has(String(r.name||'').trim().toLowerCase())) continue
+  if (!PLATAFORMAS_OK.has(String(r.platform||'profit').toLowerCase()) || NOME_PROIBIDO.test(r.name||'')) continue
   const ops     = stmtOps.all(r.id).sort((a,b) => dateKey(a.abertura||'') - dateKey(b.abertura||''))
   const realOps = (() => { try { return stmtReal.all(r.id).sort((a,b) => dateKey(a.abertura||'') - dateKey(b.abertura||'')) } catch { return [] } })()
   const periods = (() => { try { return stmtPer.get(r.id) || {} } catch { return {} } })()
@@ -82,6 +90,12 @@ console.log('[ft-export] Ops My Dash:', dashOps.length)
 
 db.close()
 
+// Nada de MetaTrader / OnTick no site: portfólios e operações com esses nomes ficam de fora
+portfolios     = portfolios.filter(p => !NOME_PROIBIDO.test(p.name||''))
+mentPortfolios = mentPortfolios.filter(p => !NOME_PROIBIDO.test(p.name||'') && !NOME_PROIBIDO.test(p.logo||''))
+dashOps        = dashOps.filter(o => !NOME_PROIBIDO.test(o.ativo||''))
+console.log('[ft-export] Após filtro MT5/OnTick:', robots.length, 'robôs,', portfolios.length, 'portfólios,', mentPortfolios.length, 'mentorados,', dashOps.length, 'ops')
+
 // Salvar
 if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
 
@@ -94,7 +108,8 @@ const files = [
 
 for (const f of files) {
   const p = path.join(OUT_DIR, f.name)
-  fs.writeFileSync(p, JSON.stringify(f.data, null, 2))
+  // JSON compacto: o robots.json cai pela metade sem a indentação
+  fs.writeFileSync(p, JSON.stringify(f.data))
   const kb = (fs.statSync(p).size/1024).toFixed(0)
   console.log(`[ft-export] ✅ ${f.name} → ${p} (${kb} KB)`)
 }

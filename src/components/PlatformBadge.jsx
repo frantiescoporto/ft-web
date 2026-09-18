@@ -1,15 +1,17 @@
 import React from 'react'
 
+/* Selo da plataforma. O site só publica robôs Nelogica (Profit e Black Arrow);
+ * qualquer outra plataforma não chega ao site (filtrada no export e no DataContext). */
+const LABEL = { profit: 'Profit', blackarrow: 'Black Arrow' }
+
 export default function PlatformBadge({ platform, size = 16 }) {
-  const p = platform || 'profit'
-  const isFile = typeof window !== 'undefined' && window.location.protocol === 'file:'
-  const src = p === 'mt5'
-    ? (isFile ? './mt5_logo.png' : 'http://localhost:5173/mt5_logo.png')
-    : (isFile ? './profit_logo.png' : 'http://localhost:5173/profit_logo.png')
-  const label = p === 'mt5' ? 'MetaTrader 5' : 'Profit'
+  const label = LABEL[platform || 'profit'] || 'Profit'
   return (
-    <img src={src} alt={label} title={label}
-      style={{ width: size, height: size, objectFit: 'contain', borderRadius: 2, flexShrink: 0 }}
-      onError={e => { e.target.style.display = 'none' }} />
+    <span title={`Plataforma: ${label} (Nelogica)`}
+      style={{ display: 'inline-flex', alignItems: 'center', height: size + 4, padding: '0 7px', borderRadius: 999,
+        border: '1px solid rgba(255,255,255,.12)', color: '#8A93A0', fontSize: Math.max(9, size - 6),
+        letterSpacing: '.06em', textTransform: 'uppercase', fontFamily: "'Geist Mono', monospace", flexShrink: 0 }}>
+      {label}
+    </span>
   )
 }

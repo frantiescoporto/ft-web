@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
  *
  * Logos — coloque as imagens em public/logos/:
  *   logo-6015.png   → Método 6015 (mentoria)
- *   logo-ontick.png → OnTick Invest
  *   logo-avel.png   → Avel
  */
 
@@ -32,7 +31,6 @@ const LOGO_OPTIONS = [
   { id: '6015',       label: 'Método 6015',   src: `${_BASE}logos/logo-6015.png`       },
   { id: 'nelogica',   label: 'Nelogica',       src: `${_BASE}logos/logo-nelogica.png`   },
   { id: 'smartlab',   label: 'SmartLab',       src: `${_BASE}logos/logo-smartlab.png`   },
-  { id: 'ontick',     label: 'OnTick Invest',  src: `${_BASE}logos/logo-ontick.png`     },
   { id: 'avel',       label: 'Avel',           src: `${_BASE}logos/logo-avel.png`       },
   { id: 'frantiesco', label: 'Frantiesco',     src: `${_BASE}logos/logo-frantiesco.png` },
   { id: 'liberdade',  label: 'Liberdade',      src: `${_BASE}logos/logo-liberdade.png`  },
@@ -451,7 +449,7 @@ function PortfolioCard({portfolio,ops,onClick}) {
         ))}
       </div>
 
-      {!metrics&&<div style={{fontSize:11,color:'var(--warning)'}}>⚠ Sem ops no My Dash — verifique os nomes das estratégias</div>}
+      {!metrics&&<div style={{fontSize:11,color:'var(--warning)'}}>⚠ Sem ops no My Dash, verifique os nomes das estratégias</div>}
     </div>
   )
 }
@@ -507,7 +505,6 @@ const DIARIO_GROUPS = [
   { logoId: '6015',       label: 'Portfólios Recomendados Mentoria'           },
   { logoId: 'nelogica',   label: 'Portfólios Recomendados Nelogica'           },
   { logoId: 'smartlab',   label: 'Portfólios Recomendados SmartLab'           },
-  { logoId: 'ontick',     label: 'Portfólios Recomendados OnTick'              },
   { logoId: 'avel',       label: 'Portfólios Recomendados Avel'                },
   { logoId: 'liberdade',  label: 'Portfólios Recomendados Código da Liberdade' },
   { logoId: 'frantiesco', label: 'Portfólios Recomendados Frantiesco'          },
@@ -754,7 +751,7 @@ function MonthEquityChart({ dayMap, daysInMonth }) {
   if (!data.length) return null
   return (
     <div className="card" style={{ padding:'14px 20px', marginTop:16 }}>
-      <div style={{ fontSize:11, color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'.06em', marginBottom:10 }}>Curva de Capital — Mês</div>
+      <div style={{ fontSize:11, color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'.06em', marginBottom:10 }}>Curva de Capital · Mês</div>
       <div style={{ position:'relative', height:150 }}><canvas ref={ref}/></div>
     </div>
   )
@@ -1065,7 +1062,7 @@ function PeriodosTab({portfolios,allOps}) {
   function cellPct(v,r){if(r.cap>0)return(v/r.cap)*100;if(r.allTotal!==0)return(v/Math.abs(r.allTotal))*100;return null}
   return(
     <div>
-      <div style={{marginBottom:16,fontSize:13,color:'var(--text-muted)'}}>Resultados acumulados por período — lotes aplicados.</div>
+      <div style={{marginBottom:16,fontSize:13,color:'var(--text-muted)'}}>Resultados acumulados por período, lotes aplicados.</div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(140px, 1fr))',gap:12,marginBottom:24}}>
         {PERIODS.map(per=>{const v=totals[per],pct=cardPct(v);return(
           <div key={per} className="card" style={{padding:'12px 16px'}}>
@@ -1162,7 +1159,7 @@ function ComparativoTab({portfolios,allOps}) {
       {selSeries.some(s=>s.cap===0&&s.hasOps)&&<div style={{marginBottom:16,padding:'10px 14px',background:'rgba(245,166,35,0.08)',border:'1px solid rgba(245,166,35,0.25)',borderRadius:8,fontSize:12,color:'var(--warning)'}}>⚠ Portfólios sem capital configurado usam resultado total como base. Configure em Gerenciar para % correto.</div>}
       {selected.size===0?(<div className="empty-state" style={{padding:'60px 0'}}><div style={{fontSize:36,marginBottom:12}}>📈</div><div style={{fontSize:15,color:'var(--text-muted)'}}>Selecione ao menos um portfólio.</div></div>):!labels.length?(<div className="empty-state" style={{padding:'60px 0'}}><div style={{fontSize:36,marginBottom:12}}>📭</div><div style={{fontSize:15,color:'var(--text-muted)'}}>Nenhum dado nos portfólios selecionados.</div></div>):(
         <div className="card" style={{padding:'20px 20px 16px'}}>
-          <div style={{fontSize:11,color:'var(--text-muted)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:16}}>Curva de Lucro Comparativa — % sobre capital inicial</div>
+          <div style={{fontSize:11,color:'var(--text-muted)',textTransform:'uppercase',letterSpacing:'.06em',marginBottom:16}}>Curva de Lucro Comparativa · % sobre capital inicial</div>
           <div style={{position:'relative',height:420}}><canvas ref={ref}/></div>
           <div style={{marginTop:12,fontSize:11,color:'var(--text-hint)'}}>Y = lucro acumulado como % do capital de referência. Cada ponto representa um dia com operações.</div>
         </div>
@@ -2020,7 +2017,7 @@ function AnaliseTab({ portfolios, allOps, initialId }) {
             {/* DD slider — span 2 para caber o slider confortavelmente */}
             <div className="card" style={{gridColumn:'span 2',padding:'14px 18px'}}>
               <div style={{fontSize:10,color:'var(--text-muted)',textTransform:'uppercase',letterSpacing:'.05em',marginBottom:8}}>
-                DDs ≥ <strong style={{color:'var(--accent)'}}>{ddThreshold}%</strong> — Recuperados
+                DDs ≥ <strong style={{color:'var(--accent)'}}>{ddThreshold}%</strong> · Recuperados
               </div>
               <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:8}}>
                 <span style={{fontSize:24,fontWeight:800,color:ddsByThreshold.ddsRecup===ddsByThreshold.ddsTotal&&ddsByThreshold.ddsTotal>0?'var(--success)':'var(--warning)'}}>{ddsByThreshold.ddsRecup}</span>
@@ -2143,7 +2140,7 @@ function InstaCardPlataforma({ group, portfolios, allOps, monthKey }) {
       borderRadius: 16, overflow: 'hidden', position: 'relative',
       display: 'flex', flexDirection: 'column',
       boxShadow: '0 24px 80px rgba(0,0,0,0.6)',
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      fontFamily: "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     }}>
       {/* Linha de brilho */}
       <div style={{position:'absolute',top:0,left:0,right:0,height:2,background:`linear-gradient(90deg,transparent,${accent},transparent)`}}/>
@@ -2246,7 +2243,7 @@ function InstaCardPortfolio({ portfolio, allOps, monthKey }) {
       borderRadius: 16, overflow: 'hidden', position: 'relative',
       display: 'flex', flexDirection: 'column',
       boxShadow: '0 24px 80px rgba(0,0,0,0.6)',
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+      fontFamily: "'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
     }}>
       {/* Brilho na cor do portfólio */}
       <div style={{position:'absolute',top:0,left:0,right:0,height:3,background:`linear-gradient(90deg,transparent,${accent},transparent)`}}/>
@@ -2495,7 +2492,7 @@ function MensalTab({ portfolios, allOps }) {
             <div className="card" style={{padding:'16px 18px'}}>
               <div style={{fontSize:12,fontWeight:600,marginBottom:8}}>📸 Como fazer o print</div>
               <div style={{fontSize:12,color:'var(--text-muted)',lineHeight:1.6}}>
-                O card tem exatamente <strong>{INSTA_SIZE}×{INSTA_SIZE}px</strong> — formato quadrado ideal para feed do Instagram.<br/><br/>
+                O card tem exatamente <strong>{INSTA_SIZE}×{INSTA_SIZE}px</strong>, formato quadrado ideal para feed do Instagram.<br/><br/>
                 Use a ferramenta de recorte do Windows (<kbd style={{background:'rgba(255,255,255,0.08)',padding:'1px 6px',borderRadius:4,fontSize:11}}>Win+Shift+S</kbd>) e selecione apenas o card.
               </div>
             </div>

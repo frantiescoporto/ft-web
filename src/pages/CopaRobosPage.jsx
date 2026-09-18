@@ -135,15 +135,6 @@ export default function CopaRobosPage() {
   const [erro, setErro] = useState(null)
 
   useEffect(() => {
-    const id = 'copa-fonts'
-    if (!document.getElementById(id)) {
-      const l = document.createElement('link'); l.id = id; l.rel = 'stylesheet'
-      l.href = 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap'
-      document.head.appendChild(l)
-    }
-  }, [])
-
-  useEffect(() => {
     if (!FONTES_CSV.length) { setErro('sem-csv'); return }
     let vivo = true
     ;(async () => {
@@ -177,11 +168,6 @@ export default function CopaRobosPage() {
   return (
     <div className="copa">
       <style>{CSS}</style>
-
-      <nav className="copa-nav">
-        <button onClick={() => navigate('/')} className="copa-back">← Início</button>
-        <span className="copa-brand">Frantiesco <span>Trader</span></span>
-      </nav>
 
       {/* HERO */}
       <section className="copa-hero">
@@ -261,10 +247,6 @@ export default function CopaRobosPage() {
         )}
       </div>
 
-      <footer className="copa-foot">
-        <div>Frantiesco Trader · Método 6015</div>
-        <div className="r">Resultados passados não garantem retornos futuros. Operar derivativos envolve risco.</div>
-      </footer>
     </div>
   )
 }
@@ -279,11 +261,6 @@ const CSS = `
 .copa-wrap{ max-width:900px; margin:0 auto; padding:0 22px; }
 .copa a{ color:inherit; text-decoration:none; }
 
-.copa-nav{ position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between;
-  padding:13px 22px; background:rgba(6,8,9,.65); backdrop-filter:saturate(160%) blur(16px); border-bottom:1px solid var(--line); }
-.copa-back{ background:none; border:none; color:var(--muted); cursor:pointer; font-size:14px; font-family:inherit; }
-.copa-brand{ font-weight:600; font-size:15px; letter-spacing:-.02em; }
-.copa-brand span{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
 
 .copa-hero{ position:relative; text-align:center; padding:64px 22px 40px; }
 .copa-glow{ position:absolute; left:50%; top:20px; width:820px; height:440px; transform:translateX(-50%);
@@ -332,8 +309,6 @@ const CSS = `
 
 .copa-msg{ color:var(--muted); text-align:center; padding:40px 0; }
 .copa-warn{ background:var(--glass); border:1px solid rgba(245,166,35,.4); border-radius:12px; padding:18px; color:var(--muted); font-size:14px; margin-top:20px; }
-.copa-foot{ text-align:center; padding:40px 22px 60px; color:var(--muted); font-size:12.5px; border-top:1px solid var(--line); margin-top:30px; }
-.copa-foot .r{ margin-top:8px; font-size:11px; }
 
 @media (max-width:640px){
   .copa-row{ grid-template-columns:26px 1fr auto; gap:10px; }

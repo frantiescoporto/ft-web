@@ -1,0 +1,91 @@
+/* ============================================================================
+ *  Camada compartilhada do site (identidade "Apple")
+ *  Tokens, tipografia global, nav e footer usados por todas as rotas públicas.
+ * ========================================================================== */
+
+:root, html.theme-dark {
+  --ft-bg: #060809;
+  --ft-text: #F4F7FA;
+  --ft-muted: #8A93A0;
+  --ft-line: rgba(255,255,255,.09);
+  --ft-glass: rgba(255,255,255,.045);
+  --ft-teal: #00E0B8;
+  --ft-cyan: #38C6FF;
+  --ft-pos: #37E29B;
+  --ft-neg: #FF6B6B;
+  --ft-grad: linear-gradient(120deg,#00E0B8 0%,#38C6FF 55%,#5B8CFF 100%);
+  --ft-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+  --ft-mono: 'Geist Mono', 'SF Mono', ui-monospace, Menlo, monospace;
+}
+
+html { background: var(--ft-bg); scroll-behavior: smooth; }
+body { font-family: var(--ft-sans); background: var(--ft-bg); color: var(--ft-text); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ── Nav ─────────────────────────────────────────────────────────────────── */
+.ft-nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(6,8,9,.72);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  border-bottom: 1px solid var(--ft-line);
+  font-family: var(--ft-sans);
+}
+.ft-nav-in {
+  max-width: 1120px; margin: 0 auto; padding: 0 24px;
+  height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.ft-brand { font-weight: 600; letter-spacing: -.02em; font-size: 16px; color: var(--ft-text); text-decoration: none; white-space: nowrap; }
+.ft-brand span { background: var(--ft-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ft-links { display: flex; align-items: center; gap: 22px; }
+.ft-links a { color: var(--ft-muted); font-size: 14px; text-decoration: none; transition: color .15s; padding: 6px 0; }
+.ft-links a:hover { color: var(--ft-text); }
+.ft-links a.active { color: var(--ft-text); }
+.ft-cta {
+  font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 999px;
+  background: var(--ft-glass); border: 1px solid var(--ft-line); color: var(--ft-text) !important; white-space: nowrap;
+}
+.ft-cta.grad { background: var(--ft-grad); border-color: transparent; color: #04140f !important; }
+.ft-burger {
+  display: none; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--ft-line);
+  background: var(--ft-glass); color: var(--ft-text); cursor: pointer; align-items: center; justify-content: center; padding: 0;
+}
+.ft-burger svg { width: 20px; height: 20px; }
+.ft-menu {
+  display: none; border-top: 1px solid var(--ft-line);
+  background: rgba(6,8,9,.94);
+  padding: 8px 24px 18px;
+}
+.ft-menu a { display: block; padding: 13px 0; color: var(--ft-text); font-size: 17px; font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--ft-line); }
+.ft-menu a.active { color: var(--ft-cyan); }
+.ft-menu a:last-child { border-bottom: none; }
+.ft-menu .ft-cta { display: inline-block; margin-top: 14px; padding: 12px 22px; font-size: 15px; border-bottom: none; }
+.ft-nav a:focus-visible, .ft-burger:focus-visible { outline: 2px solid var(--ft-cyan); outline-offset: 3px; }
+
+@media (max-width: 860px) {
+  .ft-links { display: none; }
+  .ft-burger { display: inline-flex; }
+  .ft-nav.open .ft-menu { display: block; }
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.ft-foot {
+  border-top: 1px solid var(--ft-line); background: var(--ft-bg);
+  font-family: var(--ft-sans); color: var(--ft-muted);
+}
+.ft-foot-in { max-width: 1120px; margin: 0 auto; padding: 44px 24px 56px; }
+.ft-foot-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 28px; flex-wrap: wrap; }
+.ft-foot-brand { color: var(--ft-text); font-weight: 600; font-size: 15px; letter-spacing: -.02em; }
+.ft-foot-brand span { background: var(--ft-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ft-foot-tag { margin-top: 6px; font-size: 13px; max-width: 34ch; line-height: 1.5; }
+.ft-foot-cols { display: flex; gap: 48px; flex-wrap: wrap; }
+.ft-foot-col { display: flex; flex-direction: column; gap: 9px; min-width: 120px; }
+.ft-foot-col .h { font-family: var(--ft-mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ft-muted); margin-bottom: 4px; }
+.ft-foot-col a { color: var(--ft-text); text-decoration: none; font-size: 14px; opacity: .85; }
+.ft-foot-col a:hover { opacity: 1; }
+.ft-foot-risk { margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--ft-line); font-size: 11.5px; line-height: 1.6; max-width: 80ch; }
+.ft-foot-copy { margin-top: 10px; font-size: 11.5px; }
+@media (max-width: 640px) { .ft-foot-in { padding: 36px 16px 48px; } .ft-foot-cols { gap: 28px; } }
+
+/* ── Fallback de carregamento das rotas ──────────────────────────────────── */
+.ft-loading { min-height: 60vh; display: grid; place-items: center; color: var(--ft-muted); font-family: var(--ft-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }

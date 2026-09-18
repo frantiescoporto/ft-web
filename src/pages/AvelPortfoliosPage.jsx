@@ -4,14 +4,14 @@ import { useData } from '../context/DataContext.jsx'
 import { fmtNum } from '../lib/analytics.js'
 
 const s = {
-  accent:'#00d4aa', dark:'#080c12', surface:'#0f1520',
+  accent:'#00E0B8', dark:'#060809', surface:'#0f1520',
   card:'#131b28', border:'rgba(255,255,255,0.07)',
-  text:'#e8edf5', muted:'#6b7a99', warning:'#f5a623',
+  text:'#F4F7FA', muted:'#6b7a99', warning:'#f5a623',
 }
 
 const LOGO_LABELS = {
   '6015':'Método 6015','nelogica':'Nelogica','smartlab':'SmartLab',
-  'frantiesco':'Frantiesco','avel':'Avel','ontick':'OnTick','liberdade':'Liberdade',
+  'frantiesco':'Frantiesco','avel':'Avel','liberdade':'Liberdade',
 }
 
 function fmt(v) {

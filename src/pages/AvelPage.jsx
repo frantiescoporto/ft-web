@@ -25,12 +25,12 @@ const LOGO_SRC = '/logos/logo-frantiesco.png'
 /* ========================================================================= */
 
 const s = {
-  accent:  '#00d4aa',
-  dark:    '#080c12',
+  accent:  '#00E0B8',
+  dark:    '#060809',
   surface: '#0f1520',
   card:    '#131b28',
   border:  'rgba(255,255,255,0.07)',
-  text:    '#e8edf5',
+  text:    '#F4F7FA',
   muted:   '#6b7a99',
   warning: '#f5a623',
   danger:  '#f06060',

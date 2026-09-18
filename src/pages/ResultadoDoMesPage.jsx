@@ -86,12 +86,12 @@ function ativoDoRobo(nome) {
 }
 
 const s = {
-  accent: '#00d4aa',
-  dark: '#080c12',
+  accent: '#00E0B8',
+  dark: '#060809',
   surface: '#0f1520',
   card: '#131b28',
   border: 'rgba(255,255,255,0.07)',
-  text: '#e8edf5',
+  text: '#F4F7FA',
   muted: '#6b7a99',
   warning: '#f5a623',
   pos: '#34d47e',
@@ -393,12 +393,6 @@ export default function ResultadoDoMesPage() {
 
       {/* ── HERO ── */}
       <section style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px 24px' }}>
-        <button onClick={() => navigate('/')}
-          style={{ display: 'block', background: 'none', border: 'none', color: s.muted,
-            fontSize: 13, cursor: 'pointer', marginBottom: 24, padding: 0 }}>
-          ← voltar para a home
-        </button>
-
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8,
           border: `1px solid ${s.accent}55`, borderRadius: 99, padding: '5px 16px',
           fontSize: 12, color: s.accent, fontWeight: 700, letterSpacing: '.08em',
@@ -454,7 +448,7 @@ export default function ResultadoDoMesPage() {
           <div style={{ background: `${s.warning}12`, border: `1px solid ${s.warning}44`,
             borderRadius: 12, padding: '14px 18px', fontSize: 12.5, color: s.warning, lineHeight: 1.6 }}>
             <strong>Conferir planilha:</strong> em {dados.divergencias.length} rob{dados.divergencias.length === 1 ? 'ô' : 'ôs'} a
-            soma dos pregões não bate com a coluna de total —{' '}
+            soma dos pregões não bate com a coluna de total:{' '}
             {dados.divergencias.slice(0, 4).map(d => `${d.robo} (total ${fmtRS(d.planilha)}, soma ${fmtRS(d.soma)})`).join(' · ')}
             {dados.divergencias.length > 4 ? ' ...' : ''}. A página está somando os pregões.
           </div>
@@ -541,7 +535,7 @@ export default function ResultadoDoMesPage() {
             </h2>
             <p style={{ color: s.muted, fontSize: 13, marginBottom: 18 }}>
               Acumulado de {rotuloMes(mes).toLowerCase()}, do melhor para o pior.
-              {links && ' Dá para assinar cada robô separadamente — os que ainda não estão disponíveis aparecem esmaecidos, e os que não operaram no mês ficam no fim da lista.'}
+              {links && ' Dá para assinar cada robô separadamente. Os que ainda não estão disponíveis aparecem esmaecidos, e os que não operaram no mês ficam no fim da lista.'}
             </p>
             <div style={{ overflowX: 'auto', border: `1px solid ${s.border}`, borderRadius: 14 }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 620, fontSize: 13 }}>
@@ -650,17 +644,6 @@ export default function ResultadoDoMesPage() {
         </div>
       </section>
 
-      {/* ── RODAPÉ ── */}
-      <footer style={{ background: s.surface, borderTop: `1px solid ${s.border}`,
-        padding: '28px 32px', textAlign: 'center', color: s.muted, fontSize: 13, marginTop: 52 }}>
-        <div style={{ maxWidth: 800, margin: '0 auto 10px', fontSize: 12, lineHeight: 1.7 }}>
-          ⚠ Resultados de conta real, lançados manualmente a cada pregão — esta página reflete
-          o último lançamento, não a posição em tempo real do mercado. Resultados passados não
-          garantem resultados futuros. Operações no mercado futuro envolvem risco, incluindo a
-          possibilidade de perda do capital investido.
-        </div>
-        <div>Frantiesco Trader · Método 6015</div>
-      </footer>
     </div>
   )
 }

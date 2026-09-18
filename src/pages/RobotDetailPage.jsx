@@ -763,7 +763,7 @@ export default function RobotDetailPage() {
   const hasValidation = periods.out_sample_start && periods.paper_start
 
   return (
-    <div style={{background:'var(--bg)',minHeight:'100vh',color:'var(--text)',fontFamily:'-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif'}}>
+    <div style={{background:'var(--bg)',minHeight:'100vh',color:'var(--text)',fontFamily:"'Geist',-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif"}}>
       <div style={{maxWidth:1400,margin:'0 auto',padding:'12px 24px 40px'}}>
         <button onClick={()=>navigate('/estrategias')}
           style={{background:'none',border:'none',color:'var(--text-muted)',cursor:'pointer',fontSize:13,marginBottom:8,display:'flex',alignItems:'center',gap:6,padding:0}}>
@@ -807,7 +807,6 @@ export default function RobotDetailPage() {
           <select value={platform} onChange={e => setPlatform(e.target.value)} title="Plataforma"
             style={{ fontSize: 13, padding: '5px 8px', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--surface)', color: 'var(--text)' }}>
             <option value="profit">Profit</option>
-            <option value="mt5">MetaTrader 5</option>
             <option value="blackarrow">Black Arrow</option>
           </select>
           <select value={['','1m','2m','3m','5m','6m','10m','15m','30m','60m','diario','semanal','21r','31r','40r'].includes(timeframe) ? timeframe : 'custom'}
@@ -1096,7 +1095,7 @@ export default function RobotDetailPage() {
             : mcResult && (
             <div className="card" style={{ marginBottom: 16 }}>
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom: 12 }}>
-                <div style={{ fontWeight:600, fontSize:14 }}>Monte Carlo — {mcResult.simulations.toLocaleString()} simulações</div>
+                <div style={{ fontWeight:600, fontSize:14 }}>Monte Carlo · {mcResult.simulations.toLocaleString()} simulações</div>
                 <div style={{ fontSize:11, color:'var(--text-muted)' }}>Embaralhamento aleatório da sequência de trades</div>
               </div>
               <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(150px,1fr))', gap:10 }}>
@@ -1240,7 +1239,7 @@ export default function RobotDetailPage() {
                 })()}
               </div>
               <div style={{ marginTop:8, fontSize:11, color:'var(--text-hint)' }}>
-                Metodologia: Davey/Pardo — embaralha aleatoriamente a sequência histórica de trades. Risco de Ruína = % das simulações com queda {'>'} {mcResult.ruinThresholdPct}% do capital recomendado.
+                Metodologia: Davey/Pardo: embaralha aleatoriamente a sequência histórica de trades. Risco de Ruína = % das simulações com queda {'>'} {mcResult.ruinThresholdPct}% do capital recomendado.
               </div>
             </div>
           )}
@@ -1360,7 +1359,7 @@ export default function RobotDetailPage() {
             </div>
             <div className="chart-card">
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:4 }}>
-                <div className="chart-title" style={{ marginBottom:0 }}>Curva de capital — Conta Real</div>
+                <div className="chart-title" style={{ marginBottom:0 }}>Curva de capital · Conta Real</div>
                 {robot?.realOps?.length > 0 && <span style={{ fontSize:11, color:'var(--text-muted)' }}>{robot.realOps.length} ops reais</span>}
               </div>
               {robot?.realOps?.length > 0
@@ -1487,7 +1486,6 @@ export default function RobotDetailPage() {
                     onChange={e => setConta(prev => prev.map((it, i) => i===idx ? {...it, plataforma: e.target.value} : it))}
                     style={{ width:'100%', padding:'7px 10px', border:'1px solid var(--border)', borderRadius:'var(--radius)', background:'var(--surface)', color:'var(--text)', fontSize:13 }}>
                     <option value="profit">Profit (Nelogica)</option>
-                    <option value="mt5">MetaTrader 5</option>
                     <option value="blackarrow">Black Arrow</option>
                     <option value="tryd">Tryd</option>
                     <option value="other">Outra</option>
@@ -2207,13 +2205,13 @@ function ValidationTab({ vr, metrics, periods, adjOps = [], mcResult, observatio
         )}
         {vr.status === 'CAUTELA' && (
           <div style={{ display:'flex', flexDirection:'column', gap:4, padding:'12px 18px', background:'var(--warning-bg)', border:'1px solid var(--warning)', borderRadius:'var(--radius-lg)' }}>
-            <span style={{ color:'var(--warning)', fontWeight:600, fontSize:15 }}>⚠ CAUTELA — 1 critério não passou</span>
+            <span style={{ color:'var(--warning)', fontWeight:600, fontSize:15 }}>⚠ CAUTELA · 1 critério não passou</span>
             <span style={{ fontSize:13, color:'var(--text-muted)' }}>Quase aprovada. Opera com lote reduzido e monitore de perto.</span>
           </div>
         )}
         {vr.status === 'SIMULADOR' && (
           <div style={{ display:'flex', flexDirection:'column', gap:4, padding:'12px 18px', background:'rgba(124,58,237,0.08)', border:'1px solid #7c3aed', borderRadius:'var(--radius-lg)' }}>
-            <span style={{ color:'#7c3aed', fontWeight:600, fontSize:15 }}>~ SIMULADOR — critérios estatísticos OK</span>
+            <span style={{ color:'#7c3aed', fontWeight:600, fontSize:15 }}>~ SIMULADOR · critérios estatísticos OK</span>
             <span style={{ fontSize:13, color:'var(--text-muted)' }}>
               {!vr.min3months && !vr.min60trades
                 ? 'Precisa de pelo menos 3 meses e 60 trades em Paper Trading.'
@@ -2225,21 +2223,21 @@ function ValidationTab({ vr, metrics, periods, adjOps = [], mcResult, observatio
         )}
         {vr.status === 'REPROVADO' && (
           <div style={{ display:'flex', alignItems:'center', gap:10, padding:'12px 18px', background:'var(--danger-bg)', border:'1px solid var(--danger)', borderRadius:'var(--radius-lg)', color:'var(--danger)', fontWeight:600, fontSize:15 }}>
-            ✗ NÃO APROVADA — 2 ou mais critérios falharam
+            ✗ NÃO APROVADA · 2 ou mais critérios falharam
           </div>
         )}
       </div>
 
       <div className="card" style={{ marginBottom: 12 }}>
         <div style={{ fontWeight: 600, marginBottom: 12 }}>Critérios estatísticos</div>
-        <Item label="Teste de Hipótese" value={fmtNum(metrics.pValue || 0, 4)} ok={vr.pvalOk} detail="Critério: p ≤ 0,02 — mede se o resultado médio por operação é estatisticamente diferente do acaso. Metodologia de David Aronson (Evidence-Based Technical Analysis). Quanto menor, mais forte a evidência de vantagem real." />
+        <Item label="Teste de Hipótese" value={fmtNum(metrics.pValue || 0, 4)} ok={vr.pvalOk} detail="Critério: p ≤ 0,02. Mede se o resultado médio por operação é estatisticamente diferente do acaso. Metodologia de David Aronson (Evidence-Based Technical Analysis). Quanto menor, mais forte a evidência de vantagem real." />
         <Item label="M.6015" value={fmtNum(metrics.m6015 || 0)} ok={vr.m6015Ok} detail="Critério: > 3 (fator de lucro + fator de recuperação anualizado)" />
         {mcResult ? (
           <Item
             label="Risco de Ruína (Monte Carlo)"
             value={`${mcResult.riskOfRuin}%`}
             ok={mcResult.riskOfRuin <= 10}
-            detail={`Critério para conta real: ≤ 10% (Davey). Calculado em ${(mcResult.simulations||1000).toLocaleString('pt-BR')} simulações Monte Carlo. Atual: ${mcResult.riskOfRuin}% — ${mcResult.riskOfRuin <= 10 ? '✓ Aprovado para conta real' : '✗ Acima do limite — não recomendado para conta real'}`}
+            detail={`Critério para conta real: ≤ 10% (Davey). Calculado em ${(mcResult.simulations||1000).toLocaleString('pt-BR')} simulações Monte Carlo. Atual: ${mcResult.riskOfRuin}%: ${mcResult.riskOfRuin <= 10 ? '✓ Aprovado para conta real' : '✗ Acima do limite, não recomendado para conta real'}`}
           />
         ) : (
           <Item
@@ -2326,7 +2324,7 @@ function ValidationTab({ vr, metrics, periods, adjOps = [], mcResult, observatio
             {
               name: 'Kevin Davey',
               ref: 'Building Winning Algorithmic Trading Systems',
-              focus: 'Futuros intraday — robustez e risco de ruína',
+              focus: 'Futuros intraday: robustez e risco de ruína',
               checks: [
                 { label: 'Profit Factor > 1,5', ok: pf >= 1.5, value: pf.toFixed(2), detail: 'Davey aceita PF ≥ 1,5 para futuros com custos operacionais' },
                 { label: 'N° de operações suficiente (≥ 100)', ok: nOps >= 100, value: nOps + ' ops', detail: 'Amostra mínima para avaliar consistência estatística' },
@@ -2336,7 +2334,7 @@ function ValidationTab({ vr, metrics, periods, adjOps = [], mcResult, observatio
             {
               name: 'Larry Williams',
               ref: 'Day Trade Futures Online / Long-Term Secrets to Short-Term Trading',
-              focus: 'Day trade em futuros — expectativa e consistência',
+              focus: 'Day trade em futuros: expectativa e consistência',
               checks: [
                 { label: 'Expectativa positiva por trade', ok: avgTrade > 0, value: fmtR(avgTrade), detail: 'Ganho médio por operação deve ser positivo' },
                 { label: 'Taxa de acerto > 45%', ok: (metrics.winRate || 0) >= 45, value: (metrics.winRate || 0).toFixed(1) + '%', detail: 'Williams aceita taxas menores quando o payoff compensa' },
@@ -2346,7 +2344,7 @@ function ValidationTab({ vr, metrics, periods, adjOps = [], mcResult, observatio
             {
               name: 'Robert Pardo',
               ref: 'The Evaluation and Optimization of Trading Strategies',
-              focus: 'Walk-Forward Testing — consistência IS/OOS',
+              focus: 'Walk-Forward Testing: consistência IS/OOS',
               checks: [
                 { label: 'Possui períodos IS e OOS definidos', ok: hasOOS, value: hasOOS ? 'Sim' : 'Não', detail: 'Pardo exige separação obrigatória de dados in-sample e out-of-sample' },
                 { label: 'Consistência IS → OOS (desvio ≤ 25%)', ok: oosConsistent, value: vr.paperVsOos !== null ? fmtPct(vr.paperVsOos) : 'N/D', detail: 'Resultado OOS não pode cair mais de 25% em relação ao IS' },
@@ -2356,7 +2354,7 @@ function ValidationTab({ vr, metrics, periods, adjOps = [], mcResult, observatio
             {
               name: 'David Aronson',
               ref: 'Evidence-Based Technical Analysis',
-              focus: 'Significância estatística — validação científica',
+              focus: 'Significância estatística: validação científica',
               checks: [
                 { label: 'Teste de Hipótese (p ≤ 0,02)', ok: pval <= 0.02, value: pval.toFixed(4), detail: 'Apenas 2% de chance do resultado ser aleatório' },
                 { label: 'M.6015 > 3,0', ok: m6 > 3, value: m6.toFixed(2), detail: 'Indicador composto de qualidade da estratégia' },

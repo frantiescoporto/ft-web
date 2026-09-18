@@ -2,9 +2,9 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const s = {
-  accent: '#00d4aa', dark: '#080c12', surface: '#0f1520',
+  accent: '#00E0B8', dark: '#060809', surface: '#0f1520',
   card: '#131b28', border: 'rgba(255,255,255,0.07)',
-  text: '#e8edf5', muted: '#6b7a99', warning: '#f5a623',
+  text: '#F4F7FA', muted: '#6b7a99', warning: '#f5a623',
 }
 
 const WA = 'https://wa.me/5553999010262'
@@ -19,7 +19,7 @@ export default function ComoAdquirirPage() {
     },
     {
       n: '02', icon: '📊', title: 'Análise do seu perfil',
-      desc: 'Avaliamos juntos qual portfólio de automações faz mais sentido para você — WIN, WDO, BIT ou misto.',
+      desc: 'Avaliamos juntos qual portfólio de automações faz mais sentido para você: WIN, WDO, BIT ou misto.',
     },
     {
       n: '03', icon: '🧪', title: 'Período de teste',
@@ -39,12 +39,6 @@ export default function ComoAdquirirPage() {
     <div style={{ background: s.dark, minHeight: '100vh', color: s.text }}>
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '40px 32px' }}>
 
-        <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none',
-          color: s.muted, cursor: 'pointer', fontSize: 13, marginBottom: 24,
-          display: 'flex', alignItems: 'center', gap: 6 }}>
-          ← Voltar
-        </button>
-
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
           <div style={{ fontSize: 12, color: s.accent, fontWeight: 700,
             letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 16 }}>
@@ -57,7 +51,7 @@ export default function ComoAdquirirPage() {
           </h1>
           <p style={{ color: s.muted, fontSize: 16, lineHeight: 1.7, maxWidth: 520, margin: '0 auto' }}>
             A ideia é simples: você testa antes de decidir. Paga apenas a corretagem
-            operacional no período de teste — e só migra para a mentoria se fizer sentido para você.
+            operacional no período de teste, e só migra para a mentoria se fizer sentido para você.
           </p>
         </div>
 

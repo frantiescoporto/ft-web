@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const s = {
-  accent: '#00d4aa', dark: '#080c12', surface: '#0f1520',
+  accent: '#00E0B8', dark: '#060809', surface: '#0f1520',
   card: '#131b28', border: 'rgba(255,255,255,0.07)',
-  text: '#e8edf5', muted: '#6b7a99', warning: '#f5a623',
+  text: '#F4F7FA', muted: '#6b7a99', warning: '#f5a623',
 }
 
 const HISTORICO = [
@@ -13,7 +13,7 @@ const HISTORICO = [
     titulo: 'O início',
     cor: '#6b7a99',
     tag: 'DESCOBERTA',
-    descricao: 'Comecei no mercado aprendendo sobre Tesouro Direto. Foi assistindo uma live da Me Poupe junto a uma corretora que conheci o day trade — ali me apaixonei pelo poder da alavancagem. Comprei um curso que dava acesso a uma sala de calls e educacional. Lembro que falava para minha esposa: "vamos ficar ricos, é uma sala cheia de analistas focados nas melhores recomendações". Triste ilusão. Era iniciante — acredito que todos passam por essa fase.',
+    descricao: 'Comecei no mercado aprendendo sobre Tesouro Direto. Foi assistindo uma live da Me Poupe junto a uma corretora que conheci o day trade. Ali me apaixonei pelo poder da alavancagem. Comprei um curso que dava acesso a uma sala de calls e educacional. Lembro que falava para minha esposa: "vamos ficar ricos, é uma sala cheia de analistas focados nas melhores recomendações". Triste ilusão. Era iniciante. Acredito que todos passam por essa fase.',
     marcos: ['Tesouro Direto', 'Primeira sala de calls', 'Day trade manual', 'Descoberta da alavancagem'],
     aprendizado: null,
   },
@@ -38,7 +38,7 @@ const HISTORICO = [
   {
     ano: 2020,
     titulo: 'O ano em que o jogo vira',
-    cor: '#00d4aa',
+    cor: '#00E0B8',
     tag: 'CONSISTÊNCIA',
     descricao: 'Definição de plano de trading + diário de trading aliados a uma metodologia objetiva viraram o jogo. Comecei a me tornar consistente tanto nas operações quanto nos resultados.',
     marcos: ['Plano de trading definido', 'Diário de trading', 'Metodologia objetiva', 'Primeiros resultados consistentes'],
@@ -46,7 +46,7 @@ const HISTORICO = [
   },
   {
     ano: 2021,
-    titulo: 'Quase o fim — e o recomeço',
+    titulo: 'Quase o fim e o recomeço',
     cor: '#f06060',
     tag: 'RESILIÊNCIA',
     descricao: 'Ano de aprendizado duro. Cometi erros graves na gestão de lotes e alavancagem que quase me levaram a quebrar. Tive que praticamente recomeçar do zero, reduzindo meu tamanho de mão em 70%.',
@@ -55,11 +55,11 @@ const HISTORICO = [
   },
   {
     ano: 2022,
-    titulo: 'Automatização — uma nova vida',
+    titulo: 'Automatização, uma nova vida',
     cor: '#34d47e',
     tag: 'AUTOMAÇÃO',
-    descricao: 'O que era uma estratégia objetiva virou robô. Passei a operar 100% automatizado — mais liberdade, mais tempo, mais estudo. Esse ano vieram os primeiros convites: parceria com o maior escritório da XP no Brasil e o convite da Ontick para ter minhas estratégias dentro da plataforma.',
-    marcos: ['Trading 100% automatizado', 'Parceria XP — maior escritório', 'Estratégias na Ontick', 'Liberdade de tempo'],
+    descricao: 'O que era uma estratégia objetiva virou robô. Passei a operar 100% automatizado: mais liberdade, mais tempo, mais estudo. Esse ano vieram os primeiros convites: parceria com o maior escritório da XP no Brasil e o convite para ter minhas estratégias distribuídas em plataforma de terceiros.',
+    marcos: ['Trading 100% automatizado', 'Parceria XP, maior escritório', 'Estratégias distribuídas em plataforma', 'Liberdade de tempo'],
     aprendizado: null,
   },
   {
@@ -67,8 +67,8 @@ const HISTORICO = [
     titulo: 'A fábrica de estratégias',
     cor: '#f5a623',
     tag: 'ESCALA',
-    descricao: 'Com a automatização, agora eu podia ter mais de 4 a 5 estratégias rodando. Parei de estudar análise técnica e passei a entender desenvolvimento e análise de estratégias e portfólios. Os robôs na Ontick foram muito bem — alguns entre os melhores do ano, com volume de assinantes crescendo mês a mês.',
-    marcos: ['10+ estratégias simultâneas', 'Top rankings Ontick', 'Crescimento de assinantes', 'Foco em portfólios'],
+    descricao: 'Com a automatização, agora eu podia ter mais de 4 a 5 estratégias rodando. Parei de estudar análise técnica e passei a entender desenvolvimento e análise de estratégias e portfólios. Os robôs distribuídos foram muito bem, alguns entre os melhores do ano, com volume de assinantes crescendo mês a mês.',
+    marcos: ['10+ estratégias simultâneas', 'Top dos rankings', 'Crescimento de assinantes', 'Foco em portfólios'],
     aprendizado: null,
   },
   {
@@ -82,19 +82,19 @@ const HISTORICO = [
   },
   {
     ano: 2025,
-    titulo: 'Ápice — e a parceria dos sonhos',
-    cor: '#00d4aa',
+    titulo: 'Ápice e a parceria dos sonhos',
+    cor: '#00E0B8',
     tag: 'CONQUISTA',
-    descricao: 'Palestrei em diversos lugares — destaque para uma palestra dentro da B3. Conversei com todas as maiores empresas do mercado financeiro. Fechei uma parceria incrível com o Grupo Avel, um dos maiores escritórios da XP — o maior em renda fixa e já somos o segundo maior em contratos futuros operados. Isso garantiu a mim e a meus clientes condições únicas.',
+    descricao: 'Palestrei em diversos lugares, com destaque para uma palestra dentro da B3. Conversei com todas as maiores empresas do mercado financeiro. Fechei uma parceria incrível com o Grupo Avel, um dos maiores escritórios da XP, o maior em renda fixa e já somos o segundo maior em contratos futuros operados. Isso garantiu a mim e a meus clientes condições únicas.',
     marcos: ['Palestra na B3', 'Parceria Grupo Avel', '2º maior em futuros na XP', 'Condições exclusivas para clientes'],
     aprendizado: null,
   },
   {
     ano: 2026,
-    titulo: 'O pior mês — e o melhor lançamento',
+    titulo: 'O pior mês e o melhor lançamento',
     cor: '#f5a623',
     tag: 'HOJE',
-    descricao: 'Em fevereiro tive o pior mês da minha história como trader. Um mercado volátil e caro mostrou que não posso subestimá-lo. Mas logo ficou claro que foi algo único — as estratégias voltaram à boa performance no mês seguinte.\n\nEsse é também o ano do lançamento da minha mentoria junto à Nelogica — algo surreal para aquele Frantiesco de 2017 que assistia lives da Nelogica para aprender. Agora estou dentro da maior plataforma de trading passando meu conhecimento. Uma honra enorme.',
+    descricao: 'Em fevereiro tive o pior mês da minha história como trader. Um mercado volátil e caro mostrou que não posso subestimá-lo. Mas logo ficou claro que foi algo único: as estratégias voltaram à boa performance no mês seguinte.\n\nEsse é também o ano do lançamento da minha mentoria junto à Nelogica, algo surreal para aquele Frantiesco de 2017 que assistia lives da Nelogica para aprender. Agora estou dentro da maior plataforma de trading passando meu conhecimento. Uma honra enorme.',
     marcos: ['Pior mês histórico em fevereiro', 'Recuperação no mês seguinte', 'Lançamento SmartLab com Nelogica', 'Mentoria na maior plataforma do BR'],
     aprendizado: '💡 3º grande aprendizado: não subestime um mercado volátil e caro.',
   },
@@ -108,12 +108,6 @@ export default function HistoricoPage() {
     <div style={{ background: s.dark, minHeight: '100vh', color: s.text }}>
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '40px 32px' }}>
 
-        <button onClick={() => navigate('/')} style={{ background: 'none', border: 'none',
-          color: s.muted, cursor: 'pointer', fontSize: 13, marginBottom: 24,
-          display: 'flex', alignItems: 'center', gap: 6 }}>
-          ← Voltar
-        </button>
-
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 12, color: s.accent, fontWeight: 700,
             letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 16 }}>
@@ -124,7 +118,7 @@ export default function HistoricoPage() {
             Meu Histórico
           </h1>
           <p style={{ color: s.muted, fontSize: 15, lineHeight: 1.7, maxWidth: 560 }}>
-            Uma década de mercado — erros, aprendizados, e a construção de uma metodologia
+            Uma década de mercado: erros, aprendizados, e a construção de uma metodologia
             que transforma dados em decisões consistentes.
           </p>
         </div>

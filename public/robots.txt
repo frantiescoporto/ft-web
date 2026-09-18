@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /avel
+Disallow: /avel/
+Disallow: /avel-clientes
+Disallow: /cadastro
+Sitemap: https://www.frantiescotrader.com.br/sitemap.xml

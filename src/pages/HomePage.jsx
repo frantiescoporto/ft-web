@@ -1,25 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useData } from '../context/DataContext.jsx'
-import { buildAdjOps, calcMetrics, fmtNum } from '../lib/analytics.js'
+import { fmtNum } from '../lib/analytics.js'
 import { supabase } from '../lib/supabaseClient'
+import { findPublico, computePublico } from '../lib/publico.js'
 
 /* ============================================================================
  *  Home — Frantiesco Trader (identidade "Apple": dark cinematográfico)
  * ========================================================================== */
 
-// Portfólio da aba Mentorados que alimenta a Home.
-// A curva de capital e a rentabilidade média mensal saem os dois deste mesmo
-// portfólio, calculados ao vivo. Nada aqui é digitado à mão.
-const PORTFOLIO_HOME = 'PORTFOLIO PUBLICO'
+// Portfólio público (conta real): curva, acumulado e média mensal saem do mesmo
+// cálculo da página da Mentoria (src/lib/publico.js), sobre o capital real de 12k,
+// pelo método do saldo acumulado. Nada aqui é digitado à mão.
 
-// compara nomes ignorando acento, caixa e espaço sobrando
-const norm = (s) => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toUpperCase()
+// Resumo dos robôs (quantidade publicada e fator de lucro médio), gerado pelo
+// build-stats.mjs depois do export. Evita baixar o robots.json inteiro na Home.
+const STATS_JSON = '/data/stats.json'
 
-// Planilha oficial da Copa dos Robôs, lida ao vivo.
-// Se o ranking não carregar no ar (o Google bloqueia o navegador por CORS quando a
-// planilha está só compartilhada por link), abra a planilha em Arquivo > Compartilhar >
-// Publicar na web > CSV e troque esta URL pela que o Google gerar.
+// Planilha oficial da Copa dos Robôs, lida ao vivo (mesma leitura da página da Copa:
+// coluna A = robô, coluna SÉRIE detectada pelos valores A/B, rentabilidade = coluna com %).
 const COPA_CSV = 'https://docs.google.com/spreadsheets/d/1bGEBfwfMAkWp0r_6ahWmGyntEd_Cen7QyxhxpyCm0Ns/gviz/tq?tqx=out:csv'
 // reserva: último ranking exportado da planilha, mostrado com a data do snapshot
 const COPA_SNAPSHOT = '/data/copa.json'
@@ -33,73 +32,6 @@ const ddmmToInt = (s) => {
 }
 
 const fmtPct1 = (v) => v.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%'
-
-/* ---------------------------------------------------------------------------
- *  Leitura do portfólio de mentorados, idêntica à da página Resultados:
- *  cada operação recebe os lotes da versão de configuração válida na data dela.
- * ------------------------------------------------------------------------- */
-const opKey = (d) => {
-  if (!d) return ''
-  const p = d.split('/')
-  const y = (p[2] || '').split(' ')[0].padStart(4, '0')
-  return `${y}${(p[1] || '').padStart(2, '0')}${(p[0] || '').padStart(2, '0')}`
-}
-
-function parseRobots(json) {
-  try {
-    const p = JSON.parse(json || '[]')
-    if (!p.length) return []
-    if (typeof p[0] === 'string') return p.map(name => ({ name, lotes: 1 }))
-    return p.map(r => ({ name: r.name || String(r), lotes: Number(r.lotes) || 1 }))
-  } catch { return [] }
-}
-
-function getConfigVersions(p) {
-  try {
-    const cv = JSON.parse(p?.config_versions || '[]')
-    if (cv.length) return cv
-  } catch { /* cai no fallback */ }
-  return [{ valid_from: null, robots_json: p?.robots_json || '[]' }]
-}
-
-function applyLotes(ops, versions) {
-  if (!ops?.length || !versions?.length) return []
-  const out = []
-  for (const op of ops) {
-    const k = opKey(op.abertura)
-    const valid = versions
-      .filter(v => !v.valid_from || String(v.valid_from) <= k)
-      .sort((a, b) => String(b.valid_from || '').localeCompare(String(a.valid_from || '')))
-    if (!valid.length) continue
-    const map = {}
-    parseRobots(valid[0].robots_json).forEach(r => { map[r.name] = r.lotes })
-    const lotes = map[op.ativo]
-    if (lotes === undefined) continue
-    out.push({ abertura: op.abertura, res_op: (op.res_op || 0) * lotes })
-  }
-  return out.sort((a, b) => opKey(a.abertura).localeCompare(opKey(b.abertura)))
-}
-
-const MES_CURTO = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
-
-/* resultado mês a mês, em % sobre o capital inicial do portfólio */
-function serieMensal(ops, capital) {
-  if (!ops.length || !capital) return null
-  const acc = new Map()
-  for (const o of ops) {
-    const k = opKey(o.abertura).slice(0, 6)
-    acc.set(k, (acc.get(k) || 0) + o.res_op)
-  }
-  if (!acc.size) return null
-  const meses = [...acc.entries()]
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([k, v]) => ({
-      k,
-      label: `${MES_CURTO[Number(k.slice(4, 6)) - 1]}/${k.slice(2, 4)}`,
-      pct: (v / capital) * 100,
-    }))
-  return { meses, n: meses.length, pct: meses.reduce((t, m) => t + m.pct, 0) / meses.length }
-}
 
 /* CSV do Google Sheets: célula pode vir entre aspas e conter vírgula */
 function parseCSV(text) {
@@ -126,6 +58,27 @@ function pctBR(s) {
   t = t.includes(',') ? t.replace(/\./g, '').replace(',', '.') : t
   const v = parseFloat(t)
   return Number.isFinite(v) ? v : null
+}
+
+const EH_DATA = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/
+const ehSerie = (v) => { const t = String(v || '').trim().toUpperCase(); return (t === 'A' || t === 'B') ? t : null }
+
+/* Lê o ranking da planilha da Copa: ignora a coluna SÉRIE e pega a rentabilidade
+ * na primeira coluna (antes dos pregões) cujo valor tem "%". */
+function lerRankingCopa(text) {
+  const rows = parseCSV(text).filter(r => r.some(c => String(c).trim() !== ''))
+  if (rows.length < 2) return []
+  const cab = rows[0]
+  const idxDatas = cab.map((c, i) => EH_DATA.test(String(c).trim()) ? i : -1).filter(i => i >= 0)
+  const primeiraData = idxDatas.length ? idxDatas[0] : cab.length
+  const linhas = rows.slice(1).filter(r => String(r[0] || '').trim() && !/^https?:/i.test(String(r[0])))
+  const pre = []; for (let i = 1; i < primeiraData; i++) pre.push(i)
+  const colSerie = pre.find(i => linhas.filter(r => ehSerie(r[i])).length >= Math.max(1, linhas.length * 0.5))
+  const numericas = pre.filter(i => i !== colSerie)
+  let colRent = numericas.find(i => linhas.some(r => String(r[i] || '').includes('%')))
+  if (colRent == null) colRent = numericas[0]
+  if (colRent == null) return []
+  return linhas.map(r => ({ nome: String(r[0]).trim(), serie: colSerie != null ? ehSerie(r[colSerie]) : null, rent: pctBR(r[colRent]) }))
 }
 
 /* constrói o path SVG da curva de capital a partir de operações */
@@ -157,16 +110,7 @@ function buildCurve(ops, W = 860, H = 210, pad = 8) {
 
 export default function HomePage() {
   const navigate = useNavigate()
-  const { robots, mentPortfolios, mentOps, loading } = useData()
-
-  // fontes
-  useEffect(() => {
-    const id = 'ap-fonts'
-    if (document.getElementById(id)) return
-    const l = document.createElement('link'); l.id = id; l.rel = 'stylesheet'
-    l.href = 'https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap'
-    document.head.appendChild(l)
-  }, [])
+  const { mentPortfolios, mentOps, loading } = useData()
 
   // reveal on scroll
   useEffect(() => {
@@ -177,40 +121,19 @@ export default function HomePage() {
     return () => io.disconnect()
   }, [loading])
 
-  // métricas reais dos robôs
-  const stats = useMemo(() => {
-    const pub = (robots || []).filter(r => (r.platform || 'profit') !== 'mt5')
-    const pfs = []
-    pub.forEach(r => {
-      if (r.operations?.length) {
-        const m = calcMetrics(buildAdjOps(r.operations, r.desagio || 0, r.tipo || 'backtest'))
-        if (m.profitFactor) pfs.push(m.profitFactor)
-      }
-    })
-    const pfMedio = pfs.length ? pfs.reduce((a, b) => a + b, 0) / pfs.length : 0
-    // só conta como estratégia o robô que tem operação publicada
-    const comOps = pub.filter(r => r.operations?.length).length
-    return { nEstrat: comOps, pfMedio }
-  }, [robots])
+  // resumo dos robôs (stats.json, gerado no export)
+  const [stats, setStats] = useState(null)
+  useEffect(() => {
+    let vivo = true
+    ;(async () => {
+      try { const d = await (await fetch(STATS_JSON)).json(); if (vivo) setStats(d) }
+      catch { if (vivo) setStats({ nEstrat: null, pfMedio: null }) }
+    })()
+    return () => { vivo = false }
+  }, [])
 
-  // conta pessoal: um único cálculo alimenta a curva, o rodapé e o spec do herói
-  const pessoal = useMemo(() => {
-    const p = (mentPortfolios || []).find(x => norm(x.name) === PORTFOLIO_HOME)
-    if (!p) return null
-    const ops = applyLotes(mentOps || [], getConfigVersions(p))
-    if (!ops.length) return null
-    const capital = parseFloat(p.capital_inicial) || 0
-    const total = ops.reduce((s, o) => s + o.res_op, 0)
-    return {
-      ops,
-      capital,
-      total,
-      pctCapital: capital ? (total / capital) * 100 : null,
-      media: serieMensal(ops, capital),
-      ini: (ops[0].abertura || '').slice(0, 10),
-      fim: (ops[ops.length - 1].abertura || '').slice(0, 10),
-    }
-  }, [mentPortfolios, mentOps])
+  // portfólio público: um único cálculo alimenta a curva, o rodapé e o spec do herói
+  const pessoal = useMemo(() => computePublico(findPublico(mentPortfolios), mentOps), [mentPortfolios, mentOps])
 
   const curve = useMemo(() => buildCurve(pessoal?.ops), [pessoal])
 
@@ -221,10 +144,9 @@ export default function HomePage() {
     const ordena = (l) => l.filter(r => r.nome && r.rent != null).sort((a, b) => b.rent - a.rent)
     ;(async () => {
       try {
-        const r = await fetch(COPA_CSV)
+        const r = await fetch(COPA_CSV + '&cb=' + Date.now())
         if (!r.ok) throw new Error('csv')
-        const robos = ordena(parseCSV(await r.text()).slice(1)
-          .map(c => ({ nome: (c[0] || '').trim(), rent: pctBR(c[1]) })))
+        const robos = ordena(lerRankingCopa(await r.text()))
         if (!robos.length) throw new Error('vazio')
         if (vivo) setCopa({ robos, aoVivo: true })
       } catch {
@@ -247,7 +169,7 @@ export default function HomePage() {
       : r.slice(0, 5).map((x, i) => ({ ...x, pos: i + 1 }))
     return { linhas, max: Math.max(...linhas.map(x => Math.abs(x.rent))) || 1 }
   }, [copa])
-  const rentMensal = pessoal?.media ? fmtPct1(pessoal.media.pct) : null
+  const rentMensal = pessoal ? fmtPct1(pessoal.mediaMensal) : null
 
   // avaliações (Supabase, ao vivo)
   const [aval, setAval] = useState(null)
@@ -273,14 +195,6 @@ export default function HomePage() {
     <div className="ap">
       <style>{CSS}</style>
 
-      <nav className="ap-nav">
-        <div className="ap-brand">Frantiesco <span>Trader</span></div>
-        <div className="ap-navr">
-          <a href="#mentoria">Mentoria</a><a href="#copa">Copa</a><a href="#resultados">Resultados</a><a href="#historia">História</a>
-          <a className="ap-navcta" href="/resultados" onClick={go('/resultados')}>Começar</a>
-        </div>
-      </nav>
-
       {/* HERO */}
       <section className="ap-hero">
         <div className="ap-glow" />
@@ -297,9 +211,9 @@ export default function HomePage() {
         <div className="ap-wrap">
           <div className="ap-specs reveal">
             <div className="ap-spec"><div className="v up mono">{loading || !rentMensal ? '—' : rentMensal}</div><div className="k">Rent. média mensal · portfólio público</div></div>
-            <div className="ap-spec"><div className="v mono">{loading || !pessoal?.media ? '—' : `${pessoal.media.n} meses`}</div><div className="k">De conta aberta</div></div>
-            <div className="ap-spec"><div className="v mono">{loading ? '—' : stats.nEstrat}</div><div className="k">Estratégias</div></div>
-            <div className="ap-spec"><div className="v mono">{loading ? '—' : fmtNum(stats.pfMedio)}</div><div className="k">Fator de lucro médio</div></div>
+            <div className="ap-spec"><div className="v mono">{loading || !pessoal ? '—' : `${pessoal.nMeses} meses`}</div><div className="k">De conta aberta</div></div>
+            <div className="ap-spec"><div className="v mono">{stats?.nEstrat == null ? '—' : stats.nEstrat}</div><div className="k">Estratégias</div></div>
+            <div className="ap-spec"><div className="v mono">{stats?.pfMedio == null ? '—' : fmtNum(stats.pfMedio)}</div><div className="k">Fator de lucro médio</div></div>
           </div>
         </div>
       </section>
@@ -335,13 +249,13 @@ export default function HomePage() {
       <section className="ap-sec" id="copa"><div className="ap-wrap"><div className="ap-row rev">
         <div className="ap-txt reveal">
           <div className="ap-kick">Copa dos Robôs</div>
-          <h2 className="ap-h2">15 robôs. 30 dias de teste grátis.</h2>
-          <p className="ap-p">Uma competição ao vivo pela maior rentabilidade. Você entra no teste grátis por 30 dias e escolhe quais robôs quer rodar. Acompanha o ranking subir em tempo real.</p>
+          <h2 className="ap-h2">24 robôs. Duas séries.</h2>
+          <p className="ap-p">Uma competição ao vivo pela maior rentabilidade, em duas séries com acesso e rebaixamento: 24 robôs, 12 em cada. Acompanha o ranking subir em tempo real.</p>
           <a className="ap-go" href="/copa-dos-robos" onClick={go('/copa-dos-robos')}><span className="a">Ver a Copa →</span></a>
         </div>
         <div className="ap-card reveal-x from-left">
           <div className="ap-cbar">
-            <span>Ranking · {copa?.mes || 'Agosto'}</span>
+            <span>Ranking{copa?.mes ? ` · ${copa.mes}` : ' geral'}</span>
             <span>{!copa ? '—' : copa.aoVivo ? 'ao vivo' : `posição de ${copa.data}`}</span>
           </div>
           {copaLista ? (
@@ -395,12 +309,10 @@ export default function HomePage() {
           {pessoal && (
             <div className="ap-cfoot">
               <span>{pessoal.ini} a {pessoal.fim}</span>
-              {pessoal.pctCapital != null && (
-                <span className={pessoal.pctCapital >= 0 ? 'up' : 'dn'}>
-                  {fmtPct1(pessoal.pctCapital)} sobre o capital
-                </span>
-              )}
-              <span>{pessoal.media?.n} meses · {pessoal.ops.length} operações</span>
+              <span className={pessoal.acumulado >= 0 ? 'up' : 'dn'}>
+                {fmtPct1(pessoal.acumulado)} sobre o capital real
+              </span>
+              <span>{pessoal.nMeses} meses · {pessoal.nOps} operações</span>
             </div>
           )}
         </div>
@@ -452,10 +364,6 @@ export default function HomePage() {
         <a className="ap-btn grad" href="/resultados" onClick={go('/resultados')}>Ver resultados reais</a>
       </section>
 
-      <footer className="ap-foot">
-        <div>Frantiesco Trader · Método 6015</div>
-        <div className="r">Resultados passados não garantem retornos futuros. Operar derivativos envolve risco.</div>
-      </footer>
     </div>
   )
 }
@@ -470,14 +378,6 @@ const CSS = `
 .ap .mono{ font-family:'Geist Mono','SF Mono',monospace; font-variant-numeric:tabular-nums; }
 .ap .ap-wrap{ max-width:1120px; margin:0 auto; padding:0 24px; }
 .ap a{ color:inherit; text-decoration:none; }
-.ap-nav{ position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between;
-  padding:13px 24px; background:rgba(6,8,9,.65); backdrop-filter:saturate(160%) blur(16px); border-bottom:1px solid var(--line); }
-.ap-brand{ font-weight:600; letter-spacing:-.02em; font-size:16px; }
-.ap-brand span{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
-.ap-navr{ display:flex; gap:24px; align-items:center; }
-.ap-navr a{ color:var(--muted); font-size:14px; }
-.ap-navr a:hover{ color:var(--text); }
-.ap-navcta{ font-size:13px; font-weight:600; padding:8px 16px; border-radius:999px; background:var(--glass); border:1px solid var(--line); color:var(--text) !important; }
 .ap-hero{ position:relative; text-align:center; padding:78px 0 64px; }
 .ap-glow{ position:absolute; left:50%; top:60px; width:920px; height:560px; transform:translateX(-50%);
   background:radial-gradient(closest-side, rgba(0,224,184,.28), rgba(56,198,255,.14) 45%, transparent 72%); filter:blur(26px); z-index:0; animation:apbreathe 8s ease-in-out infinite; }
@@ -563,8 +463,6 @@ const CSS = `
 .ap-tcard .td{ color:var(--muted); font-size:13px; line-height:1.5; margin-bottom:16px; }
 .ap-final{ text-align:center; padding:118px 24px; }
 .ap-final h2{ font-weight:600; font-size:clamp(32px,5vw,58px); letter-spacing:-.04em; margin:0 0 28px; }
-.ap-foot{ text-align:center; padding:44px 24px 60px; color:var(--muted); font-size:12.5px; border-top:1px solid var(--line); }
-.ap-foot .r{ margin-top:8px; font-size:11px; }
 .ap .reveal{ opacity:0; transform:translateY(30px); transition:opacity .7s ease, transform .7s ease; }
 .ap .reveal.in{ opacity:1; transform:none; }
 /* o card entra pelo lado oposto ao texto, acompanhando a leitura */
@@ -574,7 +472,6 @@ const CSS = `
 .ap .reveal-x.in{ opacity:1; transform:none; }
 .ap a:focus-visible, .ap .ap-btn:focus-visible{ outline:2px solid var(--cyanA); outline-offset:3px; }
 @media (max-width:820px){
-  .ap-navr a:not(.ap-navcta){ display:none; }
   .ap-row{ grid-template-columns:1fr; gap:28px; } .ap-row.rev .ap-txt{ order:0; }
   .ap-specs{ grid-template-columns:1fr 1fr; } .ap-spec:nth-child(1),.ap-spec:nth-child(2){ border-bottom:1px solid var(--line); } .ap-spec:nth-child(2){ border-right:none; }
   .ap-trio{ grid-template-columns:1fr; }
