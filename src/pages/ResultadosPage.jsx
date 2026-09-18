@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useData } from '../context/DataContext.jsx'
 /**
  * MentoradosPage.jsx
  *
@@ -208,7 +209,23 @@ function calcMetrics(ops, cap = 0) {
   const nMonths  = mVals.length
   const period   = sorted.length >= 2 ? {from:(sorted[0].abertura||'').slice(0,10),to:(sorted[sorted.length-1].abertura||'').slice(0,10)} : null
 
-  return { total, nOps:ops.length, winRate, avgWin, avgLoss, pf, avgTrade, ddMax, ddMaxPct, ddAtual, ddAtualPct, avgMonth, nMonths, period, cap:cap>0 }
+  // Rentabilidade sobre o capital inicial e média mensal em %
+  const rentPct     = cap > 0 ? (total / cap) * 100 : null
+  const avgMonthPct = cap > 0 ? (avgMonth / cap) * 100 : null
+
+  // Sharpe diário anualizado (retornos por pregão sobre o capital, rf = 0)
+  const byDay = {}
+  ops.forEach(op => { const k=(op.abertura||'').slice(0,10); if(k) byDay[k]=(byDay[k]||0)+(op.res_op||0) })
+  const dVals = Object.values(byDay)
+  let sharpe = null
+  if (cap > 0 && dVals.length >= 20) {
+    const r = dVals.map(v => v / cap)
+    const m = r.reduce((a,b)=>a+b,0)/r.length
+    const sd = Math.sqrt(r.reduce((a,b)=>a+(b-m)**2,0)/r.length)
+    sharpe = sd > 0 ? (m/sd)*Math.sqrt(252) : null
+  }
+
+  return { total, nOps:ops.length, winRate, avgWin, avgLoss, pf, avgTrade, ddMax, ddMaxPct, ddAtual, ddAtualPct, avgMonth, avgMonthPct, rentPct, sharpe, nMonths, period, cap:cap>0 }
 }
 
 function buildMonthly(ops) {
@@ -401,62 +418,94 @@ function PrintModal({portfolio,ops,onClose}) {
 }
 
 // ─── PortfolioCard ─────────────────────────────────────────────────────────────
+function CopiarLink({ params, label }) {
+  const [ok, setOk] = useState(false)
+  const go = () => {
+    const url = new URL(window.location.href); url.search = params || ''
+    navigator.clipboard?.writeText(url.toString()).then(()=>{ setOk(true); setTimeout(()=>setOk(false),1600) })
+  }
+  return (
+    <button onClick={go} title="Copia o link para mandar ao cliente" style={{
+      marginLeft:'auto',display:'inline-flex',alignItems:'center',gap:6,padding:'5px 12px',borderRadius:16,fontSize:12,cursor:'pointer',
+      background:'rgba(255,255,255,0.04)',border:'1px solid var(--border)',color:ok?'var(--success)':'var(--text-muted)'}}>
+      {ok ? 'Link copiado' : label}
+    </button>
+  )
+}
+
 function PortfolioCard({portfolio,ops,onClick}) {
   const cv      = useMemo(()=>getConfigVersions(portfolio),[portfolio])
   const scaled  = useMemo(()=>applyLotesVersioned(ops,cv),[ops,cv])
   const rc      = useMemo(()=>getCurrentRobots(portfolio),[portfolio])
-  const metrics = useMemo(()=>calcMetrics(scaled,parseFloat(portfolio.capital_inicial)||0),[scaled,portfolio])
+  const cap     = parseFloat(portfolio.capital_inicial)||0
+  const metrics = useMemo(()=>calcMetrics(scaled,cap),[scaled,cap])
   const accent  = portfolio.cor||'#f5a623'
   const logoSrc = getLogoSrc(portfolio.logo)
   const[hov,setHov]=useState(false)
+  const pct = (v,d=1) => v==null||isNaN(v) ? '—' : (v>0?'+':'')+v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d})+'%'
+  const mes = (k) => { if(!k) return ''; const [d,m,y]=k.split('/'); return `${m}/${y.slice(2)}` }
+  const stats = [
+    {label:'Média / mês', value:metrics?pct(metrics.avgMonthPct):'—', color:colorVal(metrics?.avgMonthPct)},
+    {label:'Drawdown máx.', value:metrics&&metrics.ddMaxPct!=null?'−'+metrics.ddMaxPct.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%':'—', color:'#F4F7FA'},
+    {label:'Fator de lucro', value:metrics?fmt(metrics.pf):'—', color:(metrics?.pf||0)>=1.5?'var(--success)':'#F4F7FA'},
+    {label:'Sharpe', value:metrics&&metrics.sharpe!=null?fmt(metrics.sharpe,2):'—', color:(metrics?.sharpe||0)>=1?'var(--success)':'#F4F7FA'},
+  ]
   return(
     <div onClick={onClick} onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)} className="card"
-      style={{padding:'18px 20px',cursor:'pointer',transition:'all .18s',transform:hov?'translateY(-3px)':'none',borderLeft:`3px solid ${accent}`,boxShadow:hov?`0 8px 32px rgba(0,0,0,0.25),0 0 0 1px ${accent}30`:'none',display:'flex',flexDirection:'column',gap:12}}>
+      style={{padding:'20px 22px',cursor:'pointer',transition:'transform .18s, box-shadow .18s, border-color .18s',transform:hov?'translateY(-3px)':'none',
+        background:'rgba(255,255,255,0.045)',border:'1px solid rgba(255,255,255,0.09)',borderTop:`2px solid ${accent}`,borderRadius:18,
+        boxShadow:hov?`0 18px 50px rgba(0,0,0,0.35)`:'none',display:'flex',flexDirection:'column',gap:16}}>
 
-      {/* Nome + logo + resultado */}
-      <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:8}}>
-        <div style={{display:'flex',alignItems:'center',gap:8,flex:1,minWidth:0}}>
-          {logoSrc && <img src={logoSrc} style={{height:22,objectFit:'contain',flexShrink:0}} alt="logo"/>}
-          <div style={{fontWeight:700,fontSize:15,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{portfolio.name}</div>
-        </div>
-        <div style={{textAlign:'right',flexShrink:0}}>
-          <div style={{fontSize:18,fontWeight:800,color:colorVal(metrics?.total)}}>{metrics?fmtBRL(metrics.total):'—'}</div>
-          <div style={{fontSize:11,color:'var(--text-hint)'}}>{metrics?.nOps||0} ops</div>
+      {/* Nome + capital */}
+      <div style={{display:'flex',alignItems:'center',gap:10,minWidth:0}}>
+        {logoSrc && <img src={logoSrc} style={{height:22,objectFit:'contain',flexShrink:0}} alt=""/>}
+        <div style={{minWidth:0,flex:1}}>
+          <div style={{fontWeight:600,fontSize:16,letterSpacing:'-.01em',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',color:'#F4F7FA'}}>{portfolio.name}</div>
+          <div style={{fontSize:11.5,color:'#8A93A0',marginTop:2,fontFamily:"'Geist Mono',monospace",letterSpacing:'.03em'}}>
+            {cap>0?`capital ${fmtBRL(cap)}`:'sem capital definido'} · {rc.length} robôs
+          </div>
         </div>
       </div>
 
-      {/* Estratégias — fora do bloco principal, wrapped */}
-      <div style={{display:'flex',flexWrap:'wrap',gap:'3px 6px'}}>
-        {rc.slice(0,8).map((r,i)=>(
-          <span key={i} style={{fontSize:10,color:'var(--text-hint)',background:'rgba(255,255,255,0.04)',padding:'2px 7px',borderRadius:8,border:'1px solid rgba(255,255,255,0.07)'}}>
-            {r.name}{r.lotes!==1&&<sup style={{fontSize:8,marginLeft:1}}>{r.lotes}×</sup>}
-          </span>
-        ))}
-        {rc.length>8&&<span style={{fontSize:10,color:'var(--text-hint)'}}>+{rc.length-8}</span>}
+      {/* Rentabilidade: o número principal */}
+      <div style={{display:'flex',alignItems:'flex-end',justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
+        <div>
+          <div style={{fontSize:34,fontWeight:600,letterSpacing:'-.03em',lineHeight:1,fontFamily:"'Geist Mono',monospace",fontVariantNumeric:'tabular-nums',color:colorVal(metrics?.rentPct ?? metrics?.total)}}>
+            {metrics ? (metrics.rentPct!=null ? pct(metrics.rentPct) : fmtBRL(metrics.total)) : '—'}
+          </div>
+          <div style={{fontSize:10.5,color:'#8A93A0',marginTop:6,textTransform:'uppercase',letterSpacing:'.12em',fontFamily:"'Geist Mono',monospace"}}>
+            {metrics?.rentPct!=null ? 'rentabilidade sobre o capital' : 'resultado líquido'}
+          </div>
+        </div>
+        <div style={{textAlign:'right',fontSize:12,color:'#8A93A0',fontFamily:"'Geist Mono',monospace",lineHeight:1.6}}>
+          {metrics?.rentPct!=null && <div style={{color:colorVal(metrics.total)}}>{fmtBRL(metrics.total)}</div>}
+          {metrics?.period && <div>{mes(metrics.period.from)} a {mes(metrics.period.to)} · {metrics.nMonths} meses</div>}
+        </div>
       </div>
 
       {/* Métricas */}
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
-        {[
-          {label:'Média/mês',value:metrics?fmtBRL(metrics.avgMonth):'—',color:colorVal(metrics?.avgMonth)},
-          {label:'Win Rate', value:metrics?fmtPct(metrics.winRate)  :'—',color:'var(--accent)'},
-          {label:'P.Factor', value:metrics?fmt(metrics.pf)          :'—',color:(metrics?.pf||0)>=1.5?'var(--success)':'var(--warning)'},
-        ].map(m=>(
-          <div key={m.label} style={{background:'rgba(255,255,255,0.03)',borderRadius:8,padding:'7px 10px'}}>
-            <div style={{fontSize:10,color:'var(--text-hint)',marginBottom:2}}>{m.label}</div>
-            <div style={{fontSize:13,fontWeight:600,color:m.color}}>{m.value}</div>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:0,borderTop:'1px solid rgba(255,255,255,0.09)',paddingTop:14}}>
+        {stats.map((m,i)=>(
+          <div key={m.label} style={{padding:'0 10px',borderLeft:i?'1px solid rgba(255,255,255,0.09)':'none'}}>
+            <div style={{fontSize:15,fontWeight:600,color:m.color,fontFamily:"'Geist Mono',monospace",fontVariantNumeric:'tabular-nums'}}>{m.value}</div>
+            <div style={{fontSize:10,color:'#8A93A0',marginTop:3,letterSpacing:'.04em'}}>{m.label}</div>
           </div>
         ))}
       </div>
 
-      {!metrics&&<div style={{fontSize:11,color:'var(--warning)'}}>⚠ Sem ops no My Dash, verifique os nomes das estratégias</div>}
+      {!metrics&&<div style={{fontSize:11,color:'var(--warning)'}}>Sem operações publicadas ainda para este portfólio.</div>}
     </div>
   )
 }
 
 // ─── Tab: Portfólios ───────────────────────────────────────────────────────────
-function PortfoliosTab({portfolios,allOps,onSelect,onGoGerenciar}) {
-  const [filter, setFilter] = useState('all')
+function PortfoliosTab({portfolios,allOps,onSelect,onGoGerenciar,filter='all',setFilter=()=>{}}) {
+  const [copiado, setCopiado] = useState(false)
+  const copiarLink = () => {
+    const url = new URL(window.location.href)
+    url.search = filter==='all' ? '' : `?tipo=${filter}`
+    navigator.clipboard?.writeText(url.toString()).then(()=>{ setCopiado(true); setTimeout(()=>setCopiado(false),1600) })
+  }
 
   if(!portfolios.length) return(<div className="empty-state"><div style={{fontSize:40,marginBottom:14}}>🎯</div><div style={{fontSize:16,color:'var(--text-muted)',marginBottom:8}}>Nenhum portfólio criado ainda.</div><button className="btn primary" onClick={onGoGerenciar}>+ Criar primeiro portfólio</button></div>)
 
@@ -484,6 +533,11 @@ function PortfoliosTab({portfolios,allOps,onSelect,onGoGerenciar}) {
             <span style={{fontSize:10,opacity:.7}}>{f.count}</span>
           </button>
         ))}
+        <button onClick={copiarLink} title="Copia o link desta seleção para mandar ao cliente" style={{
+          marginLeft:'auto',display:'inline-flex',alignItems:'center',gap:6,padding:'5px 12px',borderRadius:16,fontSize:12,cursor:'pointer',
+          background:'rgba(255,255,255,0.04)',border:'1px solid var(--border)',color:copiado?'var(--success)':'var(--text-muted)'}}>
+          {copiado ? 'Link copiado' : 'Copiar link desta seleção'}
+        </button>
       </div>
 
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(300px, 1fr))',gap:16}}>
@@ -1874,7 +1928,7 @@ function AnChartCard({title, children, span}) {
 }
 
 // ─── Tab: Análise ─────────────────────────────────────────────────────────────
-function AnaliseTab({ portfolios, allOps, initialId }) {
+function AnaliseTab({ portfolios, allOps, initialId, onPick }) {
   const [typeFilter, setTypeFilter] = useState('all')
   const [selId, setSelId] = useState(()=> initialId || portfolios[0]?.id || null)
   const [ddThreshold, setDdThreshold] = useState(10) // % slider para DDs
@@ -1949,7 +2003,7 @@ function AnaliseTab({ portfolios, allOps, initialId }) {
       <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:20,alignItems:'center'}}>
         <span style={{fontSize:12,color:'var(--text-muted)'}}>Portfólio:</span>
         {filtered.map(p => (
-          <button key={p.id} onClick={()=>setSelId(p.id)} style={{
+          <button key={p.id} onClick={()=>{ setSelId(p.id); onPick && onPick(p.id) }} style={{
             display:'inline-flex',alignItems:'center',gap:6,padding:'5px 12px',borderRadius:16,fontSize:12,cursor:'pointer',
             fontWeight:selId===p.id?700:400,
             background:selId===p.id?`${p.cor||'#f5a623'}18`:'rgba(255,255,255,0.04)',
@@ -1959,6 +2013,7 @@ function AnaliseTab({ portfolios, allOps, initialId }) {
             <LogoBadge logo={p.logo} size={13}/>{p.name}
           </button>
         ))}
+        <CopiarLink params={selId?`?tab=Análise&p=${selId}`:''} label="Copiar link deste portfólio"/>
       </div>
 
       {!portfolio ? null : !an ? (
@@ -2507,7 +2562,19 @@ const TABS=['Portfólios','Diário','Mensal','Períodos','Calendário','Comparat
 
 export default function ResultadosPage() {
   const _nav = useNavigate()
-  const[tab,setTab]=useState('Portfólios')
+  const { mentPortfolios, mentOps, loading: dataLoading } = useData()
+  const [params, setParams] = useSearchParams()
+  const tabParam = params.get('tab')
+  const[tab,setTabState]=useState(TABS.includes(tabParam) ? tabParam : 'Portfólios')
+  const[tipo,setTipoState]=useState(params.get('tipo') || 'all')
+  // URL é a fonte compartilhável: /resultados?tipo=6015 · /resultados?p=38&tab=Análise
+  const syncUrl = (next) => {
+    const q = {}
+    if (next.tab && next.tab!=='Portfólios') q.tab = next.tab
+    if (next.tipo && next.tipo!=='all') q.tipo = next.tipo
+    if (next.p) q.p = String(next.p)
+    setParams(q, { replace: true })
+  }
   const[portfolios,setPortfolios]=useState([])
   const[allOps,setAllOps]=useState({})
   const[strategies,setStrategies]=useState([])
@@ -2517,21 +2584,17 @@ export default function ResultadosPage() {
   const[apiError,setApiError]=useState(false)
   const[selectedId,setSelectedId]=useState(null)
   const[printPort,setPrintPort]=useState(null)
-  const[analiseId,setAnaliseId]=useState(null)
+  const[analiseId,setAnaliseId]=useState(()=>{ const v=Number(params.get('p')); return v||null })
+  const setTab = (t) => { setTabState(t); syncUrl({ tab:t, tipo, p: t==='Análise'||t==='Detalhes' ? (analiseId||selectedId) : null }) }
+  const setTipo = (v) => { setTipoState(v); syncUrl({ tab, tipo:v, p:null }) }
 
-  useEffect(()=>{loadAll()},[])
+  useEffect(()=>{ if(!dataLoading) loadAll() },[dataLoading])
 
   async function loadAll() {
     setLoading(true); setApiError(false)
     try {
-      if(false) {
-      } // fim do if(false)
-      const [pRes, oRes] = await Promise.all([
-        fetch('/data/mentorados-portfolios.json'),
-        fetch('/data/mentorados-ops.json'),
-      ])
-      const pList = await pRes.json()
-      const allOpsList = await oRes.json()
+      const pList = mentPortfolios || []
+      const allOpsList = mentOps || []
       const opsByName = {}
       allOpsList.forEach(op => { const k=op.ativo; if(!opsByName[k])opsByName[k]=[]; opsByName[k].push(op) })
       const strats = [...new Set(allOpsList.map(o=>o.ativo))].sort()
@@ -2553,16 +2616,17 @@ export default function ResultadosPage() {
 
   async function handleSave(data){}
   async function handleDelete(id){}
-  function handleSelect(id){setSelectedId(id);setAnaliseId(id);setTab('Análise')}
+  function handleSelect(id){setSelectedId(id);setAnaliseId(id);setTabState('Análise');syncUrl({tab:'Análise',tipo,p:id})}
+
+  // link direto pra um portfólio (?p=id): abre a Análise dele assim que os dados chegam
+  useEffect(()=>{
+    if(loading||!analiseId) return
+    if(portfolios.find(x=>x.id===analiseId)){ setSelectedId(analiseId); if(tab==='Portfólios') setTabState('Análise') }
+  },[loading])
 
   return(
     <div style={{padding:'24px 28px',maxWidth:1200,margin:'0 auto'}}>
       <div className="page-header" style={{marginBottom:24}}>
-        <button onClick={()=>_nav('/')}
-          style={{background:'none',border:'none',color:'#6b7a99',cursor:'pointer',
-            fontSize:13,marginBottom:10,display:'flex',alignItems:'center',gap:6,padding:0}}>
-          ← Voltar
-        </button>
         <div style={{display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
           <h1 style={{margin:0,fontSize:22,fontWeight:700}}>Resultados</h1>
           <span style={{fontSize:11,fontWeight:700,background:'rgba(52,212,126,0.15)',border:'1px solid rgba(52,212,126,0.4)',color:'#34d47e',padding:'3px 12px',borderRadius:99,letterSpacing:'.06em'}}>🟢 CONTA REAL</span>
@@ -2580,13 +2644,13 @@ export default function ResultadosPage() {
 
       {!loading&&!apiError&&(
         <>
-          {tab==='Portfólios'  &&<ErrorBoundary><PortfoliosTab  portfolios={portfolios} allOps={allOps} onSelect={handleSelect} onGoGerenciar={()=>setTab('Gerenciar')}/></ErrorBoundary>}
+          {tab==='Portfólios'  &&<ErrorBoundary><PortfoliosTab  portfolios={portfolios} allOps={allOps} onSelect={handleSelect} onGoGerenciar={()=>setTab('Gerenciar')} filter={tipo} setFilter={setTipo}/></ErrorBoundary>}
           {tab==='Diário'      &&<ErrorBoundary><DiarioTab      portfolios={portfolios} allOps={allOps}/></ErrorBoundary>}
           {tab==='Mensal'      &&<ErrorBoundary><MensalTab      portfolios={portfolios} allOps={allOps}/></ErrorBoundary>}
           {tab==='Períodos'    &&<ErrorBoundary><PeriodosTab    portfolios={portfolios} allOps={allOps}/></ErrorBoundary>}
           {tab==='Calendário'  &&<ErrorBoundary><CalendarioTab  portfolios={portfolios} allOps={allOps}/></ErrorBoundary>}
           {tab==='Comparativo' &&<ErrorBoundary><ComparativoTab portfolios={portfolios} allOps={allOps}/></ErrorBoundary>}
-          {tab==='Análise'     &&<ErrorBoundary><AnaliseTab     portfolios={portfolios} allOps={allOps} initialId={analiseId}/></ErrorBoundary>}
+          {tab==='Análise'     &&<ErrorBoundary><AnaliseTab     portfolios={portfolios} allOps={allOps} initialId={analiseId} onPick={id=>{setSelectedId(id);setAnaliseId(id);syncUrl({tab:'Análise',tipo,p:id})}}/></ErrorBoundary>}
           {tab==='Detalhes'     &&<ErrorBoundary><DetalheTab     portfolios={portfolios} selectedId={selectedId} onSelectId={id=>{setSelectedId(id);setAnaliseId(id)}} allOps={allOps} onShowPrint={()=>{const p=portfolios.find(x=>x.id===selectedId);if(p)setPrintPort(p)}}/></ErrorBoundary>}
 
         </>

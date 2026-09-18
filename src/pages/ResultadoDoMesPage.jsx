@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useData } from '../context/DataContext.jsx'
+import { getConfigVersions, parseRobots } from '../lib/publico.js'
 
 /**
  * ResultadoDoMesPage.jsx — rota /resultado-do-mes
@@ -277,6 +279,19 @@ const rotuloDia = (k) => {
   return `${d}/${m}/${a}`
 }
 
+// ── Portfólio do cliente ─────────────────────────────────────────────────────
+// Os portfólios vêm do mesmo JSON da página Resultados. Mostramos só os tipos
+// públicos; o cliente escolhe o dele e a página passa a somar apenas os robôs
+// daquele portfólio, com os lotes da configuração atual.
+const LOGOS_PORTFOLIO = ['6015', 'nelogica', 'smartlab', 'frantiesco']
+const ROTULO_LOGO = { '6015': 'Método 6015', nelogica: 'Nelogica', smartlab: 'SmartLab', frantiesco: 'Frantiesco' }
+
+function robosAtuais(portfolio) {
+  const cv = getConfigVersions(portfolio).slice()
+    .sort((a, b) => String(b.valid_from || '').localeCompare(String(a.valid_from || '')))
+  return parseRobots(cv[0]?.robots_json)
+}
+
 // ── Página ───────────────────────────────────────────────────────────────────
 
 export default function ResultadoDoMesPage() {
@@ -287,6 +302,20 @@ export default function ResultadoDoMesPage() {
   const [mesSel, setMesSel] = useState(null)
   const [diaSel, setDiaSel] = useState(null)
   const [unidade, setUnidade] = useState('financeiro') // 'financeiro' | 'pontos'
+
+  // portfólio escolhido pelo cliente (compartilhável: /resultado-do-mes?portfolio=ID)
+  const { mentPortfolios } = useData()
+  const [params, setParams] = useSearchParams()
+  const [portId, setPortId] = useState(() => Number(params.get('portfolio')) || null)
+  const escolherPortfolio = (id) => {
+    setPortId(id); setDiaSel(null)
+    setParams(id ? { portfolio: String(id) } : {}, { replace: true })
+  }
+  const portfolios = useMemo(() => (mentPortfolios || [])
+    .filter(p => LOGOS_PORTFOLIO.includes(p.logo))
+    .sort((a, b) => LOGOS_PORTFOLIO.indexOf(a.logo) - LOGOS_PORTFOLIO.indexOf(b.logo) || (parseFloat(a.capital_inicial) || 0) - (parseFloat(b.capital_inicial) || 0)),
+    [mentPortfolios])
+  const portfolio = portfolios.find(p => p.id === portId) || null
 
   useEffect(() => {
     if (!FONTES_CSV.length) { setErro('sem-csv'); return }
@@ -326,13 +355,29 @@ export default function ResultadoDoMesPage() {
 
   const mes = mesSel || (dados && dados.meses.length ? dados.meses[dados.meses.length - 1] : null)
 
+  // recorte do portfólio: só os robôs dele, financeiro multiplicado pelos lotes
+  const vista = useMemo(() => {
+    if (!dados || !portfolio) return { robos: dados ? dados.robos : [], faltando: [], capital: 0 }
+    const rc = robosAtuais(portfolio)
+    const lotes = {}; rc.forEach(r => { lotes[r.name] = r.lotes || 1 })
+    const robos = dados.robos.filter(r => lotes[r.nome] !== undefined).map(r => {
+      const l = lotes[r.nome]
+      if (l === 1) return r
+      const dias = {}
+      Object.keys(r.dias).forEach(k => { dias[k] = { financeiro: r.dias[k].financeiro * l, pontos: r.dias[k].pontos } })
+      return { ...r, dias, lotesPortfolio: l }
+    })
+    const faltando = rc.filter(r => !dados.robos.some(x => x.nome === r.name)).map(r => r.name)
+    return { robos, faltando, capital: parseFloat(portfolio.capital_inicial) || 0 }
+  }, [dados, portfolio])
+
   const resumo = useMemo(() => {
     if (!dados || !mes) return null
     const colunas = dados.diasPorMes[mes] || []
     const porDia = {}
     colunas.forEach(c => {
       let fin = 0, pts = 0, temFin = false, temPts = false, robos = 0
-      dados.robos.forEach(r => {
+      vista.robos.forEach(r => {
         const d = r.dias[c.chaveDia]
         if (!d) return
         robos++
@@ -350,7 +395,7 @@ export default function ResultadoDoMesPage() {
 
     // ranking do mês: quem operou vem ordenado pelo resultado; logo abaixo,
     // os robôs disponíveis para assinatura que não operaram no período.
-    const avaliados = dados.robos.map(r => {
+    const avaliados = vista.robos.map(r => {
       let fin = 0, pts = 0, dias = 0, temPts = false, ganhos = 0
       colunas.forEach(c => {
         const d = r.dias[c.chaveDia]
@@ -379,8 +424,9 @@ export default function ResultadoDoMesPage() {
       melhor: fins.length ? Math.max.apply(null, fins) : null,
       pior: fins.length ? Math.min.apply(null, fins) : null,
       ranking, nOperaram: operaram.length,
+      rentPct: vista.capital > 0 ? (totalFin / vista.capital) * 100 : null,
     }
-  }, [dados, mes, links])
+  }, [dados, mes, links, vista])
 
   const diaAberto = diaSel && resumo && resumo.porDia[diaSel] ? diaSel : null
   const ehPontos = unidade === 'pontos'
@@ -457,6 +503,49 @@ export default function ResultadoDoMesPage() {
 
       {dados && resumo && (
         <>
+          {/* ── SEU PORTFÓLIO ── */}
+          {portfolios.length > 0 && (
+            <section style={{ maxWidth: 1100, margin: '0 auto', padding: '8px 32px 0' }}>
+              <div style={{ background: 'rgba(255,255,255,0.045)', border: `1px solid ${s.border}`, borderRadius: 16, padding: '18px 20px' }}>
+                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
+                  <div>
+                    <div style={{ fontSize: 11, letterSpacing: '.16em', textTransform: 'uppercase', color: s.accent, fontFamily: "'Geist Mono', monospace", marginBottom: 4 }}>Seu portfólio</div>
+                    <div style={{ fontSize: 14, color: s.muted }}>
+                      {portfolio
+                        ? <>Mostrando só os robôs de <strong style={{ color: s.text }}>{portfolio.name}</strong>{vista.robos.some(r => r.lotesPortfolio) ? ', já com os lotes da configuração' : ''}.</>
+                        : 'Escolha o seu portfólio pra ver o resultado dele no mês.'}
+                    </div>
+                  </div>
+                  {portfolio && (
+                    <button onClick={() => escolherPortfolio(null)} style={{ background: 'none', border: `1px solid ${s.border}`, color: s.muted, borderRadius: 99, padding: '6px 14px', fontSize: 12, cursor: 'pointer' }}>
+                      Ver todos os robôs
+                    </button>
+                  )}
+                </div>
+                {LOGOS_PORTFOLIO.filter(l => portfolios.some(p => p.logo === l)).map(l => (
+                  <div key={l} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8, marginTop: 8 }}>
+                    <span style={{ fontSize: 11, color: s.muted, minWidth: 92, fontFamily: "'Geist Mono', monospace", letterSpacing: '.06em', textTransform: 'uppercase' }}>{ROTULO_LOGO[l]}</span>
+                    {portfolios.filter(p => p.logo === l).map(p => {
+                      const on = p.id === portId
+                      return (
+                        <button key={p.id} onClick={() => escolherPortfolio(on ? null : p.id)}
+                          style={{ background: on ? `${s.accent}1a` : 'rgba(255,255,255,0.04)', border: `1px solid ${on ? s.accent : s.border}`,
+                            color: on ? s.accent : s.text, borderRadius: 99, padding: '6px 14px', fontSize: 12.5, fontWeight: on ? 700 : 500, cursor: 'pointer' }}>
+                          {p.name.trim()}
+                        </button>
+                      )
+                    })}
+                  </div>
+                ))}
+                {portfolio && vista.faltando.length > 0 && (
+                  <div style={{ marginTop: 12, fontSize: 12, color: s.warning }}>
+                    Robôs deste portfólio que ainda não estão na planilha: {vista.faltando.join(', ')}.
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
           {/* ── CONTROLES ── */}
           <section style={{ maxWidth: 1100, margin: '0 auto', padding: '18px 32px 0',
             display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center',
@@ -496,6 +585,10 @@ export default function ResultadoDoMesPage() {
                 valor={ehPontos ? fmtPT(resumo.totalPts) : fmtRSc(resumo.totalFin)}
                 cor={resumo.totalFin >= 0 ? s.pos : s.neg}
                 nota={resumo.temPts ? (ehPontos ? fmtRSc(resumo.totalFin) : fmtPT(resumo.totalPts)) : null} />
+              {resumo.rentPct != null && (
+                <Kpi rotulo="Sobre o capital" valor={(resumo.rentPct > 0 ? '+' : '') + resumo.rentPct.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'}
+                  cor={resumo.rentPct >= 0 ? s.pos : s.neg} nota={`capital R$ ${vista.capital.toLocaleString('pt-BR', { maximumFractionDigits: 0 })}`} />
+              )}
               <Kpi rotulo="Pregões no mês" valor={String(resumo.dias)} />
               <Kpi rotulo="Dias positivos" valor={`${resumo.positivos} de ${resumo.dias}`}
                 cor={resumo.positivos >= resumo.dias / 2 ? s.pos : null} />
