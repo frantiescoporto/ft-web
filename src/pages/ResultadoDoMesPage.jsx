@@ -94,7 +94,7 @@ const s = {
   card: '#131b28',
   border: 'rgba(255,255,255,0.07)',
   text: '#F4F7FA',
-  muted: '#6b7a99',
+  muted: '#8A93A0',
   warning: '#f5a623',
   pos: '#34d47e',
   neg: '#f06060',
@@ -283,8 +283,15 @@ const rotuloDia = (k) => {
 // Os portfólios vêm do mesmo JSON da página Resultados. Mostramos só os tipos
 // públicos; o cliente escolhe o dele e a página passa a somar apenas os robôs
 // daquele portfólio, com os lotes da configuração atual.
-const LOGOS_PORTFOLIO = ['6015', 'nelogica', 'smartlab', 'frantiesco']
-const ROTULO_LOGO = { '6015': 'Método 6015', nelogica: 'Nelogica', smartlab: 'SmartLab', frantiesco: 'Frantiesco' }
+const LOGOS_PORTFOLIO = ['6015', 'nelogica']
+const ROTULO_LOGO = { '6015': 'Mentoria Método 6015', nelogica: 'Nelogica' }
+
+// A planilha traz o resultado de cada robô SEM coluna de lotes.
+//   true  → cada linha da planilha é o resultado de 1 contrato; a página multiplica
+//           pelos lotes do portfólio (config_versions mais recente do TQL).
+//   false → a planilha já traz o que entrou na conta com os lotes reais; a página
+//           só filtra os robôs do portfólio, sem multiplicar.
+const PLANILHA_POR_CONTRATO = true
 
 function robosAtuais(portfolio) {
   const cv = getConfigVersions(portfolio).slice()
@@ -313,7 +320,7 @@ export default function ResultadoDoMesPage() {
   }
   const portfolios = useMemo(() => (mentPortfolios || [])
     .filter(p => LOGOS_PORTFOLIO.includes(p.logo))
-    .sort((a, b) => LOGOS_PORTFOLIO.indexOf(a.logo) - LOGOS_PORTFOLIO.indexOf(b.logo) || (parseFloat(a.capital_inicial) || 0) - (parseFloat(b.capital_inicial) || 0)),
+    .sort((a, b) => LOGOS_PORTFOLIO.indexOf(a.logo) - LOGOS_PORTFOLIO.indexOf(b.logo) || a.name.trim().localeCompare(b.name.trim(), 'pt-BR', { numeric: true })),
     [mentPortfolios])
   const portfolio = portfolios.find(p => p.id === portId) || null
 
@@ -361,7 +368,7 @@ export default function ResultadoDoMesPage() {
     const rc = robosAtuais(portfolio)
     const lotes = {}; rc.forEach(r => { lotes[r.name] = r.lotes || 1 })
     const robos = dados.robos.filter(r => lotes[r.nome] !== undefined).map(r => {
-      const l = lotes[r.nome]
+      const l = PLANILHA_POR_CONTRATO ? lotes[r.nome] : 1
       if (l === 1) return r
       const dias = {}
       Object.keys(r.dias).forEach(k => { dias[k] = { financeiro: r.dias[k].financeiro * l, pontos: r.dias[k].pontos } })
@@ -445,7 +452,7 @@ export default function ResultadoDoMesPage() {
           marginBottom: 20, background: `${s.accent}0d` }}>
           <span style={{ width: 6, height: 6, borderRadius: '50%', background: s.accent,
             display: 'inline-block', boxShadow: `0 0 8px ${s.accent}` }} />
-          ACOMPANHAMENTO DIÁRIO · CONTA REAL
+          EXTRATO DA CONTA REAL · LANÇADO A CADA PREGÃO
         </div>
 
         <h1 style={{ fontSize: 'clamp(32px, 4.6vw, 52px)', fontWeight: 900,
@@ -456,8 +463,9 @@ export default function ResultadoDoMesPage() {
 
         <p style={{ fontSize: 'clamp(15px, 1.5vw, 17px)', color: s.muted,
           lineHeight: 1.7, maxWidth: 640, marginBottom: 0 }}>
-          Clique em qualquer dia do calendário para ver quanto cada robô fez naquele
-          pregão, em pontos e em reais.
+          Nada aqui é backtest ou simulação: são as operações executadas na conta real,
+          robô por robô, lançadas depois de cada pregão. Clique em um dia do calendário
+          para ver quanto cada robô fez naquele pregão.
           {dados && dados.ultimoDia && (
             <> Último pregão lançado: <strong style={{ color: s.text }}>{rotuloDia(dados.ultimoDia)}</strong>.</>
           )}
@@ -506,39 +514,36 @@ export default function ResultadoDoMesPage() {
           {/* ── SEU PORTFÓLIO ── */}
           {portfolios.length > 0 && (
             <section style={{ maxWidth: 1100, margin: '0 auto', padding: '8px 32px 0' }}>
-              <div style={{ background: 'rgba(255,255,255,0.045)', border: `1px solid ${s.border}`, borderRadius: 16, padding: '18px 20px' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', marginBottom: 12 }}>
-                  <div>
-                    <div style={{ fontSize: 11, letterSpacing: '.16em', textTransform: 'uppercase', color: s.accent, fontFamily: "'Geist Mono', monospace", marginBottom: 4 }}>Seu portfólio</div>
-                    <div style={{ fontSize: 14, color: s.muted }}>
-                      {portfolio
-                        ? <>Mostrando só os robôs de <strong style={{ color: s.text }}>{portfolio.name}</strong>{vista.robos.some(r => r.lotesPortfolio) ? ', já com os lotes da configuração' : ''}.</>
-                        : 'Escolha o seu portfólio pra ver o resultado dele no mês.'}
-                    </div>
-                  </div>
-                  {portfolio && (
-                    <button onClick={() => escolherPortfolio(null)} style={{ background: 'none', border: `1px solid ${s.border}`, color: s.muted, borderRadius: 99, padding: '6px 14px', fontSize: 12, cursor: 'pointer' }}>
-                      Ver todos os robôs
-                    </button>
-                  )}
+              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '12px 22px',
+                padding: '16px 0', borderTop: `1px solid ${s.border}`, borderBottom: `1px solid ${s.border}` }}>
+                <label htmlFor="rdm-portfolio" style={{ fontSize: 11, letterSpacing: '.16em', textTransform: 'uppercase', color: s.accent, fontFamily: "'Geist Mono', monospace" }}>
+                  Seu portfólio
+                </label>
+                <div style={{ position: 'relative', minWidth: 260 }}>
+                  <select id="rdm-portfolio" value={portId || ''} onChange={e => escolherPortfolio(Number(e.target.value) || null)}
+                    style={{ appearance: 'none', WebkitAppearance: 'none', width: '100%', background: 'rgba(255,255,255,0.045)', color: s.text,
+                      border: `1px solid ${portfolio ? s.accent : 'rgba(255,255,255,0.14)'}`, borderRadius: 10, padding: '10px 40px 10px 14px',
+                      fontSize: 14, fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer', outline: 'none' }}>
+                    <option value="">Todos os robôs da conta</option>
+                    {LOGOS_PORTFOLIO.filter(l => portfolios.some(p => p.logo === l)).map(l => (
+                      <optgroup key={l} label={ROTULO_LOGO[l]}>
+                        {portfolios.filter(p => p.logo === l).map(p => (
+                          <option key={p.id} value={p.id}>{p.name.trim()}</option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </select>
+                  <svg viewBox="0 0 20 20" width="16" height="16" style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: s.muted }}>
+                    <path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
                 </div>
-                {LOGOS_PORTFOLIO.filter(l => portfolios.some(p => p.logo === l)).map(l => (
-                  <div key={l} style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8, marginTop: 8 }}>
-                    <span style={{ fontSize: 11, color: s.muted, minWidth: 92, fontFamily: "'Geist Mono', monospace", letterSpacing: '.06em', textTransform: 'uppercase' }}>{ROTULO_LOGO[l]}</span>
-                    {portfolios.filter(p => p.logo === l).map(p => {
-                      const on = p.id === portId
-                      return (
-                        <button key={p.id} onClick={() => escolherPortfolio(on ? null : p.id)}
-                          style={{ background: on ? `${s.accent}1a` : 'rgba(255,255,255,0.04)', border: `1px solid ${on ? s.accent : s.border}`,
-                            color: on ? s.accent : s.text, borderRadius: 99, padding: '6px 14px', fontSize: 12.5, fontWeight: on ? 700 : 500, cursor: 'pointer' }}>
-                          {p.name.trim()}
-                        </button>
-                      )
-                    })}
-                  </div>
-                ))}
+                <div style={{ fontSize: 13, color: s.muted, flex: 1, minWidth: 220 }}>
+                  {portfolio
+                    ? <>Somando só os robôs de <strong style={{ color: s.text }}>{portfolio.name.trim()}</strong>{vista.robos.some(r => r.lotesPortfolio) ? ', com os lotes da configuração' : ''}.</>
+                    : 'Escolha o seu portfólio pra ver o resultado dele no mês.'}
+                </div>
                 {portfolio && vista.faltando.length > 0 && (
-                  <div style={{ marginTop: 12, fontSize: 12, color: s.warning }}>
+                  <div style={{ flexBasis: '100%', fontSize: 12, color: s.warning }}>
                     Robôs deste portfólio que ainda não estão na planilha: {vista.faltando.join(', ')}.
                   </div>
                 )}
@@ -578,24 +583,9 @@ export default function ResultadoDoMesPage() {
             )}
           </section>
 
-          {/* ── KPIs ── */}
-          <section style={{ maxWidth: 1100, margin: '0 auto', padding: '20px 32px 0' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(158px, 1fr))', gap: 12 }}>
-              <Kpi rotulo={`Resultado de ${MESES_LONGO[+mes.split('-')[1] - 1]}`}
-                valor={ehPontos ? fmtPT(resumo.totalPts) : fmtRSc(resumo.totalFin)}
-                cor={resumo.totalFin >= 0 ? s.pos : s.neg}
-                nota={resumo.temPts ? (ehPontos ? fmtRSc(resumo.totalFin) : fmtPT(resumo.totalPts)) : null} />
-              {resumo.rentPct != null && (
-                <Kpi rotulo="Sobre o capital" valor={(resumo.rentPct > 0 ? '+' : '') + resumo.rentPct.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'}
-                  cor={resumo.rentPct >= 0 ? s.pos : s.neg} nota={`capital R$ ${vista.capital.toLocaleString('pt-BR', { maximumFractionDigits: 0 })}`} />
-              )}
-              <Kpi rotulo="Pregões no mês" valor={String(resumo.dias)} />
-              <Kpi rotulo="Dias positivos" valor={`${resumo.positivos} de ${resumo.dias}`}
-                cor={resumo.positivos >= resumo.dias / 2 ? s.pos : null} />
-              <Kpi rotulo="Melhor dia" valor={fmtRSc(resumo.melhor)} cor={s.pos} />
-              <Kpi rotulo="Pior dia" valor={fmtRSc(resumo.pior)} cor={s.neg} />
-              <Kpi rotulo="Robôs no mês" valor={String(resumo.nOperaram)} />
-            </div>
+          {/* ── FICHA DO MÊS ── */}
+          <section style={{ maxWidth: 1100, margin: '0 auto', padding: '28px 32px 0' }}>
+            <Ficha resumo={resumo} mes={mes} portfolio={portfolio} capital={vista.capital} ehPontos={ehPontos} ultimoDia={dados.ultimoDia} />
           </section>
 
           {/* ── CALENDÁRIO ── */}
@@ -872,13 +862,59 @@ function DetalheDoDia({ dia, robos, total, ehPontos, onFechar }) {
 
 // ── Auxiliares ───────────────────────────────────────────────────────────────
 
-function Kpi({ rotulo, valor, cor, nota }) {
+/* Ficha do mês: um extrato, não um painel. Número grande à esquerda
+ * (resultado do mês), e à direita uma lista de linhas com fio, no estilo
+ * de ficha técnica: rótulo à esquerda, valor tabular à direita. */
+function Ficha({ resumo, mes, portfolio, capital, ehPontos, ultimoDia }) {
+  const mesNome = MESES_LONGO[+mes.split('-')[1] - 1]
+  const pct = (v) => (v > 0 ? '+' : '') + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'
+  const brl0 = (v) => 'R$ ' + v.toLocaleString('pt-BR', { maximumFractionDigits: 0 })
+  const cor = resumo.totalFin >= 0 ? s.pos : s.neg
+  const principal = ehPontos ? fmtPT(resumo.totalPts) : fmtRSc(resumo.totalFin)
+  const secundario = resumo.temPts ? (ehPontos ? fmtRSc(resumo.totalFin) : fmtPT(resumo.totalPts)) : null
+
+  const linhas = [
+    portfolio && capital > 0 && { k: 'Capital recomendado', v: brl0(capital) },
+    resumo.rentPct != null && { k: 'Rentabilidade no mês', v: pct(resumo.rentPct), cor: resumo.rentPct >= 0 ? s.pos : s.neg },
+    { k: 'Pregões lançados', v: String(resumo.dias) },
+    { k: 'Dias positivos', v: `${resumo.positivos} de ${resumo.dias}`, cor: resumo.positivos >= resumo.dias / 2 ? s.pos : undefined },
+    { k: 'Melhor dia', v: fmtRSc(resumo.melhor), cor: s.pos },
+    { k: 'Pior dia', v: fmtRSc(resumo.pior), cor: s.neg },
+    { k: 'Robôs que operaram', v: String(resumo.nOperaram) },
+  ].filter(Boolean)
+
   return (
-    <div style={{ background: s.card, border: `1px solid ${s.border}`, borderRadius: 12, padding: '15px 17px' }}>
-      <div style={{ fontSize: 10, color: s.muted, letterSpacing: '.06em',
-        textTransform: 'uppercase', marginBottom: 6, minHeight: 26, lineHeight: 1.3 }}>{rotulo}</div>
-      <div style={{ fontSize: 20, fontWeight: 900, color: cor || s.text, letterSpacing: '-0.02em' }}>{valor}</div>
-      {nota && <div style={{ fontSize: 10.5, color: s.muted, marginTop: 4 }}>{nota}</div>}
+    <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 1fr)', gap: '28px 64px',
+      alignItems: 'start', borderTop: `1px solid rgba(255,255,255,0.14)`, paddingTop: 26 }} className="rdm-ficha">
+      <style>{`
+        @media (max-width: 760px) { .rdm-ficha { grid-template-columns: 1fr !important; gap: 22px !important; } }
+      `}</style>
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: s.pos, boxShadow: `0 0 10px ${s.pos}` }} />
+          <span style={{ fontSize: 11.5, letterSpacing: '.16em', textTransform: 'uppercase', color: s.text, fontFamily: "'Geist Mono', monospace" }}>
+            Conta real · {portfolio ? portfolio.name.trim() : 'todos os robôs'}
+          </span>
+        </div>
+        <div style={{ fontSize: 13, color: s.muted, marginBottom: 6 }}>Resultado de {mesNome}</div>
+        <div style={{ fontSize: 'clamp(44px, 6vw, 72px)', fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1, color: cor,
+          fontFamily: "'Geist Mono', monospace", fontVariantNumeric: 'tabular-nums' }}>
+          {principal}
+        </div>
+        {secundario && <div style={{ fontSize: 14, color: s.muted, marginTop: 10, fontFamily: "'Geist Mono', monospace" }}>{secundario}</div>}
+        <div style={{ fontSize: 12.5, color: s.muted, marginTop: 18, lineHeight: 1.6, maxWidth: '40ch' }}>
+          Soma dos pregões lançados até {rotuloDia(ultimoDia)}. Operações executadas na conta, não simuladas.
+        </div>
+      </div>
+      <dl style={{ margin: 0 }}>
+        {linhas.map((l, i) => (
+          <div key={l.k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 16,
+            padding: '11px 0', borderBottom: `1px solid ${s.border}`, borderTop: i === 0 ? `1px solid ${s.border}` : 'none' }}>
+            <dt style={{ fontSize: 13.5, color: s.muted }}>{l.k}</dt>
+            <dd style={{ margin: 0, fontSize: 16, fontWeight: 600, color: l.cor || s.text, fontFamily: "'Geist Mono', monospace", fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>{l.v}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   )
 }
