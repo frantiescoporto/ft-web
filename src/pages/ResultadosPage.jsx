@@ -29,7 +29,7 @@ function _pubBase() {
 const _BASE = _pubBase()
 
 const LOGO_OPTIONS = [
-  { id: '6015',       label: 'Método 6015',   src: `${_BASE}logos/logo-6015.png`       },
+  { id: '6015',       label: 'Método 6015',   src: `${_BASE}logos/logo-6015.webp`       },
   { id: 'nelogica',   label: 'Nelogica',       src: `${_BASE}logos/logo-nelogica.png`   },
   { id: 'smartlab',   label: 'SmartLab',       src: `${_BASE}logos/logo-smartlab.png`   },
   { id: 'avel',       label: 'Avel',           src: `${_BASE}logos/logo-avel.png`       },

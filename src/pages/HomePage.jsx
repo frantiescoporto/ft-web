@@ -24,7 +24,7 @@ const COPA_CSV = 'https://docs.google.com/spreadsheets/d/1bGEBfwfMAkWp0r_6ahWmGy
 const COPA_SNAPSHOT = '/data/copa.json'
 
 // foto tratada: coloque foto-trader-hero.png em ft-web/public/
-const FOTO = '/foto-trader-hero.png'
+const FOTO = '/foto-trader-hero.webp'   // 74 KB (o PNG original tinha 1,1 MB)
 
 const ddmmToInt = (s) => {
   const p = (s || '').split(' ')[0].split('/')
@@ -286,7 +286,7 @@ export default function HomePage() {
         <div className="ap-txt reveal">
           <div className="ap-kick">Mercado internacional</div>
           <h2 className="ap-h2">Robôs em dólar. Grátis com a sua conta.</h2>
-          <p className="ap-p">Ouro, índices e forex operados por robôs Black Arrow. Quem abre a conta na DooPrime pelo meu link recebe as estratégias sem pagar licença.</p>
+          <p className="ap-p">Ouro, índices e forex operados por robôs na Black Arrow. Quem abre a conta na DooPrime pelo meu link recebe as estratégias sem pagar licença.</p>
           <a className="ap-go" href="/mercado-internacional" onClick={go('/mercado-internacional')}><span className="a">Conhecer o mercado internacional →</span></a>
         </div>
         <div className="ap-card reveal-x">
@@ -350,7 +350,7 @@ export default function HomePage() {
           <p className="ap-p">Desenvolvo estratégias quantitativas para o mercado brasileiro, criei o Método 6015 e sou parceiro Nelogica e XP. A trajetória inteira está publicada, com os acertos e também as quedas.</p>
           <a className="ap-go" href="/historico" onClick={go('/historico')}><span className="a">Minha trajetória →</span></a>
         </div>
-        <div className="ap-bw"><img src={FOTO} alt="Frantiesco" /></div>
+        <div className="ap-bw"><img src={FOTO} alt="Frantiesco" loading="lazy" decoding="async" width="774" height="1400" /></div>
       </div></div></section>
 
       {/* AVALIAÇÕES */}

@@ -21,12 +21,13 @@ const LINK_GRUPO = 'https://chat.whatsapp.com/BlnnTR5yZ9SLvV9XgwMd7e'
 const WHATSAPP = 'https://wa.me/5553999010262?text=' + encodeURIComponent('Olá Frantiesco! Abri minha conta na DooPrime pelo seu link e quero receber os robôs de mercado internacional.')
 
 // ids (robots.json) das estratégias liberadas hoje
-const LIBERADOS = [140, 141, 144]
+const LIBERADOS = [145, 186, 172]   // XAU-USD_06, XAUUSD_07, FT_NAS100_06
 
 const VANTAGENS = [
   { t: 'Execução rápida', d: 'Latência baixa, o que importa pra day trade e scalper.' },
   { t: 'Vários mercados', d: 'Forex, índices, commodities, ações e criptomoedas na mesma conta.' },
-  { t: 'Black Arrow a partir de US$ 130', d: 'A plataforma de automação da Nelogica pro mercado internacional.' },
+  { t: 'Black Arrow gratuito', d: 'A plataforma de automação da Nelogica pro mercado internacional sai de graça operando 2 lotes no mês. Abaixo disso, US$ 22.' },
+  { t: 'Depósito inicial de US$ 130', d: 'É o que libera a conta com o Black Arrow. O dinheiro fica na sua conta, pra você operar.' },
   { t: 'Swap free nos principais pares', d: 'Sem custo de rolagem nos pares de forex mais operados.' },
   { t: '7 dias sem swap em ouro', d: 'E em outros ativos selecionados.' },
   { t: 'Alavancagem competitiva', d: 'Margem menor por contrato do que na B3.' },
@@ -92,7 +93,7 @@ export default function MercadoInternacionalPage() {
         <div className="mi-wrap mi-hero-in">
           <div className="mi-eyebrow">Mercado internacional · DooPrime</div>
           <h1 className="mi-h1">Robôs em dólar.<br /><span className="g">Grátis com a sua conta.</span></h1>
-          <p className="mi-lede">Ouro, índices e forex operados por robôs Black Arrow. Quem abre a conta na DooPrime pelo meu link recebe as estratégias sem pagar licença.</p>
+          <p className="mi-lede">Ouro, índices e forex operados por robôs na Black Arrow. Quem abre a conta na DooPrime pelo meu link recebe as estratégias sem pagar licença.</p>
           <div className="mi-cta">
             <a className="mi-btn grad" href={LINK_CONTA} target="_blank" rel="noopener noreferrer">Abrir conta na DooPrime</a>
             <a className="mi-btn ghost" href={LINK_GRUPO} target="_blank" rel="noopener noreferrer">Entrar no grupo de Forex</a>
@@ -102,8 +103,8 @@ export default function MercadoInternacionalPage() {
           <div className="mi-specs reveal">
             <div className="mi-spec"><div className="v mono">{loading ? '—' : liberados.length}</div><div className="k">Estratégias liberadas</div></div>
             <div className="mi-spec"><div className="v mono">{loading ? '—' : validacao.length}</div><div className="k">Em validação</div></div>
-            <div className="mi-spec"><div className="v mono">US$ 130</div><div className="k">Black Arrow, a partir de</div></div>
-            <div className="mi-spec"><div className="v mono">24h</div><div className="k">VPS grátis a partir de US$ 1.000</div></div>
+            <div className="mi-spec"><div className="v mono">Grátis</div><div className="k">Black Arrow operando 2 lotes no mês</div></div>
+            <div className="mi-spec"><div className="v mono">24h</div><div className="k">Suporte</div></div>
           </div>
         </div>
       </section>
@@ -113,7 +114,7 @@ export default function MercadoInternacionalPage() {
         <div className="mi-txt reveal">
           <div className="mi-kick">Como funciona</div>
           <h2 className="mi-h2">Três passos. Nenhum custo de licença.</h2>
-          <p className="mi-p">Os robôs são os mesmos que eu valido no Trade Quant Lab, com a configuração pronta. A conta é sua, na DooPrime, e o dinheiro fica com você.</p>
+          <p className="mi-p">Os robôs são os mesmos que eu valido no Trade Quant Lab, com a configuração pronta. A conta é sua, na DooPrime: o depósito inicial de US$ 130 libera o Black Arrow e continua sendo o seu capital de operação.</p>
           <a className="mi-go" href={LINK_CONTA} target="_blank" rel="noopener noreferrer"><span className="a">Abrir a conta agora →</span></a>
         </div>
         <div className="mi-card reveal">
