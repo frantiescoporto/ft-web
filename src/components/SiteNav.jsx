@@ -7,6 +7,7 @@ import { NavLink, Link, useLocation } from 'react-router-dom'
 export const NAV_LINKS = [
   { to: '/mentoria_metodo6015', label: 'Mentoria' },
   { to: '/copa-dos-robos', label: 'Copa' },
+  { to: '/mercado-internacional', label: 'Internacional' },
   { to: '/resultados', label: 'Resultados' },
   { to: '/estrategias', label: 'Robôs' },
   { to: '/resultado-do-mes', label: 'Resultado do mês' },
@@ -16,6 +17,7 @@ export const NAV_LINKS = [
 // CTA da nav muda conforme a página: na Mentoria leva ao preço, no resto leva aos resultados
 function ctaFor(pathname) {
   if (pathname.startsWith('/mentoria')) return { to: '/mentoria_metodo6015#preco', label: 'Garantir minha vaga', grad: true, hash: true }
+  if (pathname.startsWith('/mercado-internacional')) return { to: 'https://my.dooprime.com/pt/links/go/71702', label: 'Abrir conta', grad: true, external: true }
   if (pathname.startsWith('/copa')) return { to: 'https://payfast.greenn.com.br/ug3vjsm', label: 'Assinar o Combo', grad: true, external: true }
   return { to: '/resultados', label: 'Ver resultados', grad: false }
 }

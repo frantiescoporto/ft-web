@@ -260,9 +260,12 @@ export function buildSideData(adjOps) {
 }
 
 // ── Formatting ────────────────────────────────────────────────────────────────
-export function fmtR(v) {
+// símbolo padrão; RobotDetailPage troca pra 'US$' nos robôs de mercado internacional
+export let CURRENCY = 'R$'
+export function setCurrency(c) { CURRENCY = c || 'R$' }
+export function fmtR(v, cur) {
   const abs = Math.abs(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-  return (v < 0 ? '- R$ ' : 'R$ ') + abs
+  return (v < 0 ? '- ' : '') + (cur || CURRENCY) + ' ' + abs
 }
 
 export function fmtPct(v, decimals = 1) {

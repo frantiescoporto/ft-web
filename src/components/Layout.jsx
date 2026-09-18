@@ -14,6 +14,7 @@ const META = {
   '/estrategias': { title: `Robôs e estratégias · ${SITE}`, desc: 'Cada estratégia do Método 6015 com análise completa: M.6015, win rate, fator de lucro e resultado em conta real.' },
   '/resultados': { title: `Resultados em conta real · ${SITE}`, desc: 'Portfólios recomendados do Método 6015 com resultado publicado em conta real, mês a mês.' },
   '/resultado-do-mes': { title: `Resultado do mês · ${SITE}`, desc: 'Fechamento do mês em conta real, pregão a pregão, robô por robô.' },
+  '/mercado-internacional': { title: `Mercado internacional · ${SITE}`, desc: 'Robôs Black Arrow de ouro, índices e forex, em dólar, liberados sem custo pra quem abre conta na DooPrime pelo link do Frantiesco.' },
   '/copa-dos-robos': { title: `Copa dos Robôs · ${SITE}`, desc: 'Competição ao vivo entre 24 robôs em duas séries, com acesso e rebaixamento a cada mês.' },
   '/mentoria_metodo6015': { title: `Mentoria Método 6015 · ${SITE}`, desc: 'Um método pronto, passo a passo, pra operar com robôs no Profit do mesmo jeito que um trader profissional opera.' },
   '/avaliacoes': { title: `Avaliações dos alunos · ${SITE}`, desc: 'O que os alunos da Mentoria Método 6015 dizem, com nota e depoimento.' },
@@ -55,7 +56,7 @@ export default function Layout() {
   return (
     <>
       <SiteNav />
-      <Outlet />
+      <main className="ft-main"><Outlet /></main>
       <SiteFooter />
     </>
   )

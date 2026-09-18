@@ -19,6 +19,7 @@ const CopaRobosPage = lazy(() => import('./pages/CopaRobosPage.jsx'))
 const AvelClientesPage = lazy(() => import('./pages/AvelClientesPage.jsx'))
 const ResultadoDoMesPage = lazy(() => import('./pages/ResultadoDoMesPage.jsx'))
 const CadastroClientePage = lazy(() => import('./pages/CadastroClientePage.jsx'))
+const MercadoInternacionalPage = lazy(() => import('./pages/MercadoInternacionalPage.jsx'))
 
 const Fallback = () => <div className="ft-loading">carregando</div>
 
@@ -41,6 +42,7 @@ export default function App() {
             <Route path="/mentoria_metodo6015" element={<MentoriaMetodo6015Page />} />
             <Route path="/avaliacoes" element={<AvaliacaoPage />} />
             <Route path="/copa-dos-robos" element={<CopaRobosPage />} />
+            <Route path="/mercado-internacional" element={<MercadoInternacionalPage />} />
             <Route path="/resultado-do-mes" element={<ResultadoDoMesPage />} />
             <Route path="/cadastro" element={<CadastroClientePage />} />
           </Route>

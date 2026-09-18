@@ -2599,7 +2599,8 @@ export default function ResultadosPage() {
       allOpsList.forEach(op => { const k=op.ativo; if(!opsByName[k])opsByName[k]=[]; opsByName[k].push(op) })
       const strats = [...new Set(allOpsList.map(o=>o.ativo))].sort()
       const LOGOS_WEB = ['6015', 'nelogica', 'smartlab', 'frantiesco']
-      const filteredPList = (pList||[]).filter(p => LOGOS_WEB.includes(p.logo || 'none') || !p.logo)
+      // portfólios DOO_PRIME (dólar) ficam na página /mercado-internacional
+      const filteredPList = (pList||[]).filter(p => (LOGOS_WEB.includes(p.logo || 'none') || !p.logo) && !/^\s*doo[_\s-]?prime/i.test(p.name||''))
       setPortfolios(filteredPList); setStrategies(strats); setLabPortfolios([])
       const opsMap={}
       for(const p of (pList||[])){
@@ -2635,7 +2636,7 @@ export default function ResultadosPage() {
         {!loading&&!apiError&&portfolios.length>0&&<div style={{color:'var(--text-muted)',fontSize:13,marginTop:4}}>{portfolios.length} portfólio{portfolios.length!==1?'s':''} · {Object.values(allOps).reduce((s,o)=>s+o.length,0)} ops mapeadas</div>}
       </div>
 
-      <div style={{display:'flex',gap:2,borderBottom:'1px solid var(--border)',marginBottom:28}}>
+      <div className="ft-tabs" style={{display:'flex',gap:2,borderBottom:'1px solid var(--border)',marginBottom:28}}>
         {TABS.map(t=><button key={t} onClick={()=>setTab(t)} style={{background:'none',border:'none',padding:'9px 16px',fontSize:13,fontWeight:tab===t?700:400,color:tab===t?'var(--warning)':'var(--text-muted)',borderBottom:tab===t?'2px solid var(--warning)':'2px solid transparent',cursor:'pointer',marginBottom:-1,transition:'color .15s'}}>{t}</button>)}
       </div>
 

@@ -23,6 +23,7 @@ export default function SiteFooter() {
             <div className="ft-foot-col">
               <div className="h">Método 6015</div>
               <Link to="/mentoria_metodo6015">Mentoria</Link>
+              <Link to="/mercado-internacional">Mercado internacional</Link>
               <Link to="/avaliacoes">Avaliações</Link>
               <Link to="/historico">Minha história</Link>
             </div>

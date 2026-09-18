@@ -89,3 +89,31 @@ body { font-family: var(--ft-sans); background: var(--ft-bg); color: var(--ft-te
 
 /* ── Fallback de carregamento das rotas ──────────────────────────────────── */
 .ft-loading { min-height: 60vh; display: grid; place-items: center; color: var(--ft-muted); font-family: var(--ft-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+
+/* ── Mobile: rede de segurança pras páginas antigas (estilos inline) ────────
+ * As páginas antigas definem grids e paddings inline, sem media query.
+ * Abaixo de 720px estas regras colapsam grids fixos, apertam o padding
+ * lateral e deixam tabelas rolarem, sem mexer em cada página. */
+.ft-main { display: block; min-width: 0; }
+.ft-main img, .ft-main svg, .ft-main canvas { max-width: 100%; }
+.ft-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.ft-tabs::-webkit-scrollbar { display: none; }
+.ft-tabs > * { flex: none; white-space: nowrap; }
+
+@media (max-width: 720px) {
+  .ft-main { overflow-x: hidden; }
+  /* padding lateral das páginas */
+  .ft-main [style*="px 32px"], .ft-main [style*="px 28px"], .ft-main [style*="0 32px"] { padding-left: 16px !important; padding-right: 16px !important; }
+  /* grids fixos viram 1 coluna; grids de 3 ou 4 métricas viram 2 colunas */
+  .ft-main [style*="grid-template-columns"]:not([style*="repeat(7"]):not([style*="repeat(12"]):not([style*="auto-fill"]):not([style*="auto-fit"]) { grid-template-columns: 1fr !important; }
+  .ft-main [style*="grid-template-columns: repeat(3"], .ft-main [style*="grid-template-columns: repeat(4"] { grid-template-columns: 1fr 1fr !important; }
+  .ft-main [style*="grid-column"] { grid-column: auto !important; }
+  /* linhas flex passam a quebrar */
+  .ft-main [style*="display: flex"]:not([style*="flex-direction: column"]):not([style*="nowrap"]) { flex-wrap: wrap; }
+  /* tabelas largas rolam dentro do próprio bloco */
+  .ft-main table { display: block; overflow-x: auto; max-width: 100%; -webkit-overflow-scrolling: touch; }
+  /* números grandes não estouram */
+  .ft-main h1:not(.ap-h1):not(.copa-h1):not(.m6-h1):not(.cad h1) { font-size: clamp(26px, 8vw, 40px) !important; overflow-wrap: anywhere; }
+  .ft-main [style*="font-size: 34px"], .ft-main [style*="font-size: 36px"], .ft-main [style*="font-size: 40px"] { font-size: 26px !important; }
+  .ft-main .metrics-grid { grid-template-columns: 1fr 1fr !important; padding: 12px !important; }
+}

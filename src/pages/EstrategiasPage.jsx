@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useData } from '../context/DataContext.jsx'
 import { buildAdjOps, calcMetrics, fmtNum } from '../lib/analytics.js'
 import PlatformBadge from '../components/PlatformBadge.jsx'
+import { moedaDoRobo, fmtMoeda } from '../lib/moeda.js'
 
 const s = {
   accent: '#00E0B8', dark: '#060809', surface: '#0f1520',
@@ -10,10 +11,7 @@ const s = {
   text: '#F4F7FA', muted: '#6b7a99',
 }
 
-function fmtR(v) {
-  if (v == null || isNaN(v)) return '—'
-  return `R$ ${Number(v).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-}
+function fmtR(v, moeda = 'BRL') { return fmtMoeda(v, moeda) }
 
 export default function EstrategiasPage() {
   const navigate = useNavigate()
@@ -157,9 +155,9 @@ export default function EstrategiasPage() {
                     {[
                       { l: 'M.6015', v: (m.m6015||0) > 20 ? `${fmtNum(m.m6015||0)} ✦` : fmtNum(m.m6015 || 0), c: (m.m6015||0)>6?'#00E0B8':(m.m6015||0)>3?'#34d47e':(m.m6015||0)>1?'#f5a623':'#f06060' },
                       { l: 'Win Rate', v: (m.winRate||0).toFixed(0)+'%', c: (m.winRate||0)>=55?'#34d47e':'#f5a623' },
-                      { l: 'Méd. BT/mês', v: fmtR(m.avgMonthly||0), c: (m.avgMonthly||0)>=0?'#34d47e':'#f06060' },
+                      { l: 'Méd. BT/mês', v: fmtR(m.avgMonthly||0, moedaDoRobo(r)), c: (m.avgMonthly||0)>=0?'#34d47e':'#f06060' },
                       m.avgMonthlyReal != null
-                        ? { l: `Média real (${m.nMonthsReal}m)`, v: fmtR(m.avgMonthlyReal), c: m.avgMonthlyReal>=0?'#34d47e':'#f06060' }
+                        ? { l: `Média real (${m.nMonthsReal}m)`, v: fmtR(m.avgMonthlyReal, moedaDoRobo(r)), c: m.avgMonthlyReal>=0?'#34d47e':'#f06060' }
                         : { l: 'Sem dados reais', v: '—', c: s.muted },
                     ].map((st, i) => (
                       <div key={i} style={{ background: s.surface, borderRadius: 8, padding: '6px 8px', textAlign: 'center' }}>

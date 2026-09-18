@@ -7,8 +7,12 @@ import {
   buildMonthlyData, buildYearlyData, buildHourlyData, buildSideData,
   calcRecoveredDD, calcRollingPF, calcStreaks, calcByWeekday,
   calcRecoveryStats,
-  fmtR, fmtPct, fmtNum, calcMonteCarlo, calcRobotScore
+  fmtR, fmtPct, fmtNum, calcMonteCarlo, calcRobotScore, setCurrency
 } from '../lib/analytics'
+import { moedaDoRobo, simbolo } from '../lib/moeda.js'
+
+// símbolo da moeda do robô aberto (R$ ou US$); definido no load do robô
+let CUR = 'R$'
 import { calcStagnation } from '../lib/stagnation'
 
 import RealOpsTab from '../components/RealOpsTab'
@@ -58,6 +62,7 @@ export default function RobotDetailPage() {
     if (dataLoading) return
     const r = getRobot(parseInt(id))
     if (!r) { navigate('/estrategias'); return }
+    CUR = simbolo(moedaDoRobo(r)); setCurrency(CUR)
     setRobot(r)
     setName(r.name)
     setTipo(r.tipo || 'backtest')
@@ -217,7 +222,7 @@ export default function RobotDetailPage() {
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks: { color: c.text, maxTicksLimit: 10, font: { size: 11 } }, grid: { color: c.grid } },
-        y: { ticks: { color: c.text, callback: yFmt || (v => 'R$ ' + v.toLocaleString('pt-BR')), font: { size: 11 } }, grid: { color: c.grid } }
+        y: { ticks: { color: c.text, callback: yFmt || (v => CUR + ' ' + v.toLocaleString('pt-BR')), font: { size: 11 } }, grid: { color: c.grid } }
       }
     }
   }
@@ -263,7 +268,7 @@ export default function RobotDetailPage() {
           ctx.stroke()
           // Label
           const label = chart.data.labels[maxIdx]
-          const valLabel = 'R$ ' + maxVal.toLocaleString('pt-BR', {maximumFractionDigits:2})
+          const valLabel = CUR + ' ' + maxVal.toLocaleString('pt-BR', {maximumFractionDigits:2})
           ctx.font = 'bold 11px sans-serif'
           ctx.fillStyle = '#22c55e'
           ctx.textAlign = px > chartArea.right - 120 ? 'right' : 'left'
@@ -294,7 +299,7 @@ export default function RobotDetailPage() {
         plugins: { legend: { display: false } },
         scales: {
           x: { ticks: { color: c.text, maxTicksLimit: 10 }, grid: { color: c.grid } },
-          y: { ticks: { color: c.text, callback: v => 'R$ '+v.toLocaleString('pt-BR') }, grid: { color: c.grid } }
+          y: { ticks: { color: c.text, callback: v => CUR + ' ' +v.toLocaleString('pt-BR') }, grid: { color: c.grid } }
         }
       }
     }))
@@ -426,7 +431,7 @@ export default function RobotDetailPage() {
               label: ctx => {
                 const v = ctx.raw
                 const pct = cap > 0 ? (v/cap*100).toFixed(1) : '0.0'
-                return `R$ ${v.toLocaleString('pt-BR', {minimumFractionDigits:2})} (${pct}%)`
+                return `${CUR} ${v.toLocaleString('pt-BR', {minimumFractionDigits:2})} (${pct}%)`
               }
             }
           }
@@ -435,7 +440,7 @@ export default function RobotDetailPage() {
           x: { ticks: { color: c.text, maxTicksLimit: 10 }, grid: { color: c.grid } },
           y: { ticks: { color: c.text, callback: v => {
             const pct = cap > 0 ? (v/cap*100).toFixed(0) : '0'
-            return 'R$ '+Math.abs(v).toLocaleString('pt-BR',{maximumFractionDigits:0})+' ('+pct+'%)'
+            return CUR + ' ' +Math.abs(v).toLocaleString('pt-BR',{maximumFractionDigits:0})+' ('+pct+'%)'
           }}, grid: { color: c.grid } }
         }
       }
@@ -473,7 +478,7 @@ export default function RobotDetailPage() {
     const { labels, totals, counts } = buildHourlyData(ops3)
     saveChart('hourly', new Chart(el, {
       type: 'bar',
-      data: { labels, datasets: [{ label: 'Total R$', data: totals, backgroundColor: totals.map(v => v >= 0 ? c.pos + 'bb' : c.neg + 'bb'), borderWidth: 0 }] },
+      data: { labels, datasets: [{ label: 'Total ' + CUR, data: totals, backgroundColor: totals.map(v => v >= 0 ? c.pos + 'bb' : c.neg + 'bb'), borderWidth: 0 }] },
       options: chartOpts()
     }))
   }
@@ -545,7 +550,7 @@ export default function RobotDetailPage() {
         },
         scales: {
           x: { ticks: { color: c.text, maxRotation: 45, font: { size: 10 } }, grid: { display: false } },
-          y: { ticks: { color: c.text, callback: v => 'R$ '+v.toLocaleString('pt-BR',{maximumFractionDigits:0}) }, grid: { color: c.grid } }
+          y: { ticks: { color: c.text, callback: v => CUR + ' ' +v.toLocaleString('pt-BR',{maximumFractionDigits:0}) }, grid: { color: c.grid } }
         }
       }
     }))
@@ -588,7 +593,7 @@ export default function RobotDetailPage() {
       data: {
         labels: wd.map(d => `${d.label}\n${d.count} ops`),
         datasets: [
-          { label: 'Total R$', data: wd.map(d => d.total), backgroundColor: wd.map(d => d.total >= 0 ? c.pos+'cc' : c.neg+'cc'), borderWidth: 0 },
+          { label: 'Total ' + CUR, data: wd.map(d => d.total), backgroundColor: wd.map(d => d.total >= 0 ? c.pos+'cc' : c.neg+'cc'), borderWidth: 0 },
         ]
       },
       options: {
@@ -596,7 +601,7 @@ export default function RobotDetailPage() {
         plugins: { legend: { display: false } },
         scales: {
           x: { ticks: { color: c.text, font: { size: 11 } }, grid: { display: false } },
-          y: { ticks: { color: c.text, callback: v => 'R$ '+v.toLocaleString('pt-BR') }, grid: { color: c.grid } }
+          y: { ticks: { color: c.text, callback: v => CUR + ' ' +v.toLocaleString('pt-BR') }, grid: { color: c.grid } }
         }
       }
     }))
@@ -670,7 +675,7 @@ export default function RobotDetailPage() {
         plugins: { legend: { display: false } },
         scales: {
           x: { ticks: { color: c.text, maxTicksLimit: 8, font: { size: 10 } }, grid: { color: c.grid } },
-          y: { ticks: { color: c.text, callback: v => 'R$ ' + v.toLocaleString('pt-BR') }, grid: { color: c.grid } },
+          y: { ticks: { color: c.text, callback: v => CUR + ' ' + v.toLocaleString('pt-BR') }, grid: { color: c.grid } },
         }
       }
     }))
@@ -1339,22 +1344,22 @@ export default function RobotDetailPage() {
             <div style={{ position: 'relative', height: 200 }}><canvas id="c-dd" role="img" aria-label="Drawdown" /></div>
           </div>
           <div className="chart-card">
-            <div className="chart-title">Resultado por operação (R$)</div>
+            <div className="chart-title">Resultado por operação ({CUR})</div>
             <div style={{ position: 'relative', height: 200 }}><canvas id="c-bar" role="img" aria-label="Por operação" /></div>
           </div>
           <div className="chart-2col">
             <div className="chart-card">
-              <div className="chart-title">Resultado anual (R$)</div>
+              <div className="chart-title">Resultado anual ({CUR})</div>
               <div style={{ position: 'relative', height: 200 }}><canvas id="c-yearly" role="img" aria-label="Anual" /></div>
             </div>
             <div className="chart-card">
-              <div className="chart-title">Resultado por horário de entrada (R$)</div>
+              <div className="chart-title">Resultado por horário de entrada ({CUR})</div>
               <div style={{ position: 'relative', height: 200 }}><canvas id="c-hourly" role="img" aria-label="Por horário" /></div>
             </div>
           </div>
           <div className="chart-2col">
             <div className="chart-card">
-              <div className="chart-title">Compra vs Venda (total R$)</div>
+              <div className="chart-title">Compra vs Venda (total {CUR})</div>
               <div style={{ position: 'relative', height: 180 }}><canvas id="c-side" role="img" aria-label="Compra vs Venda" /></div>
             </div>
             <div className="chart-card">
@@ -1381,7 +1386,7 @@ export default function RobotDetailPage() {
               <div style={{ position:'relative', height:160 }}><canvas id="c-streaks" role="img" aria-label="Sequências" /></div>
             </div>
             <div className="chart-card">
-              <div className="chart-title">Resultado por dia da semana (R$)</div>
+              <div className="chart-title">Resultado por dia da semana ({CUR})</div>
               <div style={{ position:'relative', height:200 }}><canvas id="c-weekday" role="img" aria-label="Dia da semana" /></div>
             </div>
           </div>
@@ -1625,7 +1630,7 @@ function TestesTab({ adjOps, periods, metrics }) {
         plugins: { legend: { display: false } },
         scales: {
           x: { ticks: { color: c.text, maxTicksLimit: 8 }, grid: { color: c.grid } },
-          y: { ticks: { color: c.text, callback: v => 'R$ '+v.toLocaleString('pt-BR') }, grid: { color: c.grid } }
+          y: { ticks: { color: c.text, callback: v => CUR + ' ' +v.toLocaleString('pt-BR') }, grid: { color: c.grid } }
         }
       }
     })
@@ -1909,7 +1914,7 @@ function OpsTable({ adjOps, tipo }) {
           <thead>
             <tr>
               <th>#</th><th>Abertura</th><th>Fechamento</th><th>Lado</th><th>Qtd</th>
-              <th>Original (R$)</th><th>{isbt ? 'c/ Deságio (R$)' : 'Resultado (R$)'}</th><th>Acumulado (R$)</th>
+              <th>Original ({CUR})</th><th>{isbt ? `c/ Deságio (${CUR})` : `Resultado (${CUR})`}</th><th>Acumulado ({CUR})</th>
             </tr>
           </thead>
           <tbody>
@@ -2282,7 +2287,7 @@ function ValidationTab({ vr, metrics, periods, adjOps = [], mcResult, observatio
         <table style={{ width: '100%', fontSize: 13 }}>
           <thead>
             <tr>
-              <th>Período</th><th>Ops</th><th>Total R$</th><th>Média/op</th>
+              <th>Período</th><th>Ops</th><th>Total {CUR}</th><th>Média/op</th>
             </tr>
           </thead>
           <tbody>

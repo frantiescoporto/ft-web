@@ -281,6 +281,24 @@ export default function HomePage() {
         </div>
       </div></div></section>
 
+      {/* MERCADO INTERNACIONAL */}
+      <section className="ap-sec" id="internacional"><div className="ap-wrap"><div className="ap-row">
+        <div className="ap-txt reveal">
+          <div className="ap-kick">Mercado internacional</div>
+          <h2 className="ap-h2">Robôs em dólar. Grátis com a sua conta.</h2>
+          <p className="ap-p">Ouro, índices e forex operados por robôs Black Arrow. Quem abre a conta na DooPrime pelo meu link recebe as estratégias sem pagar licença.</p>
+          <a className="ap-go" href="/mercado-internacional" onClick={go('/mercado-internacional')}><span className="a">Conhecer o mercado internacional →</span></a>
+        </div>
+        <div className="ap-card reveal-x">
+          <div className="ap-cbar"><span>O que você recebe</span><span>DooPrime</span></div>
+          <div className="ap-mod"><span className="d" /><span>Robôs de ouro, índices e forex, em dólar</span></div>
+          <div className="ap-mod"><span className="d" /><span>Estratégias validadas no Trade Quant Lab</span></div>
+          <div className="ap-mod"><span className="d" /><span>Configuração pronta pro Black Arrow</span></div>
+          <div className="ap-mod"><span className="d" /><span>Sem licença: o custo é zero com a conta pelo link</span></div>
+          <div className="ap-mod"><span className="d" /><span>Grupo de Forex no WhatsApp com suporte direto</span></div>
+        </div>
+      </div></div></section>
+
       {/* RESULTADOS */}
       <section className="ap-sec" id="resultados"><div className="ap-wrap">
         <div className="reveal" style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto' }}>
