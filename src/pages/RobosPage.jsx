@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 /* ============================================================================
  *  Landing do Campeonato (Copa dos Robôs) — rota /lpcampeonato
  *  Identidade "Apple" do site.
+ *  build: 2026-09-30b (card Setembro ao vivo, Série A, fallback gviz->export)
  * ========================================================================== */
 
 // >>> LINK DE ASSINATURA DOS ROBÔS (checkout Greenn) <<<
