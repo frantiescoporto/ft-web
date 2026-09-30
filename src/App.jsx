@@ -52,7 +52,7 @@ export default function App() {
           <Route path="/avel" element={<AvelPortfoliosPage />} />
           <Route path="/avel/portfolios/:id" element={<AvelPortfoliosPage />} />
           <Route path="/balanse_03" element={<Balanse03Page />} />
-          <Route path="/robos" element={<RobosPage />} />
+          <Route path="/lpcampeonato" element={<RobosPage />} />
           <Route path="/daytrademodoautomatico" element={<AvelPage />} />
           <Route path="/avel-clientes" element={<AvelClientesPage />} />
         </Routes>
