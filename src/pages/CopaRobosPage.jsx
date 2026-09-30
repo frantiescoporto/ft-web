@@ -22,6 +22,9 @@ const WHATSAPP = 'https://wa.me/5553999010262?text=' + encodeURIComponent(
 const GREENN = 'https://payfast.greenn.com.br/ug3vjsm'
 const COPA = { titulo: 'Copa dos Robôs', edicao: '1ª edição' }
 const SOBEM = 2, CAEM = 2
+// Medalhistas da Copa 6015 (por código do robô) — atualize a cada edição
+const MEDALHAS_COPA = { 'WIN_36': '🥇', 'WIN_22': '🥈', 'WIN_41': '🥉' }
+const medalhaDe = (robo) => MEDALHAS_COPA[String(robo || '').toUpperCase().replace(/\s+/g, '')] || null
 
 /* ── leitura do CSV ── */
 function parseCSV(text) {
@@ -120,6 +123,7 @@ function Linha({ r, pos, escala, zona }) {
       <div className="copa-pos mono">{pos}</div>
       <div className="copa-nome">
         <span className="mono">{r.robo}</span>
+        {medalhaDe(r.robo) && <span title="Medalhista da Copa 6015 · Agosto/26" style={{ fontSize: 16 }}>{medalhaDe(r.robo)}</span>}
         {zona === 'sobe' && <span className="copa-tag sobe">▲ sobe</span>}
         {zona === 'cai' && <span className="copa-tag cai">▼ cai</span>}
       </div>

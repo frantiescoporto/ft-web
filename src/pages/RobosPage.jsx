@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 /* ============================================================================
@@ -9,11 +9,12 @@ import { useNavigate } from 'react-router-dom'
 // >>> LINK DE ASSINATURA DOS ROBÔS (checkout Greenn) <<<
 const LINK_ASSINAR = 'https://payfast.greenn.com.br/ug3vjsm'
 
-// >>> CAMPEÕES MÊS A MÊS — preencha com os vencedores reais de cada mês fechado.
-//     A seção aparece sozinha quando houver ao menos um item. Nada é inventado.
-const CAMPEOES = [
-  // { mes: 'Ago/26', robo: 'WIN_25', rent: '+7,87%', serie: 'A' },
-  // { mes: 'Set/26', robo: 'WIN_22', rent: '+5,10%', serie: 'A' },
+// >>> PÓDIO DA COPA — atualize a cada edição do campeonato.
+const PODIO_TITULO = 'Pódio da Copa 6015 · Agosto/2026'
+const PODIO = [
+  { medal: '🥇', robo: 'WIN_36', nick: 'Hunter / Sigurd', rent: '+30,15%' },
+  { medal: '🥈', robo: 'WIN_22', nick: 'Ironflow',        rent: '+21,65%' },
+  { medal: '🥉', robo: 'WIN_41', nick: 'Stikadinho',      rent: '+18,04%' },
 ]
 
 export default function RobosPage() {
@@ -28,7 +29,6 @@ export default function RobosPage() {
     }
   }, [])
 
-  // reveal ao rolar
   useEffect(() => {
     const els = document.querySelectorAll('.rb .reveal')
     if (matchMedia('(prefers-reduced-motion:reduce)').matches) { els.forEach(e => e.classList.add('in')); return }
@@ -37,7 +37,7 @@ export default function RobosPage() {
     return () => io.disconnect()
   }, [])
 
-  const temCampeoes = CAMPEOES.length > 0
+  const temPodio = PODIO.length > 0
   const go = (to) => (e) => { e.preventDefault(); navigate(to) }
 
   return (
@@ -66,6 +66,30 @@ export default function RobosPage() {
         </div>
       </section>
 
+      {/* PÓDIO DA COPA */}
+      {temPodio && (
+        <section className="rb-sec alt"><div className="rb-wrap">
+          <div className="reveal" style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 36px' }}>
+            <div className="rb-kick" style={{ justifyContent: 'center' }}>{PODIO_TITULO}</div>
+            <h2 className="rb-h2" style={{ textAlign: 'center' }}>Os campeões da rodada.</h2>
+            <p className="rb-p" style={{ margin: '0 auto' }}>Os robôs de maior rentabilidade no fechamento do mês, em conta real.</p>
+          </div>
+          <div className="rb-podio reveal">
+            {PODIO.map((c, i) => (
+              <div key={i} className={`rb-pcard p${i + 1}`}>
+                <div className="rb-medal">{c.medal}</div>
+                <div className="rb-probo mono">{c.robo}</div>
+                <div className="rb-pnick">{c.nick}</div>
+                <div className="rb-prent mono">{c.rent}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: 'center', marginTop: 26 }}>
+            <a className="rb-go" href="/copa-dos-robos" onClick={go('/copa-dos-robos')}><span className="a">Ver a classificação completa →</span></a>
+          </div>
+        </div></section>
+      )}
+
       {/* O QUE É O CAMPEONATO */}
       <section className="rb-sec"><div className="rb-wrap"><div className="rb-row reveal">
         <div className="rb-txt">
@@ -86,27 +110,6 @@ export default function RobosPage() {
           <div className="rb-mod"><span className="d" />Você roda os mesmos robôs no seu Profit</div>
         </div>
       </div></div></section>
-
-      {/* CAMPEÕES MÊS A MÊS */}
-      {temCampeoes && (
-        <section className="rb-sec alt"><div className="rb-wrap">
-          <div className="reveal" style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 34px' }}>
-            <div className="rb-kick" style={{ justifyContent: 'center' }}>Hall dos campeões</div>
-            <h2 className="rb-h2" style={{ textAlign: 'center' }}>Quem venceu, mês a mês.</h2>
-            <p className="rb-p" style={{ margin: '0 auto' }}>O robô de maior rentabilidade em cada fechamento de mês.</p>
-          </div>
-          <div className="rb-champs reveal">
-            {CAMPEOES.map((c, i) => (
-              <div key={i} className="rb-champ">
-                <div className="rb-champ-mes mono">{c.mes}</div>
-                <div className="rb-champ-robo mono">{c.robo}</div>
-                <div className="rb-champ-rent mono">{c.rent}</div>
-                {c.serie && <div className="rb-champ-serie">Série {c.serie}</div>}
-              </div>
-            ))}
-          </div>
-        </div></section>
-      )}
 
       {/* RESULTADO DO MÊS (CTA) */}
       <section className="rb-sec"><div className="rb-wrap">
@@ -138,6 +141,7 @@ export default function RobosPage() {
 const CSS = `
 .rb{ --bg:#060809; --text:#F4F7FA; --muted:#8A93A0; --line:rgba(255,255,255,.09);
   --glass:rgba(255,255,255,.045); --tealA:#00E0B8; --cyanA:#38C6FF; --pos:#37E29B; --neg:#FF6B6B;
+  --gold:#FFC53D; --silver:#C9D2DD; --bronze:#E0A878;
   --grad:linear-gradient(120deg,#00E0B8 0%,#38C6FF 55%,#5B8CFF 100%);
   background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden;
   font-family:'Geist',-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif; -webkit-font-smoothing:antialiased; }
@@ -169,7 +173,7 @@ const CSS = `
 .rb-sec{ padding:96px 0; }
 .rb-sec.alt{ background:rgba(255,255,255,.015); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
 .rb-row{ display:grid; grid-template-columns:1fr 1fr; gap:52px; align-items:center; }
-.rb-kick{ display:flex; font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--cyanA); margin-bottom:16px; }
+.rb-kick{ display:flex; font-family:'Geist Mono',monospace; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--cyanA); margin-bottom:16px; }
 .rb-h2{ font-weight:600; font-size:clamp(26px,4vw,44px); letter-spacing:-.035em; line-height:1.06; margin:0 0 16px; }
 .rb-p{ color:var(--muted); font-size:17px; line-height:1.6; margin:0 0 24px; max-width:46ch; }
 .rb-go{ font-weight:600; font-size:16px; display:inline-flex; }
@@ -180,12 +184,16 @@ const CSS = `
 .rb-mod{ display:flex; align-items:center; gap:12px; padding:12px 0; border-top:1px solid var(--line); font-size:15px; }
 .rb-mod .d{ width:7px; height:7px; border-radius:50%; background:var(--tealA); box-shadow:0 0 8px var(--tealA); flex:none; }
 
-.rb-champs{ display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:14px; }
-.rb-champ{ background:var(--glass); border:1px solid var(--line); border-radius:16px; padding:20px; text-align:center; }
-.rb-champ-mes{ font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px; }
-.rb-champ-robo{ font-size:20px; font-weight:600; }
-.rb-champ-rent{ font-size:22px; font-weight:600; color:var(--pos); margin-top:6px; }
-.rb-champ-serie{ font-size:11px; color:var(--muted); margin-top:8px; }
+.rb-podio{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:end; }
+.rb-pcard{ background:var(--glass); border:1px solid var(--line); border-radius:18px; padding:26px 20px; text-align:center; }
+.rb-pcard.p1{ border-color:rgba(255,197,61,.5); box-shadow:0 24px 70px rgba(255,197,61,.12); transform:translateY(-10px); }
+.rb-pcard.p2{ border-color:rgba(201,210,221,.4); }
+.rb-pcard.p3{ border-color:rgba(224,168,120,.4); }
+.rb-medal{ font-size:40px; line-height:1; margin-bottom:12px; }
+.rb-probo{ font-size:22px; font-weight:600; }
+.rb-pnick{ color:var(--muted); font-size:13px; margin-top:4px; }
+.rb-prent{ font-size:26px; font-weight:600; color:var(--pos); margin-top:12px; }
+.rb-pcard.p1 .rb-prent{ font-size:30px; }
 
 .rb-band{ display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;
   background:var(--glass); border:1px solid var(--line); border-radius:22px; padding:32px; backdrop-filter:blur(16px); }
@@ -202,6 +210,8 @@ const CSS = `
 
 @media (max-width:760px){
   .rb-row{ grid-template-columns:1fr; gap:28px; }
+  .rb-podio{ grid-template-columns:1fr; }
+  .rb-pcard.p1{ transform:none; }
   .rb-band{ flex-direction:column; align-items:flex-start; }
 }
 @media (prefers-reduced-motion:reduce){ .rb *{ animation:none !important; } .rb .reveal{ opacity:1; transform:none; transition:none; } }
