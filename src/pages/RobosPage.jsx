@@ -11,7 +11,10 @@ const LINK_ASSINAR = 'https://payfast.greenn.com.br/ug3vjsm'
 
 // Planilha da Copa (mesma da /copa-dos-robos)
 const PLANILHA_ID = '1bGEBfwfMAkWp0r_6ahWmGyntEd_Cen7QyxhxpyCm0Ns'
-const CSV_URL = `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/gviz/tq?tqx=out:csv`
+const FONTES_CSV = [
+  `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/gviz/tq?tqx=out:csv`,
+  `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/export?format=csv`,
+]
 
 // >>> SALA DOS CAMPEÕES — um card por mês, TOP 3 (1º destaque, 2º e 3º menores).
 //     Mês encerrado: top fixo. Mês corrente: { live:true } puxa o top 3 da Série A ao vivo.
@@ -54,6 +57,9 @@ function toPct(v) {
   return neg ? -Math.abs(n) : n
 }
 const fmtPct = (n) => (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'
+const EH_DATA = /^\d{1,2}\/\d{1,2}\/\d{2,4}$/
+const ehSerie = (v) => { const t = String(v || '').trim().toUpperCase().replace(/[^AB]/g, ''); return (t === 'A' || t === 'B') ? t : null }
+const ehTexto = (v) => /[A-Za-zÀ-ÿ]/.test(String(v || '')) && !/R\$/.test(String(v || ''))
 
 export default function RobosPage() {
   const navigate = useNavigate()
