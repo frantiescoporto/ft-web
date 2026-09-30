@@ -74,28 +74,46 @@ export default function RobosPage() {
     }
   }, [])
 
-  // top 3 da Série A ao vivo, da planilha da Copa
+  // top 3 da Série A ao vivo, da planilha da Copa — colunas detectadas por conteúdo
   useEffect(() => {
     let vivo = true
     ;(async () => {
-      try {
-        const r = await fetch(CSV_URL + '&cb=' + Date.now())
-        const rows = parseCSV(await r.text()).filter(x => x.some(c => String(c).trim() !== ''))
-        const cab = rows[0].map(norm)
-        const cRobo = 0
-        const cNome = cab.indexOf('nome') >= 0 ? cab.indexOf('nome') : 1
-        const cSerie = cab.findIndex(h => h.indexOf('serie') === 0)
-        const cRent = cab.findIndex(h => h.indexOf('rentab') === 0)
-        const lista = rows.slice(1)
-          .filter(x => String(x[cRobo] || '').trim() && !/^https?:/i.test(String(x[cRobo])))
-          .filter(x => cSerie < 0 || String(x[cSerie] || '').trim().toUpperCase() === 'A')
-          .map(x => ({ robo: String(x[cRobo]).trim(), nick: String(x[cNome] || '').trim(), pct: toPct(x[cRent]) }))
-          .filter(x => x.pct != null)
-          .sort((a, b) => b.pct - a.pct)
-          .slice(0, 3)
-          .map(x => ({ robo: x.robo, nick: x.nick, rent: fmtPct(x.pct) }))
-        if (vivo) setLiveTop(lista)
-      } catch { if (vivo) setLiveTop([]) }
+      for (const url of FONTES_CSV) {
+        try {
+          const r = await fetch(url + (url.indexOf('?') >= 0 ? '&' : '?') + 'cb=' + Date.now())
+          if (!r.ok) continue
+          const rows = parseCSV(await r.text()).filter(x => x.some(c => String(c).trim() !== ''))
+          if (rows.length < 2) continue
+          const cab = rows[0]
+          const idxDatas = cab.map((c, i) => EH_DATA.test(String(c).trim()) ? i : -1).filter(i => i >= 0)
+          const primeiraData = idxDatas.length ? idxDatas[0] : cab.length
+          const linhas = rows.slice(1).filter(x => {
+            const n = String(x[0] || '').trim()
+            if (!n || /^https?:/i.test(n)) return false
+            for (let i = 1; i < cab.length; i++) if (toPct(x[i]) != null) return true
+            return false
+          })
+          if (!linhas.length) continue
+          const pre = []; for (let i = 1; i < primeiraData; i++) pre.push(i)
+          const meio = Math.max(1, linhas.length * 0.5)
+          const cSerie = pre.find(i => linhas.filter(x => ehSerie(x[i])).length >= meio)
+          const numericas = pre.filter(i => i !== cSerie)
+          let cRent = numericas.find(i => String(linhas[0][i] || '').indexOf('%') >= 0)
+          if (cRent == null) cRent = numericas[0]
+          const cNick = pre.find(i => i !== cSerie && i !== cRent && linhas.filter(x => ehTexto(x[i])).length >= meio)
+          const lista = linhas
+            .filter(x => cSerie == null || ehSerie(x[cSerie]) === 'A')
+            .map(x => ({ robo: String(x[0]).trim(), nick: cNick != null ? String(x[cNick] || '').trim() : '', pct: toPct(x[cRent]) }))
+            .filter(x => x.pct != null)
+            .sort((a, b) => b.pct - a.pct)
+            .slice(0, 3)
+            .map(x => ({ robo: x.robo, nick: x.nick, rent: fmtPct(x.pct) }))
+          if (!lista.length) continue
+          if (vivo) setLiveTop(lista)
+          return
+        } catch { /* tenta a próxima fonte */ }
+      }
+      if (vivo) setLiveTop([])
     })()
     return () => { vivo = false }
   }, [])
