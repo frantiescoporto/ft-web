@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 /* ============================================================================
@@ -9,8 +9,12 @@ import { useNavigate } from 'react-router-dom'
 // >>> LINK DE ASSINATURA DOS ROBÔS (checkout Greenn) <<<
 const LINK_ASSINAR = 'https://payfast.greenn.com.br/ug3vjsm'
 
-// >>> SALA DOS CAMPEÕES — um card por mês, com o TOP 3 (1º destaque, 2º e 3º menores).
-//     status: 'Encerrado' | 'Em andamento' | 'A definir'. Mês sem dados: top: [].
+// Planilha da Copa (mesma da /copa-dos-robos)
+const PLANILHA_ID = '1bGEBfwfMAkWp0r_6ahWmGyntEd_Cen7QyxhxpyCm0Ns'
+const CSV_URL = `https://docs.google.com/spreadsheets/d/${PLANILHA_ID}/gviz/tq?tqx=out:csv`
+
+// >>> SALA DOS CAMPEÕES — um card por mês, TOP 3 (1º destaque, 2º e 3º menores).
+//     Mês encerrado: top fixo. Mês corrente: { live:true } puxa o top 3 da Série A ao vivo.
 const MESES = [
   {
     mes: 'Agosto/2026', status: 'Encerrado',
@@ -20,21 +24,40 @@ const MESES = [
       { robo: 'WIN_41', nick: 'Stikadinho',      rent: '+18,04%' },
     ],
   },
-  {
-    mes: 'Setembro/2026', status: 'Em andamento',
-    top: [
-      { robo: 'WIN_22', nick: 'Ironflow',     rent: '+18,94%' },
-      { robo: 'WIN_72', nick: 'Viradabands',  rent: '+14,37%' },
-      { robo: 'WIN_38', nick: 'Avenger',      rent: '+10,65%' },
-    ],
-  },
+  { mes: 'Setembro/2026', status: 'Em andamento', live: true },
   { mes: 'Outubro/2026', status: 'A definir', top: [] },
 ]
 
 const MEDALHAS = ['🥇', '🥈', '🥉']
 
+/* ── CSV ── */
+function parseCSV(text) {
+  const rows = []; let row = [], f = '', q = false
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i]
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++ } else q = false } else f += c }
+    else if (c === '"') q = true
+    else if (c === ',') { row.push(f); f = '' }
+    else if (c === '\n') { row.push(f); rows.push(row); row = []; f = '' }
+    else if (c !== '\r') f += c
+  }
+  if (f !== '' || row.length) { row.push(f); rows.push(row) }
+  return rows
+}
+const norm = (s) => String(s == null ? '' : s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '')
+function toPct(v) {
+  let t = String(v || '').replace('%', '').trim(); if (!t) return null
+  const neg = t.indexOf('-') >= 0
+  t = t.replace(/[^0-9.,]/g, ''); if (!t) return null
+  if (t.indexOf(',') >= 0) t = t.replace(/\./g, '').replace(',', '.')
+  const n = parseFloat(t); if (!isFinite(n)) return null
+  return neg ? -Math.abs(n) : n
+}
+const fmtPct = (n) => (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%'
+
 export default function RobosPage() {
   const navigate = useNavigate()
+  const [liveTop, setLiveTop] = useState(null) // null=carregando | []=falhou | [..]=ok
 
   useEffect(() => {
     const id = 'robos-fonts'
@@ -45,15 +68,62 @@ export default function RobosPage() {
     }
   }, [])
 
+  // top 3 da Série A ao vivo, da planilha da Copa
+  useEffect(() => {
+    let vivo = true
+    ;(async () => {
+      try {
+        const r = await fetch(CSV_URL + '&cb=' + Date.now())
+        const rows = parseCSV(await r.text()).filter(x => x.some(c => String(c).trim() !== ''))
+        const cab = rows[0].map(norm)
+        const cRobo = 0
+        const cNome = cab.indexOf('nome') >= 0 ? cab.indexOf('nome') : 1
+        const cSerie = cab.findIndex(h => h.indexOf('serie') === 0)
+        const cRent = cab.findIndex(h => h.indexOf('rentab') === 0)
+        const lista = rows.slice(1)
+          .filter(x => String(x[cRobo] || '').trim() && !/^https?:/i.test(String(x[cRobo])))
+          .filter(x => cSerie < 0 || String(x[cSerie] || '').trim().toUpperCase() === 'A')
+          .map(x => ({ robo: String(x[cRobo]).trim(), nick: String(x[cNome] || '').trim(), pct: toPct(x[cRent]) }))
+          .filter(x => x.pct != null)
+          .sort((a, b) => b.pct - a.pct)
+          .slice(0, 3)
+          .map(x => ({ robo: x.robo, nick: x.nick, rent: fmtPct(x.pct) }))
+        if (vivo) setLiveTop(lista)
+      } catch { if (vivo) setLiveTop([]) }
+    })()
+    return () => { vivo = false }
+  }, [])
+
   useEffect(() => {
     const els = document.querySelectorAll('.rb .reveal')
     if (matchMedia('(prefers-reduced-motion:reduce)').matches) { els.forEach(e => e.classList.add('in')); return }
     const io = new IntersectionObserver(en => en.forEach(x => { if (x.isIntersecting) { x.target.classList.add('in'); io.unobserve(x.target) } }), { threshold: .16 })
     els.forEach(e => io.observe(e))
     return () => io.disconnect()
-  }, [])
+  }, [liveTop])
 
   const go = (to) => (e) => { e.preventDefault(); navigate(to) }
+
+  const renderPodio = (top) => (
+    <>
+      <div className="rb-camp">
+        <div className="rb-camp-top">
+          <span className="rb-camp-medal">🥇</span>
+          <span className="rb-camp-robo mono">{top[0].robo}</span>
+        </div>
+        {top[0].nick && <div className="rb-camp-nick">{top[0].nick}</div>}
+        <div className="rb-camp-rent mono">{top[0].rent}</div>
+      </div>
+      {top.slice(1).map((r, j) => (
+        <div key={j} className="rb-run">
+          <span className="rb-run-medal">{MEDALHAS[j + 1]}</span>
+          <span className="rb-run-robo mono">{r.robo}</span>
+          <span className="rb-run-nick">{r.nick}</span>
+          <span className="rb-run-rent mono">{r.rent}</span>
+        </div>
+      ))}
+    </>
+  )
 
   return (
     <div className="rb">
@@ -102,51 +172,35 @@ export default function RobosPage() {
         </div>
       </div></div></section>
 
-      {/* SALA DOS CAMPEÕES — 3 meses, top 3 em cada */}
+      {/* SALA DOS CAMPEÕES — 3 meses, top 3 (Série A) em cada */}
       <section className="rb-sec alt"><div className="rb-wrap">
         <div className="reveal" style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 34px' }}>
           <div className="rb-kick" style={{ justifyContent: 'center' }}>Sala dos campeões</div>
           <h2 className="rb-h2" style={{ textAlign: 'center' }}>Os campeões, mês a mês.</h2>
-          <p className="rb-p" style={{ margin: '0 auto' }}>O pódio de cada edição da Copa 6015 — campeão em destaque e o restante do pódio.</p>
+          <p className="rb-p" style={{ margin: '0 auto' }}>O pódio da Série A em cada edição da Copa 6015 — campeão em destaque e o restante do pódio.</p>
         </div>
 
         <div className="rb-meses reveal">
           {MESES.map((m, i) => {
-            const vazio = !m.top || m.top.length === 0
             const st = m.status === 'Em andamento' ? 'and' : m.status === 'A definir' ? 'def' : 'end'
+            const top = m.live ? liveTop : m.top
             return (
-              <div key={i} className={`rb-mes ${vazio ? 'vazio' : ''}`}>
+              <div key={i} className={`rb-mes ${(!m.live && (!top || top.length === 0)) ? 'vazio' : ''}`}>
                 <div className="rb-mes-head">
                   <span className="rb-mes-nome mono">{m.mes}</span>
                   <span className={`rb-tag ${st}`}>{m.status}</span>
                 </div>
 
-                {vazio ? (
-                  <div className="rb-mes-def">
-                    <div className="rb-def-tro">🏆</div>
-                    <div>a definir</div>
-                  </div>
+                {m.live ? (
+                  liveTop === null ? (
+                    <div className="rb-mes-def"><div className="rb-def-tro">🏆</div><div>carregando…</div></div>
+                  ) : liveTop.length === 0 ? (
+                    <div className="rb-mes-def"><div className="rb-def-tro">🏆</div><div>ranking indisponível</div></div>
+                  ) : renderPodio(liveTop)
+                ) : (top && top.length > 0) ? (
+                  renderPodio(top)
                 ) : (
-                  <>
-                    {/* Campeão em destaque */}
-                    <div className="rb-camp">
-                      <div className="rb-camp-top">
-                        <span className="rb-camp-medal">🥇</span>
-                        <span className="rb-camp-robo mono">{m.top[0].robo}</span>
-                      </div>
-                      <div className="rb-camp-nick">{m.top[0].nick}</div>
-                      <div className="rb-camp-rent mono">{m.top[0].rent}</div>
-                    </div>
-                    {/* 2º e 3º menores */}
-                    {m.top.slice(1).map((r, j) => (
-                      <div key={j} className="rb-run">
-                        <span className="rb-run-medal">{MEDALHAS[j + 1]}</span>
-                        <span className="rb-run-robo mono">{r.robo}</span>
-                        <span className="rb-run-nick">{r.nick}</span>
-                        <span className="rb-run-rent mono">{r.rent}</span>
-                      </div>
-                    ))}
-                  </>
+                  <div className="rb-mes-def"><div className="rb-def-tro">🏆</div><div>a definir</div></div>
                 )}
               </div>
             )
@@ -228,7 +282,7 @@ const CSS = `
 .rb-mod .d{ width:7px; height:7px; border-radius:50%; background:var(--tealA); box-shadow:0 0 8px var(--tealA); flex:none; }
 
 /* sala dos campeões — 3 meses, top 3 em cada */
-.rb-meses{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.rb-meses{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:start; }
 .rb-mes{ background:var(--glass); border:1px solid var(--line); border-radius:18px; padding:22px; display:flex; flex-direction:column; }
 .rb-mes.vazio{ border-style:dashed; opacity:.7; }
 .rb-mes-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
@@ -237,7 +291,6 @@ const CSS = `
 .rb-tag.and{ color:var(--cyanA); border-color:rgba(56,198,255,.4); }
 .rb-tag.end{ color:var(--gold); border-color:rgba(255,197,61,.4); }
 
-/* campeão em destaque */
 .rb-camp{ background:linear-gradient(180deg, rgba(255,197,61,.10), transparent); border:1px solid rgba(255,197,61,.4); border-radius:14px; padding:16px; text-align:center; margin-bottom:12px; }
 .rb-camp-top{ display:flex; align-items:center; justify-content:center; gap:8px; }
 .rb-camp-medal{ font-size:26px; }
@@ -245,7 +298,6 @@ const CSS = `
 .rb-camp-nick{ color:var(--muted); font-size:12px; margin-top:3px; }
 .rb-camp-rent{ font-size:26px; font-weight:700; color:var(--pos); margin-top:8px; }
 
-/* 2º e 3º menores, menos cor */
 .rb-run{ display:flex; align-items:center; gap:9px; padding:9px 4px; border-top:1px solid var(--line); font-size:13px; color:var(--muted); }
 .rb-run-medal{ font-size:15px; filter:saturate(.5); }
 .rb-run-robo{ font-weight:600; color:var(--text); }
