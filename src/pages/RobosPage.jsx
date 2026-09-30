@@ -9,17 +9,12 @@ import { useNavigate } from 'react-router-dom'
 // >>> LINK DE ASSINATURA DOS ROBÔS (checkout Greenn) <<<
 const LINK_ASSINAR = 'https://payfast.greenn.com.br/ug3vjsm'
 
-// >>> PÓDIO DA COPA (medalhistas do mês) — ordem: 1º, 2º, 3º
-const PODIO_TITULO = 'Pódio da Copa 6015 · Agosto/2026'
-const PODIO = [
-  { pos: 1, medal: '🥇', robo: 'WIN_36', nick: 'Hunter / Sigurd', rent: '+30,15%' },
-  { pos: 2, medal: '🥈', robo: 'WIN_22', nick: 'Ironflow',        rent: '+21,65%' },
-  { pos: 3, medal: '🥉', robo: 'WIN_41', nick: 'Stikadinho',      rent: '+18,04%' },
-]
-
-// >>> SALA DOS CAMPEÕES — campeão de cada mês (mais recente primeiro; mostra só o que existir)
+// >>> SALA DOS CAMPEÕES — o grande campeão de cada mês.
+//     Preencha o mês quando fechar; use { pendente: true } enquanto não houver campeão.
 const CAMPEOES_MENSAIS = [
-  { mes: 'Agosto/2026', robo: 'WIN_36', nick: 'Hunter / Sigurd', rent: '+30,15%' },
+  { mes: 'Agosto/2026',   robo: 'WIN_36', nick: 'Hunter / Sigurd', rent: '+30,15%' },
+  { mes: 'Setembro/2026', pendente: true },
+  { mes: 'Outubro/2026',  pendente: true },
 ]
 
 export default function RobosPage() {
@@ -70,33 +65,6 @@ export default function RobosPage() {
         </div>
       </section>
 
-      {/* PÓDIO DA COPA (1º, 2º, 3º em ordem) */}
-      {PODIO.length > 0 && (
-        <section className="rb-sec alt"><div className="rb-wrap">
-          <div className="reveal" style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto 36px' }}>
-            <div className="rb-kick" style={{ justifyContent: 'center' }}>{PODIO_TITULO}</div>
-            <h2 className="rb-h2" style={{ textAlign: 'center' }}>O pódio da rodada.</h2>
-            <p className="rb-p" style={{ margin: '0 auto' }}>Os 3 robôs de maior rentabilidade no fechamento do mês, em conta real.</p>
-          </div>
-          <div className="rb-podio reveal">
-            {PODIO.map((c) => (
-              <div key={c.pos} className={`rb-pcard rank${c.pos}`}>
-                <div className="rb-prow">
-                  <span className="rb-medal">{c.medal}</span>
-                  <span className="rb-ppos mono">{c.pos}º</span>
-                </div>
-                <div className="rb-probo mono">{c.robo}</div>
-                <div className="rb-pnick">{c.nick}</div>
-                <div className="rb-prent mono">{c.rent}</div>
-              </div>
-            ))}
-          </div>
-          <div style={{ textAlign: 'center', marginTop: 26 }}>
-            <a className="rb-go" href="/copa-dos-robos" onClick={go('/copa-dos-robos')}><span className="a">Ver a classificação completa →</span></a>
-          </div>
-        </div></section>
-      )}
-
       {/* O QUE É O CAMPEONATO */}
       <section className="rb-sec"><div className="rb-wrap"><div className="rb-row reveal">
         <div className="rb-txt">
@@ -128,13 +96,22 @@ export default function RobosPage() {
           </div>
           <div className="rb-sala reveal">
             {CAMPEOES_MENSAIS.slice(0, 3).map((c, i) => (
-              <div key={i} className="rb-scard">
-                <div className="rb-smes mono">{c.mes}</div>
-                <div className="rb-strophy">🏆</div>
-                <div className="rb-srobo mono">{c.robo}</div>
-                <div className="rb-snick">{c.nick}</div>
-                <div className="rb-srent mono">{c.rent}</div>
-              </div>
+              c.pendente ? (
+                <div key={i} className="rb-scard pend">
+                  <div className="rb-smes mono">{c.mes}</div>
+                  <div className="rb-strophy">🏆</div>
+                  <div className="rb-srobo" style={{ color: 'var(--muted)' }}>a definir</div>
+                  <div className="rb-snick">campeonato em andamento</div>
+                </div>
+              ) : (
+                <div key={i} className="rb-scard">
+                  <div className="rb-smes mono">{c.mes}</div>
+                  <div className="rb-strophy">🏆</div>
+                  <div className="rb-srobo mono">{c.robo}</div>
+                  <div className="rb-snick">{c.nick}</div>
+                  <div className="rb-srent mono">{c.rent}</div>
+                </div>
+              )
             ))}
           </div>
         </div></section>
@@ -170,7 +147,7 @@ export default function RobosPage() {
 const CSS = `
 .rb{ --bg:#060809; --text:#F4F7FA; --muted:#8A93A0; --line:rgba(255,255,255,.09);
   --glass:rgba(255,255,255,.045); --tealA:#00E0B8; --cyanA:#38C6FF; --pos:#37E29B; --neg:#FF6B6B;
-  --gold:#FFC53D; --silver:#C9D2DD; --bronze:#E0A878;
+  --gold:#FFC53D;
   --grad:linear-gradient(120deg,#00E0B8 0%,#38C6FF 55%,#5B8CFF 100%);
   background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden;
   font-family:'Geist',-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif; -webkit-font-smoothing:antialiased; }
@@ -213,25 +190,13 @@ const CSS = `
 .rb-mod{ display:flex; align-items:center; gap:12px; padding:12px 0; border-top:1px solid var(--line); font-size:15px; }
 .rb-mod .d{ width:7px; height:7px; border-radius:50%; background:var(--tealA); box-shadow:0 0 8px var(--tealA); flex:none; }
 
-/* pódio: 1º, 2º, 3º em ordem, mesma altura */
-.rb-podio{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-.rb-pcard{ background:var(--glass); border:1px solid var(--line); border-radius:18px; padding:24px 20px; text-align:center; }
-.rb-pcard.rank1{ border-color:rgba(255,197,61,.55); box-shadow:0 20px 60px rgba(255,197,61,.12); }
-.rb-pcard.rank2{ border-color:rgba(201,210,221,.4); }
-.rb-pcard.rank3{ border-color:rgba(224,168,120,.4); }
-.rb-prow{ display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:12px; }
-.rb-medal{ font-size:38px; line-height:1; }
-.rb-ppos{ font-size:13px; color:var(--muted); }
-.rb-probo{ font-size:22px; font-weight:600; }
-.rb-pnick{ color:var(--muted); font-size:13px; margin-top:4px; }
-.rb-prent{ font-size:26px; font-weight:600; color:var(--pos); margin-top:12px; }
-.rb-pcard.rank1 .rb-prent{ font-size:30px; }
-
-/* sala dos campeões */
-.rb-sala{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; max-width:760px; margin:0 auto; }
-.rb-scard{ background:var(--glass); border:1px solid rgba(255,197,61,.35); border-radius:18px; padding:24px 20px; text-align:center; }
-.rb-smes{ font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:10px; }
-.rb-strophy{ font-size:38px; line-height:1; }
+/* sala dos campeões — 3 meses */
+.rb-sala{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:820px; margin:0 auto; }
+.rb-scard{ background:var(--glass); border:1px solid rgba(255,197,61,.4); border-radius:18px; padding:26px 20px; text-align:center; }
+.rb-scard.pend{ border-style:dashed; border-color:var(--line); opacity:.75; }
+.rb-smes{ font-size:12px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-bottom:12px; }
+.rb-strophy{ font-size:40px; line-height:1; }
+.rb-scard.pend .rb-strophy{ filter:grayscale(1); opacity:.5; }
 .rb-srobo{ font-size:22px; font-weight:600; margin-top:10px; }
 .rb-snick{ color:var(--muted); font-size:13px; margin-top:4px; }
 .rb-srent{ font-size:24px; font-weight:600; color:var(--pos); margin-top:10px; }
@@ -251,7 +216,7 @@ const CSS = `
 
 @media (max-width:760px){
   .rb-row{ grid-template-columns:1fr; gap:28px; }
-  .rb-podio{ grid-template-columns:1fr; }
+  .rb-sala{ grid-template-columns:1fr; }
   .rb-band{ flex-direction:column; align-items:flex-start; }
 }
 @media (prefers-reduced-motion:reduce){ .rb *{ animation:none !important; } .rb .reveal{ opacity:1; transform:none; transition:none; } }
