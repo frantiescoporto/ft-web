@@ -20,6 +20,7 @@ const AvelClientesPage = lazy(() => import('./pages/AvelClientesPage.jsx'))
 const ResultadoDoMesPage = lazy(() => import('./pages/ResultadoDoMesPage.jsx'))
 const CadastroClientePage = lazy(() => import('./pages/CadastroClientePage.jsx'))
 const MercadoInternacionalPage = lazy(() => import('./pages/MercadoInternacionalPage.jsx'))
+const RobosPage = lazy(() => import('./pages/RobosPage.jsx'))
 
 const Fallback = () => <div className="ft-loading">carregando</div>
 
