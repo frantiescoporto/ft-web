@@ -151,9 +151,10 @@ export default function IAvsCarteiraPage() {
           <div className="iv-eyebrow">Experimento ao vivo · Método 6015</div>
           <h1 className="iv-h1">A Inteligência Artificial<br /><span className="g">contra a do mentor.</span></h1>
           <p className="iv-lede">
-            Duas carteiras de <b>R$ 15.000</b>, as <b>mesmas estratégias</b> — os meus robôs. A IA montou a dela
-            sozinha, só com os dados. Eu montei a minha com os mesmos dados <b>mais a experiência de quem
-            opera isso de verdade</b>. A partir de 01/10/2026, acompanhe dia a dia quem decide melhor.
+            Eu desenvolvi uma <b>IA que decide com base em anos de dados e milhares de operações reais</b>, e que
+            aprende a cada novo trade. Dei a ela <b>R$ 15.000</b> e as minhas estratégias pra montar a melhor carteira
+            que conseguisse. Depois montei a minha, com os mesmos robôs <b>mais o que os dados não mostram</b>.
+            A partir de 01/10/2026, acompanhe ao vivo quem decide melhor.
           </p>
           <div className="iv-cta">
             <a className="iv-btn grad" href={LINK_MENTORIA} onClick={go(LINK_MENTORIA)}>Quero aprender na Mentoria 6015</a>
@@ -199,8 +200,8 @@ export default function IAvsCarteiraPage() {
                   {calc.linhas.map(l => (
                     <div className="iv-tr" key={l.iso}>
                       <span className="iv-dia mono">{l.label}</span>
-                      <span className={`mono ${l.ia > 0 ? 'pos' : l.ia < 0 ? 'neg' : 'zero'}`}>{l.ia === 0 ? '—' : fmtBRL(l.ia)}</span>
-                      <span className={`mono ${l.mi > 0 ? 'pos' : l.mi < 0 ? 'neg' : 'zero'}`}>{l.mi === 0 ? '—' : fmtBRL(l.mi)}</span>
+                      <span className={`mono ${l.ia > 0 ? 'pos' : l.ia < 0 ? 'neg' : 'zero'}`}>{l.ia === 0 ? '·' : fmtBRL(l.ia)}</span>
+                      <span className={`mono ${l.mi > 0 ? 'pos' : l.mi < 0 ? 'neg' : 'zero'}`}>{l.mi === 0 ? '·' : fmtBRL(l.mi)}</span>
                       <span className="iv-win">{l.ia === l.mi ? '=' : (l.mi > l.ia ? '🧠' : '🤖')}</span>
                     </div>
                   ))}
@@ -237,23 +238,29 @@ export default function IAvsCarteiraPage() {
           <div className="iv-kick" style={{ justifyContent: 'center' }}>A regra do jogo</div>
           <h2 className="iv-h2" style={{ textAlign: 'center' }}>Mesmas armas. Cabeças diferentes.</h2>
         </div>
+        <div className="iv-stats reveal">
+          <div className="iv-stat"><b>Anos</b><span>de dados históricos reais</span></div>
+          <div className="iv-stat"><b>Milhares</b><span>de operações analisadas</span></div>
+          <div className="iv-stat"><b>Trade a trade</b><span>aprende e melhora com o tempo</span></div>
+        </div>
+
         <div className="iv-duo reveal">
           <div className="iv-col">
             <div className="iv-col-t">🤖 Carteira da IA</div>
-            <p>Recebeu o histórico completo das minhas estratégias e montou a carteira de 15k sozinha, otimizando pelos números. Sem viés, sem medo — e sem experiência de mercado.</p>
+            <p>Um sistema de IA que eu mesmo desenvolvi. Ele estudou anos de histórico e milhares de operações reais das minhas estratégias, aprende a cada novo trade e fica melhor com o tempo. Montou a carteira de 15k otimizando cada número, sem viés e sem emoção.</p>
           </div>
           <div className="iv-col destaque">
             <div className="iv-col-t">🧠 Minha Carteira</div>
-            <p>Mesmos dados, mesmas estratégias. Mas eu leio o que o número não mostra: regime de mercado, correlação entre robôs, quando um setup cansa. É o que ensino na Mentoria 6015.</p>
+            <p>Mesmos dados, mesmas estratégias. A diferença é a leitura que só a experiência dá: regime de mercado, correlação entre os robôs, a hora em que um setup cansa. É exatamente isso que eu ensino na Mentoria 6015.</p>
           </div>
         </div>
-        <p className="iv-premissa-nota reveal">As duas podem usar qualquer uma das estratégias que eu criei. A diferença não está nas ferramentas — está em como cada uma decide usá-las.</p>
+        <p className="iv-premissa-nota reveal">As duas podem usar qualquer estratégia que eu já criei. A disputa não é de ferramenta, é de critério: a máquina que eu construí contra o olho treinado que eu ensino.</p>
       </div></section>
 
       {/* CTA FINAL */}
       <section className="iv-final reveal">
         <h2>Dados qualquer um tem. Critério se aprende.</h2>
-        <p>Na Mentoria 6015 você aprende a montar e gerir carteiras de robôs com o método que está sendo testado aqui, ao vivo.</p>
+        <p>Na Mentoria 6015 você tem acesso a estes portfólios, a estes robôs e a muitos outros, pra montar o seu próprio portfólio com o método que está sendo testado aqui, ao vivo.</p>
         <a className="iv-btn grad big" href={LINK_MENTORIA} onClick={go(LINK_MENTORIA)}>Conhecer a Mentoria 6015</a>
       </section>
 
@@ -371,6 +378,10 @@ const CSS = `
 .iv-premissa-nota{ text-align:center; max-width:60ch; margin:26px auto 0; }
 
 /* premissa */
+.iv-stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; max-width:680px; margin:0 auto 26px; }
+.iv-stat{ background:var(--glass); border:1px solid var(--line); border-radius:16px; padding:18px 14px; text-align:center; }
+.iv-stat b{ display:block; font-size:22px; font-weight:700; letter-spacing:-.02em; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.iv-stat span{ display:block; color:var(--muted); font-size:12.5px; margin-top:5px; line-height:1.4; }
 .iv-duo{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 .iv-col{ background:var(--glass); border:1px solid var(--line); border-radius:18px; padding:24px; }
 .iv-col.destaque{ border-color:rgba(0,224,184,.4); background:linear-gradient(180deg, rgba(0,224,184,.06), transparent); }
