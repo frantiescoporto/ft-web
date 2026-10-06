@@ -21,6 +21,7 @@ const ResultadoDoMesPage = lazy(() => import('./pages/ResultadoDoMesPage.jsx'))
 const CadastroClientePage = lazy(() => import('./pages/CadastroClientePage.jsx'))
 const MercadoInternacionalPage = lazy(() => import('./pages/MercadoInternacionalPage.jsx'))
 const RobosPage = lazy(() => import('./pages/RobosPage.jsx'))
+const IAvsCarteiraPage = lazy(() => import('./pages/IAvsCarteiraPage.jsx'))
 
 const Fallback = () => <div className="ft-loading">carregando</div>
 
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/avel/portfolios/:id" element={<AvelPortfoliosPage />} />
           <Route path="/balanse_03" element={<Balanse03Page />} />
           <Route path="/lpcampeonato" element={<RobosPage />} />
+          <Route path="/ia-vs-carteira" element={<IAvsCarteiraPage />} />
           <Route path="/daytrademodoautomatico" element={<AvelPage />} />
           <Route path="/avel-clientes" element={<AvelClientesPage />} />
         </Routes>
